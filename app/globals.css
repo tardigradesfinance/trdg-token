@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 1%; /* Even darker background */
+    --foreground: 0 0% 98%;
+    --card: 240 10% 1%; /* Even darker card background */
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 1%; /* Even darker popover background */
+    --popover-foreground: 0 0% 98%;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 240 3.7% 10.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 10.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 10.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 10.9%;
+    --input: 240 3.7% 10.9%;
+    --ring: 262.1 83.3% 57.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+.font-space {
+  font-family: var(--font-orbitron);
+}
+
+.font-orbitron {
+  font-family: var(--font-orbitron);
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  h2 {
+    font-size: 1.75rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+
+  .container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* Reduce section padding */
+  section {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  /* Adjust font sizes */
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+
+  h2 {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Improve touch targets */
+  button,
+  a {
+    min-height: 44px;
+  }
+
+  /* Optimize card padding */
+  .card-content {
+    padding: 1rem !important;
+  }
+
+  /* Ensure videos don't overflow */
+  video,
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Fix for image issues */
+img {
+  object-fit: contain;
+  position: relative !important;
+  z-index: 1;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Improve scrolling experience */
+html,
+body {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Prevent content from being hidden under fixed elements */
+main {
+  overflow-x: hidden;
+}
+
+/* Ensure content is above background */
+.relative.z-10 {
+  isolation: isolate;
+}
+
+/* Section styling with gradients instead of images */
+section {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+
+section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+section:nth-of-type(odd)::before {
+  background: linear-gradient(to bottom right, rgba(139, 92, 246, 0.05), rgba(59, 130, 246, 0.05));
+}
+
+section:nth-of-type(even)::before {
+  background: linear-gradient(to bottom left, rgba(139, 92, 246, 0.05), rgba(16, 185, 129, 0.05));
+}
+
+/* Add this at the end of the file */
+/* Optimize scrolling performance */
+* {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Reduce animation work for mobile devices */
+@media (max-width: 768px) {
+  .animate-pulse {
+    animation-duration: 3s;
+  }
+
+  .animate-ping {
+    animation-duration: 5s;
+  }
+}
+
+/* Add this at the end of the file */
+body {
+  background-color: #030303;
+}
