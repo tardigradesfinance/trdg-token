@@ -14,13 +14,13 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/MISSING_TRDG Favicon-pzqoOo1Ph2QIrFEmzcMDy7ol2meQo9.png",
-        href: "/images/MISSING_TRDG Favicon-pzqoOo1Ph2QIrFEmzcMDy7ol2meQo9.png",
+        url: "/images/trdg-logo.png",
+        href: "/images/trdg-logo.png",
       },
     ],
     apple: [
       {
-        url: "/images/MISSING_TRDG Favicon-pzqoOo1Ph2QIrFEmzcMDy7ol2meQo9.png",
+        url: "/images/trdg-logo.png",
         sizes: "180x180",
         type: "image/png",
       },
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "TRDG Finance",
     images: [
       {
-        url: "/images/MISSING_TRDG TRDGtoken Tardigrades-yDHv25jiXUI8c4EJk521QzI6Elfx6r.png",
+        url: "/images/trdg-logo.png",
         width: 1200,
         height: 630,
         alt: "TRDG - Tardigrades Finance",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     description:
       "Discover $TRDG - the deflationary token inspired by nature's most indestructible creature. Join the Extremophiles community today!",
     images: [
-      "/images/MISSING_TRDG TRDGtoken Tardigrades-yDHv25jiXUI8c4EJk521QzI6Elfx6r.png",
+      "/images/trdg-logo.png",
     ],
     creator: "@TRDGtoken",
   },
@@ -69,7 +69,7 @@ export default function RootLayout({
       <head>
         <link
           rel="icon"
-          href="/images/MISSING_TRDG Favicon-pzqoOo1Ph2QIrFEmzcMDy7ol2meQo9.png"
+          href="/images/trdg-logo.png"
           type="image/png"
           sizes="any"
         />

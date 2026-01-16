@@ -15,13 +15,13 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/MISSING_favicon-MTKcIxVQbtcVXpQ9LDba2UeAYNKyHH.png",
-        href: "/images/MISSING_favicon-MTKcIxVQbtcVXpQ9LDba2UeAYNKyHH.png",
+        url: "/images/trdg-logo.png",
+        href: "/images/trdg-logo.png",
       },
     ],
     apple: [
       {
-        url: "/images/MISSING_favicon-MTKcIxVQbtcVXpQ9LDba2UeAYNKyHH.png",
+        url: "/images/trdg-logo.png",
         sizes: "180x180",
         type: "image/png",
       },
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "NEMA Token",
     images: [
       {
-        url: "/images/MISSING_social-VA7RI53nnYNWXNzbUlqsOY7mshfHM3.png",
+        url: "/images/trdg-logo.png",
         width: 1200,
         height: 630,
         alt: "NEMA - Tardigrade's Favorite Food",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: "NEMA | Tardigrade's Favorite Food",
     description:
       "Discover $NEMA - the token that feeds and strengthens TRDG through a perfect predator-prey relationship in the crypto ecosystem.",
-    images: ["/images/MISSING_social-VA7RI53nnYNWXNzbUlqsOY7mshfHM3.png"],
+    images: ["/images/trdg-logo.png"],
     creator: "@TRDGtoken",
   },
 }

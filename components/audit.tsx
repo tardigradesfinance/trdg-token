@@ -84,7 +84,7 @@ export function Audit() {
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="w-full md:w-1/2 aspect-video rounded-lg overflow-hidden">
                   <video
-                    src="/images/MISSING_Audit-RW9ODM1CMtUTEviDtu46efiKypSwzl.mp4"
+                    src="/images/trdg-logo.png"
                     autoPlay
                     loop
                     muted
@@ -121,7 +121,7 @@ export function Audit() {
                       className="relative bg-gradient-to-r from-green-600 to-blue-500 hover:from-green-700 hover:to-blue-600 w-full sm:w-auto flex items-center gap-2"
                       onClick={() =>
                         window.open(
-                          "/images/MISSING_TRDG Audit-SdO3EQQpBZuilYDBMHvDEZC1CRBznc.pdf",
+                          "/images/trdg-logo.png",
                           "_blank",
                         )
                       }

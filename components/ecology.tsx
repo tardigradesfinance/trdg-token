@@ -42,7 +42,7 @@ export function Ecology() {
               <div className="relative">
                 <div className="relative h-64 w-full rounded-lg overflow-hidden">
                   <video
-                    src="/images/MISSING_bg5-2OT3ZR6PIlwGWKX1lxCM8RCEmyv0iH.mp4"
+                    src="/images/trdg-logo.png"
                     autoPlay
                     loop
                     muted

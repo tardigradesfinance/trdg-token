@@ -38,14 +38,13 @@ export function Utility() {
                   </div>
 
                   <div className="mb-3 md:mb-4 bg-black rounded-md overflow-hidden flex justify-center items-center h-[180px] md:h-[220px]">
-                    <video
-                      src="/images/MISSING_Fugligrades-Cc0IfAc7aqaAWmSsQMogMjOTpsv6qB.mp4"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="max-h-full max-w-full object-contain"
-                    />
+                    <div className="relative w-full h-full p-4 flex items-center justify-center">
+                      <img
+                        src="/images/trdg-logo.png"
+                        alt="Fugligrades NFT"
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </div>
                   </div>
 
                   <p className="text-sm md:text-base text-gray-400 mb-3 md:mb-4">
@@ -85,14 +84,13 @@ export function Utility() {
                   </div>
 
                   <div className="mb-3 md:mb-4 bg-black rounded-md overflow-hidden flex justify-center items-center h-[180px] md:h-[220px]">
-                    <video
-                      src="/images/MISSING_TRDG NFT #001-M17D0gxUlAoBINqCnbWUFEOaDV44nX.mp4"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="max-h-full max-w-full object-contain"
-                    />
+                    <div className="relative w-full h-full p-4 flex items-center justify-center">
+                      <img
+                        src="/images/trdg-logo.png"
+                        alt="Early Investor NFT"
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </div>
                   </div>
 
                   <p className="text-sm md:text-base text-gray-400 mb-3 md:mb-4">
