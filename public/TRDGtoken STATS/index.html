@@ -1,0 +1,437 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Primary Meta Tags -->
+    <title>TRDG🔬Stats</title>
+    <meta name="title" content="TRDG🔬Stats" />
+    <meta name="description" content="🔭🧫 TRDG Stats: Track rewards, view liquidity pools, and stay updated on token burns effortlessly! 🧬🔬 • TRDGtoken.com $TRDG 💎 Tardigrades" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <!-- <script src="https://unpkg.com/moralis@latest/dist/moralis.js"></script> -->
+    <!-- <script src="https://unpkg.com/moralis-v1@1.11.0/dist/moralis.js"></script> -->
+    <!-- <script src="https://unpkg.com/moralis-v1/dist/moralis.js"></script> -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://metatags.io/" />
+    <meta property="og:title" content="TRDG🔬Stats" />
+    <meta property="og:description" content="🔭🧫 TRDG Stats: Track rewards, view liquidity pools, and stay updated on token burns effortlessly! 🧬🔬 • TRDGtoken.com $TRDG 💎 Tardigrades" />
+    <meta property="og:image" content="https://i.ibb.co/GVppkPR/TRDG-stats-featured-image.png" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://metatags.io/" />
+    <meta property="twitter:title" content="TRDG🔬Stats" />
+    <meta property="twitter:description" content="🔭🧫 TRDG Stats: Track rewards, view liquidity pools, and stay updated on token burns effortlessly! 🧬🔬 • TRDGtoken.com $TRDG 💎 Tardigrades" />
+    <meta property="twitter:image" content="https://i.ibb.co/GVppkPR/TRDG-stats-featured-image.png" />
+</head>
+
+<!-- <body class="dark-theme || light-theme"> -->
+
+<body>
+    <!-- Side navigation bar (Settings)-->
+    <div id="sideNavSettings" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <!-- <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a> -->
+
+        <div class="card">
+            <div class="card-header">Card Body Colors</div>
+            <div id="settingsCardBody" class="row">
+                <span>Red</span>
+                <input type="range" min="0" max="255" value="30" class="slider" id="redSlider">
+                <span>Green</span>
+                <input type="range" min="0" max="255" value="0" class="slider" id="greenSlider">
+                <span>Blue</span>
+                <input type="range" min="0" max="255" value="151" class="slider" id="blueSlider">
+                <span>Alpha</span>
+                <input type="range" min="0" max="255" value="100" class="slider" id="alphaSlider">
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">Background</div>
+            <div id="settingsBackGround" class="row">
+                <span>Dim background</span>
+                <input type="range" min="0" max="255" value="0" class="slider" id="dimBgSlider">
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-outline-primary" onclick="randomBg()">Random BG
+                    Image
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+    <div class="row title">
+        <!-- <div class="col-auto">
+            <span>
+                <a href="javascript:void(0);" class="hamburgerIcon" onclick="openNav()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </span>
+        </div> -->
+        <div class="col-auto">
+            <span>
+                <img src="/images/TRDGlogo.png" id="trdg-icon" />
+            </span>
+            <!-- <span id="appNameAndVersion">TRDG Tracker V.0.1</span> -->
+        </div>
+        <div class="col-auto">
+            <span id="appNameAndVersion">TRDG Tracker V.0.1</span>
+        </div>
+
+    </div>
+    <!-- Use any element to open the sidenav -->
+    <!-- <span onclick="openNav()" style="float: left">open</span> -->
+
+    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+    <!-- <div id="main"> -->
+
+
+    <!-- <div class="sliderContainer">
+            <input type="range" min="0" max="255" value="33" class="slider" id="redSlider">
+            <input type="range" min="0" max="255" value="37" class="slider" id="greenSlider">
+            <input type="range" min="0" max="255" value="41" class="slider" id="blueSlider">
+            <input type="range" min="0" max="255" value="255" class="slider" id="alphaSlider">
+        </div> -->
+    <!-- <button class="btn-toggle btn btn-primary">Toggle Dark Mode</button> -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- BSC card -->
+            <div class="col card-container">
+                <h4 id="mainHeaderBsc">TRDG BSC</h4>
+                <!-- <div class="card"> -->
+                <!-- BSC Wallet -->
+                <div class="card">
+                    <div id="bscWalletAddressHeader" class="card-header collapsible">Wallet</div>
+                    <div id="bscWalletContent" class="content">
+                        <div class="my-2">
+
+                            <div class="row my-2">
+                                <div class="col">
+                                    <img src="/images/TRDGwallet.png" id="bscWalletImage" class="wallet-icons"
+                                        data-bs-toggle="modal" data-bs-target="#addNewBscWalletModal" />
+                                </div>
+                                <div class="col">
+                                    <span id="userTrdgBalanceBsc"></span>
+                                    <span id="userTrdgValueBsc"></span>
+                                </div>
+                            </div>
+                            <div class="row my-2">
+                                <div class="col">
+                                    <img src="/images/rewards.png" class="wallet-icons" />
+                                </div>
+                                <div class="col">
+                                    <span id="userTrdgRewardsBsc"></span>
+                                    <span id="userTrdgRewardsValueBsc"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BSC Price & Total Burned Tokens -->
+                <div class="card">
+                    <div id="burnedAndPriceHeaderBsc" class="card-header collapsible">Price & Total Burned Tokens
+                    </div>
+                    <div id="burnedAndPriceContentBsc" class="content">
+                        <div class="my-2">
+                            <!-- <div> -->
+                            <div class="row my-1">
+                                <div class="col">
+                                    <img src="/images/TRDGlogo.png" class="bsc-logo" />
+                                </div>
+                                <div class="col">
+                                    <span id="trdgBscPrice"></p>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col">
+                                    <img src="/images/BNB.png" class="bsc-logo" />
+                                </div>
+                                <div class="col">
+                                    <span id="bscMainCardBody"></p>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col">
+                                    <img src="/images/fire.gif" class="bsc-logo" />
+
+                                </div>
+                                <div class="col">
+                                    <span id="bscBurned"></span>
+                                    <!-- <progress id="burnedProgressBarBsc" value="0" max="100"></progress> -->
+                                    <!-- <div class="progress-bar" style="width: 50%"></div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BSC Liquidity pools -->
+                <div class="card">
+                    <div class="card-header collapsible">Liquidity Pools</div>
+                    <div class="content">
+                        <div class="my-2">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="label">Market Cap:</span>
+                                </div>
+                                <div class="col">
+                                    <span id="trdgPcsV1MarketCap" class="value">asdfdsa</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <span class="label">Liquidity (WBNB in the pool):</span>
+                                </div>
+                                <div class="col">
+                                    <span id="trdgPcsV1Liquidity" class="value"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <span class="label">TRDG price per trillion tokens:</span>
+                                </div>
+                                <div class="col">
+                                    <span id="trdgPricePcsV1PerT" class="value">asdfdsa</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- BSC Additional info -->
+                <div class="card">
+                    <div class="card-header collapsible">More Info</div>
+                    <div class="content">
+                        <div class="my-2">
+                            <p class="p">Launched: March 8th 2021</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- "Add new BSC wallet" modal -->
+                <div class="modal fade" id="addNewBscWalletModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 id="bscModalHeader" class="modal-title">Add new wallet</h4>
+                                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"></button> -->
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <input id="inputBscWalletAddress" type="text" class="form-control"
+                                        placeholder="Add wallet address" aria-label="Recipient's username"
+                                        aria-describedby="basic-addon2">
+                                    <!-- <div class="input-group-append"> -->
+                                    <!-- <div class="input-group-prepend"> -->
+                                    <!-- <button id="getBscWalletAddress" class="btn btn-outline-secondary" type="button">Set</button> -->
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button id="btnBscWalletAddressOk" type="button" class="btn btn-outline-primary"
+                                    data-bs-dismiss="modal">Ok</button>
+                                <button id="btnBscWalletAddressCancel" type="button" class="btn btn-outline-primary"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button id="btnBscWalletAddressDelete" type="button" class="btn btn-outline-danger"
+                                    data-bs-dismiss="modal">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="table-responsive">
+                        <table class="table table-striped table-dark">
+                            <tr class="bg-info">
+                                <th>Amount</th>
+                            </tr>
+                            <tbody id="myTable">
+                            </tbody>
+                        </table>
+                    </div> -->
+
+            </div>
+            <!-- ETH card -->
+
+            <div class="col card-container">
+                <h4>TRDG ETH</h4>
+                <!-- ETH Wallet -->
+                <div class="card">
+                    <div id="ethWalletAddressHeader" class="card-header collapsible">Wallet</div>
+                    <div id="ethWalletContent" class="content">
+                        <div class="my-2">
+                            <div class="row my-2">
+                                <div class="col">
+                                    <img src="/images/TRDGwallet.png" id="ethWalletImage" class="wallet-icons"
+                                        data-bs-toggle="modal" data-bs-target="#addNewEthWalletModal" />
+                                </div>
+                                <div class="col">
+                                    <span id="userTrdgBalanceEth"></span>
+                                    <span id="userTrdgValueEth"></span>
+                                </div>
+                            </div>
+                            <div class="row my-2">
+                                <div class="col">
+                                    <img src="/images/rewards.png" class="wallet-icons" />
+                                </div>
+                                <div class="col">
+                                    <span id="userTrdgRewardsEth"></span>
+                                    <span id="userTrdgRewardsValueEth"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ETH Price & Total Burned Tokens -->
+                <div class="card">
+                    <div id="burnedAndPriceHeaderEth" class="card-header collapsible">Price & Total Burned Tokens
+                    </div>
+                    <div id="burnedAndPriceContentEth" class="content">
+                        <div class="my-2">
+                            <div class="row my-1">
+                                <div class="col">
+                                    <img src="/images/TRDGlogo.png" class="eth-logo" />
+                                </div>
+                                <div class="col">
+                                    <span id="trdgEthPrice"></span>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col">
+                                    <img src="/images/ETH.png" class="eth-logo" />
+                                </div>
+                                <div class="col">
+                                    <span id="ethMainCardBody"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <img src="/images/fire.gif" class="eth-logo" />
+                                </div>
+                                <div class="col">
+                                    <span id="ethBurned"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ETH Liquidity pools -->
+                <div class="card">
+                    <div class="card-header collapsible">Liquidity Pools</div>
+                    <div class="content">
+                        <div class="my-2">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="label">Market Cap:</span>
+                                </div>
+                                <div class="col">
+                                    <span id="trdgUniswapMarketCap" class="value">asdfdsa</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <span class="label">Liquidity (WETH in the pool):</span>
+                                </div>
+                                <div class="col">
+                                    <span id="trdgUniswapLiquidity" class="value"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <span class="label">TRDG price per trillion tokens:</span>
+                                </div>
+                                <div class="col">
+                                    <span id="trdgPriceUniswapPerT" class="value">asdfdsa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ETH Additional info -->
+                <div class="card">
+                    <div class="card-header collapsible">More Info</div>
+                    <div class="content">
+                        <div class="my-2">
+                            <p>Launched: May 11th 2021</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- "Add new ETH wallet" modal -->
+                <div class="modal fade" id="addNewEthWalletModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 id="ethModalHeader" class="modal-title">Add new wallet</h4>
+                                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"></button> -->
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <input id="inputEthWalletAddress" type="text" class="form-control"
+                                        placeholder="Add wallet address" aria-label="Recipient's username"
+                                        aria-describedby="basic-addon2">
+                                    <!-- <div class="input-group-append"> -->
+                                    <!-- <div class="input-group-prepend"> -->
+                                    <!-- <button id="getBscWalletAddress" class="btn btn-outline-secondary" type="button">Set</button> -->
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button id="btnEthWalletAddressOk" type="button" class="btn btn-outline-primary"
+                                    data-bs-dismiss="modal">Ok</button>
+                                <button id="btnEthWalletAddressCancel" type="button" class="btn btn-outline-primary"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button id="btnEthWalletAddressDelete" type="button" class="btn btn-outline-danger"
+                                    data-bs-dismiss="modal">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Twitter widget -->
+        <!-- <div class="row">
+            <div class="col card-container">
+                <div class="card">
+                    <div class="card-header collapsible">Tweets</div>
+                    <div class="content">
+                        <div class="twitter-widget">
+                            <a class="twitter-timeline" data-theme="dark"
+                                href="https://twitter.com/TRDGtoken?ref_src=twsrc%5Etfw">Tweets by TRDGtoken</a>
+                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- </div> -->
+    <!-- <script type="text/javascript" src="./moralis-start.js"></script> -->
+    <script type="text/javascript" src="./main.js"></script>
+</body>
+
+
+</html>

@@ -3,11 +3,10 @@ import type { Config } from "tailwindcss"
 const config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-    "*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
   prefix: "",
   theme: {
@@ -19,9 +18,6 @@ const config = {
       },
     },
     extend: {
-      fontFamily: {
-        orbitron: ["var(--font-orbitron)"],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -56,6 +52,18 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Custom Space Theme Colors
+        space: {
+          black: "#050510", // Very dark blue/black
+          dark: "#0B0E14",  // Main background
+          light: "#1A1F2C", // Secondary background
+          accent: "#6E56CF", // Purple nebula
+        },
+        trdg: {
+          cyan: "#00F0FF", // Neon Cyan
+          green: "#00FF94", // Neon Green
+          gold: "#FFD700", // Gold for rewards
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -71,11 +79,24 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "1", boxShadow: "0 0 10px #00F0FF" },
+          "50%": { opacity: "0.5", boxShadow: "0 0 20px #00F0FF" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "float": "float 3s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
+      backgroundImage: {
+        'space-gradient': 'linear-gradient(to bottom, #050510, #0B0E14)',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

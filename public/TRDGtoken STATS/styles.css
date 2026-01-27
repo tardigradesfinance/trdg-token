@@ -1,0 +1,554 @@
+:root {
+  --black: #000;
+  --dark: #0b1217;
+  --darker: #121212;
+  --card-header-bg: #23323c;
+  --text-inactive: #ebebe4;
+  --add-borders: solid;
+  /* --forum-darker-font: #747578; */
+  --forum-darker-font: #aeafb4;
+}
+
+body {
+  color: #eee;
+  /* background: var(--dark); */
+  /* background-image: url("images/TRDGlogo.png"); */
+  background: linear-gradient(150deg, #34393f, #242529 100%);
+  /* background-image: url("images/Alien\ landscape.jpg"); */
+  /* background-image: url("images/Stars.jpg"); */
+  /* background: rgba(0, 0, 0, 0.842) url("images/MilkyWay.jpg"); */
+  /* background-image: url("images/DeepSpaceDark.jpg"); */
+  /* background-blend-mode: multiply; */
+  background-blend-mode: darken;
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: "Comfortaa", "Helvetica Neue", "Fira Sans", "Droid Sans",
+    sans-serif;
+  color: #dbdbdc;
+}
+
+/* div {
+  color: #fbfbfb;
+  border: solid 2px rgb(66, 65, 141);
+} */
+
+.row {
+  margin: 0px;
+  padding: 5px;
+
+  /* border: solid 1px; */
+}
+
+.twitter-widget {
+  /* display: block; */
+  margin: auto;
+  /* width: 100%; */
+  padding: 0;
+}
+
+.col {
+  margin: 0px;
+  padding: 0px;
+  /* white-space: nowrap; */
+  /* overflow: hidden; */
+  /* border: solid 1px; */
+  /* width: 100%; */
+}
+
+/* Dark Mode styles
+body.dark-theme {
+  color: #eee;
+  background: var(--darker);
+}
+
+body.dark-theme a {
+  color: #809fff;
+} */
+
+h4 {
+  text-align: center;
+  color: #ffffff;
+  /* opacity: 20%; */
+  /* background-color: #85828250; */
+  /* background-color: rgba(red, green, blue, 255); */
+}
+
+p {
+  color: #e9e9e9;
+  margin-bottom: 0px;
+  padding: 0px;
+
+  /* line-height: 0px; */
+  /* border: solid 1px; */
+}
+
+.p-2 {
+  color: #e9e9e9;
+  font-size: 90%;
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+  line-height: 2px;
+  text-indent: 0em;
+  overflow: hidden;
+  /* border: solid 1px; */
+}
+
+.wallet-icons {
+  display: block;
+  margin-left: -10px;
+  /* padding: 0; */
+  height: 48px;
+  /* border: solid 1px #8ea2b1; */
+}
+
+span {
+  color: #e9e9e9;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  text-align: right;
+  display: block;
+  overflow: hidden;
+  /* border: solid 1px; */
+}
+
+span.label {
+  /* color: var(--forum-darker-font); */
+  font-size: 1rem;
+  font-size: 90%;
+  /* line-height: 1.5rem; */
+  text-align: left;
+  display: block;
+  /* min-width: fit-content; */
+  /* column-width: auto; */
+  white-space: nowrap;
+  overflow: hidden;
+  /* border: solid 1px; */
+}
+
+span.value {
+  color: #e9e9e9;
+  /* font-size: 1.25rem; */
+  font-size: 90%;
+  /* line-height: 1.5rem; */
+  text-align: right;
+  display: block;
+
+  /* min-width: fit-content; */
+  column-width: auto;
+  white-space: nowrap;
+  /* border: solid 1px; */
+}
+
+/*----- BSC wallet styling -----*/
+/* Override some "span" styling */
+
+#userTrdgBalanceBsc {
+  /* font-size: 1.25rem; */
+  font-weight: 600;
+}
+
+#userTrdgValueBsc {
+  font-size: 1rem;
+}
+
+#userTrdgRewardsBsc {
+  font-weight: 600;
+}
+
+#userTrdgRewardsValueBsc {
+  font-size: 1rem;
+}
+
+#mainHeaderBsc {
+  border-radius: 20px;
+  /* box-shadow: 10px 10px 10px #09090a; */
+}
+
+/* TODO:
+#burnedProgressBarBsc {
+  color: #e9e9e9;
+  height: 30px;
+  accent-color: hsl(39, 100%, 50%);
+} */
+
+/*----- ETH wallet styling -----*/
+#userTrdgBalanceEth {
+  /* font-size: 1.25rem; */
+  font-weight: 600;
+}
+
+#userTrdgValueEth {
+  font-size: 1rem;
+}
+
+#userTrdgRewardsEth {
+  font-weight: 600;
+}
+
+#userTrdgRewardsValueEth {
+  font-size: 1rem;
+}
+
+/* img {
+  min-height: 24px;
+  max-height: 24px;
+} */
+
+.bsc-logo {
+  display: block;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 32px;
+  /* border: solid 1px; */
+}
+
+.eth-logo {
+  display: block;
+  margin-left: 0;
+  margin-right: 0;
+  height: 32px;
+}
+
+.card-container {
+  /* border-radius: 20px; */
+
+  /* box-shadow: 0px 0px 50px 5px #09090a inset; */
+  margin: 5px;
+  width: 100%;
+  min-width: fit-content;
+  margin-bottom: 20px;
+
+  /* border: solid 1px #ebb42b; */
+}
+
+.card {
+  border-left: 2px solid #66696e;
+  border-top: 2px solid #66696e;
+  border-radius: 20px;
+  /* background-color: rgba(33, 37, 41, 1); */
+  background: linear-gradient(150deg, #434a51, #24262a 100%);
+  /* box-shadow: 0px 0px 50px 8px #09090a inset; */
+  box-shadow: 10px 10px 20px #09090a;
+  /* border: 1px solid #4f5660; */
+  word-wrap: normal;
+  /* background-color: #ffffff10; */
+  /* flex: 1; */
+  /* border: solid 1px rgb(176, 184, 181); */
+  margin-bottom: 15px;
+  /* overflow:hidden; */
+  /* border: none; */
+}
+
+.card-header {
+  /* overflow: hidden; */
+  /* border-radius: 20px; */
+  /* border-top-left-radius: 20px; */
+  /* border-top-right-radius: 20px; */
+  /* border-left: 2px solid #66696e; */
+  /* border-top: 2px solid #66696e; */
+
+  /* text-align: left; */
+  /* background-color: rgba(42, 45, 48, 255); */
+  /* background: linear-gradient(150deg, #434a51, #24262a 100%); */
+  /* padding-top: 2px; */
+  /* padding-bottom: 2px; */
+  /* background-color: transparent; */
+  /* border-collapse: separate; */
+  /* background-color: #ffffff10; */
+  border-bottom: none;
+}
+
+.card-body {
+  /* border-radius: 20px; */
+  /* background-color: #212529; */
+  /* padding-top: 100px; */
+  padding: 20px;
+  /* border: 1px solid #ebb42b; */
+}
+
+/* Collapsibles */
+.collapsible {
+  /* border-top-left-radius: 20px; */
+  /* border-top: 2px solid #66696e; */
+  /* border-left: 2px solid #66696e; */
+  border-radius: 20px;
+
+  /* border: 1px solid #ebb42b; */
+
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  /* background-color: transparent; */
+  /* border: none */
+}
+
+.active,
+.collapsible:hover {
+  /* border: 1px solid #ebb42b; */
+  border-radius: 20px;
+  background-color: transparent;
+}
+
+/* (Content is actually card-body) */
+.content {
+  /* border-radius: 20px; */
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  /* border-top: 1px solid #66696e; */
+  /* border-left: 2px solid #66696e; */
+  padding: 0 16px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  /* background: linear-gradient(150deg, #434a51, #24262a 100%); */
+  background-color: transparent;
+  /* border: 1px solid #ebb42b; */
+}
+
+/* Animation (burned tokens) */
+.fadePopInAndStay {
+  display: block;
+  opacity: 0;
+  visibility: visible;
+  animation-name: doAnimStay;
+  animation-duration: 1s;
+  animation-fill-mode: forwards; /* Makes it stay after animation */
+}
+
+@keyframes doAnimStay {
+  0% {
+    opacity: 1;
+    color: firebrick;
+  }
+  50% {
+    opacity: 1;
+    /* color: burlywood; */
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* TODO */
+/* Progressbar animation (burned tokens) */
+.burnedProgressBarMove {
+  display: block;
+  /* opacity: 0; */
+  /* visibility: visible; */
+  width: 100%;
+  /* transition: width 2s ease-out; */
+  animation-name: fill;
+  animation-duration: 2s;
+  animation-fill-mode: forwards; /* Makes it stay after animation */
+}
+/* TODO */
+@keyframes fill {
+  0% {
+    /* background-position-x: 10 */
+    /* color: firebrick; */
+  }
+  50% {
+    /* opacity: 1; */
+    /* color: burlywood; */
+  }
+  100% {
+    /* opacity: 1; */
+    /* width: 67%; */
+  }
+}
+
+.card button {
+  font-size: 00.8rem;
+}
+
+.modal button {
+  background-color: #2a2d30;
+}
+
+.modal-header {
+  border: none;
+  color: #eee;
+  background-color: #2a2d30;
+  padding: 10px;
+}
+
+.modal-body {
+  border: none;
+  color: #eee;
+  background-color: #212529;
+}
+
+.modal-footer {
+  border: none;
+  color: #eee;
+  background-color: #212529;
+}
+
+/* The element to apply the animation to */
+.pulse-image {
+  animation-name: pulse;
+  animation-duration: 1s;
+  /* animation-iteration-count: infinite; */
+}
+
+/* Pulse animation code */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.shake-image {
+  animation-name: shake;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+/* Shake animation code */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+.title #trdg-icon {
+  top: 15px;
+  width: 1rem;
+  margin-left: 6px;
+  position: absolute;
+}
+
+#appNameAndVersion {
+  position: absolute;
+  top: 12px;
+  font-size: 0.8rem;
+}
+
+/* Style the hamburger menu */
+.hamburgerIcon {
+  /* font-size: 1.5rem; */
+  /* font-weight: 100; */
+  top: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  color: #eee;
+  display: block;
+  position: absolute;
+  /* left: 10px; */
+  /* top: 10px; */
+}
+
+/* The side navigation menu */
+.sidenav {
+  /* border: solid 1px #81818186; */
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  /* height: fit-content; */
+  background-color: rgba(17, 17, 17, 1); /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  /* overflow-y: hidden; */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  /* white-space: nowrap; */
+  padding-top: 5px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.sidenav::-webkit-scrollbar {
+  display: none;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  font-size: 36px;
+  margin-left: 130px;
+}
+
+/* Span elements inside the side navigation menu */
+.sidenav span {
+  /* padding: auto; */
+  font-size: 1rem;
+  /* line-height: 1.2rem; */
+  text-align: left;
+}
+
+.sidenav .row {
+  /* margin: 0; */
+  padding: 0;
+  margin: 15px;
+}
+
+.sidenav .col {
+  margin: 0;
+  padding: 0;
+}
+
+/* Span elements inside the side navigation menu */
+.sidenav .card {
+  border: solid 1px #81818186;
+  font-size: 1rem;
+  margin: 5px;
+  /* line-height: 1.2rem; */
+  text-align: left;
+}
+
+/* .sidenav .slider {
+  height: 2rem;
+
+  width: 100%;
+} */
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left 0.5s;
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
