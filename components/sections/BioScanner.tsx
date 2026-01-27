@@ -1,229 +1,53 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-    Activity, Flame, Droplets, Users, TrendingUp, RefreshCw,
-    Calculator, Wallet, Shield, Binary, Search, BarChart3,
-    ExternalLink, Copy
+    Activity, Flame, Droplets, TrendingUp, RefreshCw,
+    Calculator, Wallet, Shield, Search, BarChart3,
+    ExternalLink
 } from 'lucide-react'
 import { GridBackground } from '@/components/ui/SectionBackgrounds'
-
-// Constants from original main.js
-const TRDG_ADDRESS = "0x92a42db88ed0f02c71d439e55962ca7cab0168b5"
-const BURN_WALLET = "0x000000000000000000000000000000000000dead"
-const PCSV1_POOL = "0xC5c0Be18218182bF33e2585a6D9A2e6d7324BC0E"
-const UNISWAP_POOL = "0xc2367025716cf1109321e4cb96f47c0e3f9beb05"
-const WBNB_ADDRESS = "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
-const WETH_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-
-const MAX_SUPPLY = 100000 * 10 ** 12 // 100 Quadrillion
-const INITIAL_BURN_PERCENT = 50 // 50% burned at launch
-
-interface ChainStats {
-    price: number
-    pricePerTrillion: number
-    burned: number
-    burnedPercent: number
-    circulatingSupply: number
-    marketCap: number
-    liquidity: number
-    holders?: number
-    lastUpdate: number
-}
-
-interface WalletData {
-    address: string
-    balance: number
-    rewards: number
-    value: number
-    rewardsValue: number
-}
+import { useTRDGStats, useWalletStats, formatNumber, formatCurrency, formatCompact, TRDG_CONTRACT, TRDG_MAX_SUPPLY } from '@/lib/useTRDGStats'
 
 export function BioScanner() {
     const [activeChain, setActiveChain] = useState<'bsc' | 'eth'>('bsc')
-    const [loading, setLoading] = useState(true)
-    const [lastRefresh, setLastRefresh] = useState<Date | null>(null)
-
-    const [bscStats, setBscStats] = useState<ChainStats | null>(null)
-    const [ethStats, setEthStats] = useState<ChainStats | null>(null)
+    const { stats, loading, lastUpdated, refresh } = useTRDGStats(60000) // Refresh every 60s
 
     const [walletAddress, setWalletAddress] = useState('')
-    const [walletData, setWalletData] = useState<WalletData | null>(null)
-    const [walletLoading, setWalletLoading] = useState(false)
+    const { walletStats: bscWalletStats, loading: bscWalletLoading, fetchWalletStats: fetchBscWallet } = useWalletStats('bsc', walletAddress)
+    const { walletStats: ethWalletStats, loading: ethWalletLoading, fetchWalletStats: fetchEthWallet } = useWalletStats('eth', walletAddress)
 
     // Calculator state
     const [tokenAmount, setTokenAmount] = useState('1000000000000') // 1 Trillion default
     const [targetMC, setTargetMC] = useState(10000000) // $10M default
 
-    const formatNumber = (num: number, decimals: number = 0) => {
-        return new Intl.NumberFormat('en-US', { maximumFractionDigits: decimals }).format(num)
-    }
+    // Get current chain stats
+    const currentPrice = activeChain === 'bsc' ? stats.bscPrice : stats.ethPrice
+    const currentPricePerTrillion = activeChain === 'bsc' ? stats.bscPricePerTrillion : stats.ethPricePerTrillion
+    const currentBurned = activeChain === 'bsc' ? stats.bscBurned : stats.ethBurned
+    const currentCirculating = activeChain === 'bsc' ? stats.bscCirculating : stats.ethCirculating
+    const currentMarketCap = activeChain === 'bsc' ? stats.bscMarketCap : stats.ethMarketCap
+    const currentLiquidity = activeChain === 'bsc' ? stats.bscLiquidity : stats.ethLiquidity
+    const burnedPercent = (currentBurned / TRDG_MAX_SUPPLY) * 100
 
-    const formatCurrency = (num: number, decimals: number = 2) => {
-        return '$' + formatNumber(num, decimals)
-    }
+    // Wallet stats based on active chain
+    const walletStats = activeChain === 'bsc' ? bscWalletStats : ethWalletStats
+    const walletLoading = activeChain === 'bsc' ? bscWalletLoading : ethWalletLoading
 
-    // Fetch BSC token balance from BscScan
-    const fetchBscBalance = async (address: string, wallet: string): Promise<number> => {
-        try {
-            const url = `https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=${address}&address=${wallet}&tag=latest&apikey=2TSW88MVBF8FBT31JSDW7KD2IBE1BJ2CET`
-            const res = await fetch(url)
-            const data = await res.json()
-            return parseInt(data.result) / 10 ** 9
-        } catch { return 0 }
-    }
-
-    // Fetch ETH token balance from Etherscan
-    const fetchEthBalance = async (address: string, wallet: string): Promise<number> => {
-        try {
-            const url = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${address}&address=${wallet}&tag=latest&apikey=U4GW7GB7GYNZESDYSUH9GKPJ3VQZCGVSK2`
-            const res = await fetch(url)
-            const data = await res.json()
-            return parseInt(data.result) / 10 ** 9
-        } catch { return 0 }
-    }
-
-    // Fetch native chain price (BNB or ETH)
-    const fetchNativePrice = async (chain: 'bsc' | 'eth'): Promise<number> => {
-        try {
-            if (chain === 'bsc') {
-                const url = `https://api.bscscan.com/api?module=stats&action=bnbprice&apikey=2TSW88MVBF8FBT31JSDW7KD2IBE1BJ2CET`
-                const res = await fetch(url)
-                const data = await res.json()
-                return parseFloat(data.result.ethusd)
+    const handleWalletLookup = () => {
+        if (walletAddress.length === 42) {
+            if (activeChain === 'bsc') {
+                fetchBscWallet(walletAddress, stats.bscPrice)
             } else {
-                const url = `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=U4GW7GB7GYNZESDYSUH9GKPJ3VQZCGVSK2`
-                const res = await fetch(url)
-                const data = await res.json()
-                return parseFloat(data.result.ethusd)
+                fetchEthWallet(walletAddress, stats.ethPrice)
             }
-        } catch { return 0 }
-    }
-
-    // Calculate TRDG price from LP pool
-    const calculatePrice = async (chain: 'bsc' | 'eth'): Promise<{ price: number, liquidity: number }> => {
-        try {
-            const nativePrice = await fetchNativePrice(chain)
-
-            let nativeInPool: number
-            let trdgInPool: number
-
-            if (chain === 'bsc') {
-                nativeInPool = await fetchBscBalance(WBNB_ADDRESS, PCSV1_POOL) * 10 ** 9 / 10 ** 18
-                await new Promise(r => setTimeout(r, 300)) // Rate limit
-                trdgInPool = await fetchBscBalance(TRDG_ADDRESS, PCSV1_POOL)
-            } else {
-                nativeInPool = await fetchEthBalance(WETH_ADDRESS, UNISWAP_POOL) * 10 ** 9 / 10 ** 18
-                await new Promise(r => setTimeout(r, 300))
-                trdgInPool = await fetchEthBalance(TRDG_ADDRESS, UNISWAP_POOL)
-            }
-
-            const liquidity = nativeInPool * nativePrice
-            const price = (nativeInPool * nativePrice) / trdgInPool
-
-            return { price, liquidity }
-        } catch { return { price: 0, liquidity: 0 } }
-    }
-
-    // Fetch all chain stats
-    const fetchChainStats = useCallback(async (chain: 'bsc' | 'eth') => {
-        try {
-            // Get burn wallet balance
-            const burned = chain === 'bsc'
-                ? await fetchBscBalance(TRDG_ADDRESS, BURN_WALLET)
-                : await fetchEthBalance(TRDG_ADDRESS, BURN_WALLET)
-
-            await new Promise(r => setTimeout(r, 300)) // Rate limit
-
-            // Get price and liquidity
-            const { price, liquidity } = await calculatePrice(chain)
-
-            const circulatingSupply = MAX_SUPPLY - burned
-            const burnedPercent = (burned / MAX_SUPPLY) * 100
-            const marketCap = circulatingSupply * price
-            const pricePerTrillion = price * 10 ** 12
-
-            const stats: ChainStats = {
-                price,
-                pricePerTrillion,
-                burned,
-                burnedPercent,
-                circulatingSupply,
-                marketCap,
-                liquidity,
-                lastUpdate: Date.now()
-            }
-
-            if (chain === 'bsc') {
-                setBscStats(stats)
-            } else {
-                setEthStats(stats)
-            }
-
-            return stats
-        } catch (error) {
-            console.error(`Error fetching ${chain} stats:`, error)
-            return null
-        }
-    }, [])
-
-    // Fetch wallet-specific data
-    const fetchWalletData = async () => {
-        if (!walletAddress || walletAddress.length !== 42) return
-
-        setWalletLoading(true)
-        try {
-            const balance = activeChain === 'bsc'
-                ? await fetchBscBalance(TRDG_ADDRESS, walletAddress)
-                : await fetchEthBalance(TRDG_ADDRESS, walletAddress)
-
-            const stats = activeChain === 'bsc' ? bscStats : ethStats
-            const price = stats?.price || 0
-
-            // Note: Full rewards calculation requires transaction history
-            // This is a simplified version
-            const value = balance * price
-
-            setWalletData({
-                address: walletAddress,
-                balance,
-                rewards: 0, // Would need tx history for accurate calculation
-                value,
-                rewardsValue: 0
-            })
-        } catch (error) {
-            console.error('Error fetching wallet data:', error)
-        } finally {
-            setWalletLoading(false)
         }
     }
 
-    // Initial data fetch
-    useEffect(() => {
-        const fetchAllData = async () => {
-            setLoading(true)
-            await fetchChainStats('bsc')
-            await new Promise(r => setTimeout(r, 500))
-            await fetchChainStats('eth')
-            setLastRefresh(new Date())
-            setLoading(false)
-        }
-
-        fetchAllData()
-
-        // Refresh every 60 seconds
-        const interval = setInterval(fetchAllData, 60000)
-        return () => clearInterval(interval)
-    }, [fetchChainStats])
-
-    const currentStats = activeChain === 'bsc' ? bscStats : ethStats
-    const currentPrice = currentStats?.price || 0
-    const circulatingSupply = currentStats?.circulatingSupply || (MAX_SUPPLY / 2)
-
-    // Projection: (Token Amount * Target price) where target price = TargetMC / CircSupply
-    const projection = parseFloat(tokenAmount) * (targetMC / circulatingSupply)
-    const growthPotential = targetMC / (currentPrice * circulatingSupply)
+    // Projection calculator
+    const projection = parseFloat(tokenAmount) * (targetMC / currentCirculating)
+    const growthPotential = currentMarketCap > 0 ? targetMC / currentMarketCap : 0
 
     return (
         <section id="bioscanner" className="relative py-16 md:py-32 bg-black overflow-hidden">
@@ -273,7 +97,7 @@ export function BioScanner() {
                         ETH Chain
                     </button>
                     <button
-                        onClick={() => { fetchChainStats(activeChain); setLastRefresh(new Date()) }}
+                        onClick={refresh}
                         className="p-3 md:p-4 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-white/30 transition-all"
                         title="Refresh Data"
                     >
@@ -298,19 +122,21 @@ export function BioScanner() {
                                 <p className="text-[9px] md:text-[10px] text-gray-500 font-mono uppercase">{activeChain.toUpperCase()} Network</p>
                             </div>
                         </div>
-
-                        <div className="space-y-4">
-                            <div>
-                                <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">Price_Per_Token</div>
-                                <div className="text-xl md:text-2xl font-bold text-white font-mono break-all leading-tight">
-                                    {loading ? '...' : `$${currentStats?.price.toFixed(12) || '0'}...`}
-                                </div>
-                            </div>
-                            <div className="p-4 bg-black/40 rounded-xl border border-white/5">
-                                <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">Price_Per_Trillion</div>
-                                <div className={`text-2xl md:text-3xl font-black font-orbitron ${activeChain === 'bsc' ? 'text-yellow-400' : 'text-blue-400'}`}>
-                                    {loading ? '...' : formatCurrency(currentStats?.pricePerTrillion || 0, 2)}
-                                </div>
+                        <div className={`text-2xl md:text-4xl font-black font-orbitron mb-3 ${activeChain === 'bsc' ? 'text-yellow-400' : 'text-blue-400'}`}>
+                            ${currentPrice > 0 ? currentPrice.toFixed(18).slice(0, 14) : '0.00...'}
+                        </div>
+                        <div className="flex items-center justify-between text-xs md:text-sm">
+                            <span className="text-gray-500 font-mono">Per Trillion:</span>
+                            <span className={`font-bold ${activeChain === 'bsc' ? 'text-yellow-400' : 'text-blue-400'}`}>
+                                ${currentPricePerTrillion.toFixed(2)}
+                            </span>
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-white/10">
+                            <div className="flex justify-between text-[10px] font-mono text-gray-500">
+                                <span>{activeChain === 'bsc' ? 'BNB' : 'ETH'}/USD:</span>
+                                <span className="text-white">
+                                    ${activeChain === 'bsc' ? stats.bnbPrice.toFixed(2) : stats.ethNativePrice.toFixed(2)}
+                                </span>
                             </div>
                         </div>
                     </motion.div>
@@ -319,213 +145,187 @@ export function BioScanner() {
                     <motion.div
                         className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
                     >
-                        <div className="absolute top-4 right-4 font-mono text-[8px] text-gray-700">BURN_MONITOR.EXE</div>
+                        <div className="absolute top-4 right-4 font-mono text-[8px] text-gray-700">BURN_TRACKER.EXE</div>
                         <div className="flex items-center gap-4 mb-4 md:mb-6">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500">
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center">
                                 <Flame size={20} />
                             </div>
                             <div>
-                                <h3 className="font-orbitron font-bold text-white uppercase text-sm md:text-lg">Tun State (Burned)</h3>
-                                <p className="text-[9px] md:text-[10px] text-gray-500 font-mono uppercase">Tokens in Cryptobiosis</p>
+                                <h3 className="font-orbitron font-bold text-white uppercase text-sm md:text-lg">Burned Tokens</h3>
+                                <p className="text-[9px] md:text-[10px] text-gray-500 font-mono uppercase">{activeChain.toUpperCase()} Chain</p>
                             </div>
                         </div>
-
-                        <div className="space-y-4">
-                            <div>
-                                <div className="flex justify-between text-[10px] font-mono text-gray-500 uppercase mb-2">
-                                    <span>Total_Burned</span>
-                                    <span className="text-orange-500">{loading ? '...' : `${currentStats?.burnedPercent.toFixed(2)}%`}</span>
-                                </div>
-                                <div className="h-1.5 md:h-2 bg-white/5 rounded-full overflow-hidden">
-                                    <motion.div
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${currentStats?.burnedPercent || 50}%` }}
-                                        className="h-full bg-gradient-to-r from-orange-600 to-orange-400"
-                                    />
-                                </div>
-                            </div>
-                            <div className="p-4 bg-black/40 rounded-xl border border-white/5">
-                                <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">Burned_Tokens</div>
-                                <div className="text-lg md:text-xl font-bold text-orange-400 font-mono break-all leading-tight">
-                                    {loading ? '...' : formatNumber(currentStats?.burned || 0)}
-                                </div>
-                            </div>
-                            <div className="text-[9px] md:text-[10px] text-gray-400 font-mono italic">
-                                LP tokens are BURNED FOR ETERNITY.
-                            </div>
+                        <div className="text-2xl md:text-4xl font-black text-orange-400 font-orbitron mb-3">
+                            {formatCompact(currentBurned)}
+                        </div>
+                        <div className="flex items-center justify-between text-xs md:text-sm mb-4">
+                            <span className="text-gray-500 font-mono">% of Supply:</span>
+                            <span className="font-bold text-orange-400">{burnedPercent.toFixed(2)}%</span>
+                        </div>
+                        {/* Burn Progress Bar */}
+                        <div className="w-full h-2 rounded-full bg-black/50 overflow-hidden">
+                            <motion.div
+                                className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full"
+                                initial={{ width: 0 }}
+                                animate={{ width: `${Math.min(burnedPercent, 100)}%` }}
+                                transition={{ duration: 1, ease: 'easeOut' }}
+                            />
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-white/10 text-[10px] font-mono text-gray-600 text-center">
+                            50% BURNED AT GENESIS • CONTINUOUS DEFLATION
                         </div>
                     </motion.div>
 
-                    {/* Market Cap & Liquidity Card */}
+                    {/* Market Stats Card */}
                     <motion.div
                         className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute top-4 right-4 font-mono text-[8px] text-gray-700">MARKET_DATA.EXE</div>
                         <div className="flex items-center gap-4 mb-4 md:mb-6">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-trdg-cyan/10 flex items-center justify-center text-trdg-cyan">
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-trdg-cyan/10 text-trdg-cyan flex items-center justify-center">
                                 <BarChart3 size={20} />
                             </div>
                             <div>
-                                <h3 className="font-orbitron font-bold text-white uppercase text-sm md:text-lg">Colony Metrics</h3>
-                                <p className="text-[9px] md:text-[10px] text-gray-500 font-mono uppercase">Cap & Liquidity</p>
+                                <h3 className="font-orbitron font-bold text-white uppercase text-sm md:text-lg">Market Data</h3>
+                                <p className="text-[9px] md:text-[10px] text-gray-500 font-mono uppercase">{activeChain.toUpperCase()} Network</p>
                             </div>
                         </div>
-
                         <div className="space-y-4">
-                            <div className="p-4 bg-black/40 rounded-xl border border-white/5">
-                                <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">Market_Cap</div>
+                            <div>
+                                <div className="text-[10px] font-mono text-gray-500 mb-1">MARKET CAP</div>
+                                <div className="text-xl md:text-2xl font-bold text-trdg-green font-orbitron">
+                                    {formatCurrency(currentMarketCap, 0)}
+                                </div>
+                            </div>
+                            <div>
+                                <div className="text-[10px] font-mono text-gray-500 mb-1">LIQUIDITY</div>
                                 <div className="text-xl md:text-2xl font-bold text-trdg-cyan font-orbitron">
-                                    {loading ? '...' : formatCurrency(currentStats?.marketCap || 0, 0)}
+                                    {formatCurrency(currentLiquidity, 0)}
                                 </div>
                             </div>
-                            <div className="p-4 bg-black/40 rounded-xl border border-white/5">
-                                <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">Liquidity_Pool</div>
-                                <div className="text-lg md:text-xl font-bold text-trdg-green font-mono">
-                                    {loading ? '...' : formatCurrency(currentStats?.liquidity || 0, 0)}
-                                </div>
-                            </div>
-                            <div className="text-[9px] md:text-[10px] text-gray-400 font-mono text-center">
-                                Circulating: {loading ? '...' : formatNumber(currentStats?.circulatingSupply || 0)} TRDG
-                            </div>
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-white/10 flex items-center gap-2 text-[10px] font-mono text-trdg-green">
+                            <Shield size={12} />
+                            <span>LP BURNED FOR ETERNITY</span>
                         </div>
                     </motion.div>
                 </div>
 
-                {/* Wallet Tracker & Projection Calculator */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                {/* Wallet Lookup & Calculator */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
 
-                    {/* Wallet Tracker */}
+                    {/* Wallet Lookup */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
+                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 will-change-transform"
                     >
-                        <div className="flex items-center gap-4 mb-6 md:mb-8">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400">
-                                <Wallet size={20} />
-                            </div>
-                            <div>
-                                <h3 className="text-lg md:text-xl font-orbitron font-bold text-white uppercase">Wallet Scanner</h3>
-                                <p className="text-[9px] md:text-[10px] font-mono text-gray-500 uppercase tracking-widest">
-                                    Diagnostics ({activeChain.toUpperCase()})
-                                </p>
-                            </div>
+                        <div className="flex items-center gap-3 mb-6">
+                            <Wallet className={activeChain === 'bsc' ? 'text-yellow-500' : 'text-blue-400'} size={24} />
+                            <h3 className="font-orbitron font-bold text-white uppercase text-sm md:text-lg">Wallet Scanner</h3>
                         </div>
 
-                        <div className="space-y-6">
-                            <div className="flex gap-2">
+                        <div className="flex gap-2 mb-4">
+                            <div className="relative flex-1">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
                                 <input
                                     type="text"
+                                    placeholder="Enter wallet address..."
                                     value={walletAddress}
                                     onChange={(e) => setWalletAddress(e.target.value)}
-                                    placeholder="Enter address..."
-                                    className="flex-1 bg-black/50 border border-white/10 rounded-xl px-3 md:px-4 py-3 font-mono text-xs md:text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-purple-500/50"
+                                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/50 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-trdg-cyan/50"
                                 />
-                                <button
-                                    onClick={fetchWalletData}
-                                    disabled={walletLoading || walletAddress.length !== 42}
-                                    className="px-4 md:px-6 py-3 rounded-xl bg-purple-500 text-white font-bold font-orbitron uppercase text-[10px] md:text-xs disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-400 transition-colors"
-                                >
-                                    {walletLoading ? <RefreshCw size={16} className="animate-spin" /> : <Search size={16} />}
-                                </button>
                             </div>
-
-                            <AnimatePresence>
-                                {walletData && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -10 }}
-                                        className="space-y-4"
-                                    >
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div className="p-4 bg-black/40 rounded-xl border border-white/5">
-                                                <div className="text-[10px] text-gray-500 font-mono uppercase mb-1">Balance</div>
-                                                <div className="text-md md:text-lg font-bold text-white break-all">{formatNumber(walletData.balance)}</div>
-                                                <div className="text-[10px] md:text-xs text-gray-400">{formatCurrency(walletData.value, 4)}</div>
-                                            </div>
-                                            <div className="p-4 bg-black/40 rounded-xl border border-purple-500/20">
-                                                <div className="text-[10px] text-gray-500 font-mono uppercase mb-1">Est. Rewards</div>
-                                                <div className="text-md md:text-lg font-bold text-purple-400 break-all">{formatNumber(walletData.rewards)}</div>
-                                                <div className="text-[10px] md:text-xs text-gray-400">{formatCurrency(walletData.rewardsValue, 4)}</div>
-                                            </div>
-                                        </div>
-                                        <p className="text-[9px] md:text-[10px] text-gray-500 font-mono text-center">
-                                            Reflection data synced from blockchain
-                                        </p>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            <button
+                                onClick={handleWalletLookup}
+                                disabled={walletLoading || walletAddress.length !== 42}
+                                className={`px-4 md:px-6 py-3 rounded-xl font-bold text-xs uppercase transition-all disabled:opacity-50 ${activeChain === 'bsc'
+                                    ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/30'
+                                    : 'bg-blue-500/20 text-blue-400 border border-blue-500/30 hover:bg-blue-500/30'
+                                    }`}
+                            >
+                                {walletLoading ? '...' : 'Scan'}
+                            </button>
                         </div>
+
+                        <AnimatePresence>
+                            {walletStats && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    className="p-4 rounded-xl bg-black/40 border border-trdg-green/20"
+                                >
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <div className="text-[9px] font-mono text-gray-500 mb-1">BALANCE</div>
+                                            <div className="text-sm font-bold text-white">{formatCompact(walletStats.balance)} TRDG</div>
+                                            <div className="text-[10px] text-trdg-green">{formatCurrency(walletStats.valueUsd)}</div>
+                                        </div>
+                                        <div>
+                                            <div className="text-[9px] font-mono text-gray-500 mb-1">EST. REWARDS</div>
+                                            <div className="text-sm font-bold text-trdg-cyan">{formatCompact(walletStats.rewards)} TRDG</div>
+                                            <div className="text-[10px] text-trdg-cyan">{formatCurrency(walletStats.rewardsValueUsd)}</div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </motion.div>
 
-                    {/* Projection Calculator */}
+                    {/* Target MC Calculator */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
+                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 will-change-transform"
                     >
-                        <div className="flex items-center gap-4 mb-6 md:mb-8">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-trdg-cyan/10 flex items-center justify-center text-trdg-cyan">
-                                <Calculator size={20} />
-                            </div>
-                            <div>
-                                <h3 className="text-lg md:text-xl font-orbitron font-bold text-white uppercase">Projection Terminal</h3>
-                                <p className="text-[9px] md:text-[10px] font-mono text-gray-500 uppercase tracking-widest">
-                                    Simulate future valuations
-                                </p>
-                            </div>
+                        <div className="flex items-center gap-3 mb-6">
+                            <Calculator className="text-purple-400" size={24} />
+                            <h3 className="font-orbitron font-bold text-white uppercase text-sm md:text-lg">Projection Calculator</h3>
                         </div>
 
-                        <div className="space-y-6">
+                        <div className="space-y-4">
                             <div>
-                                <label className="block text-[10px] font-mono text-trdg-cyan uppercase mb-2">Token Amount</label>
+                                <label className="text-[10px] font-mono text-gray-500 uppercase mb-2 block">Your Token Amount</label>
                                 <input
                                     type="text"
                                     value={tokenAmount}
                                     onChange={(e) => setTokenAmount(e.target.value.replace(/[^0-9]/g, ''))}
-                                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-trdg-cyan/50"
+                                    className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-purple-500/50"
                                 />
+                                <div className="text-[10px] text-gray-600 mt-1">
+                                    = {formatCompact(parseFloat(tokenAmount) || 0)} TRDG
+                                </div>
                             </div>
                             <div>
-                                <label className="block text-[10px] font-mono text-gray-500 uppercase mb-2">Target Market Cap</label>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {[1000000, 10000000, 100000000, 1000000000].map((cap) => (
-                                        <button
-                                            key={cap}
-                                            onClick={() => setTargetMC(cap)}
-                                            className={`py-2 rounded-lg border text-[9px] md:text-[10px] font-mono transition-all ${targetMC === cap ? 'bg-trdg-cyan border-trdg-cyan text-black font-bold' : 'border-white/10 text-gray-400 hover:border-white/30'}`}
-                                        >
-                                            ${(cap / 1000000).toFixed(0)}M
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="p-5 md:p-6 rounded-2xl bg-black/60 border border-trdg-cyan/20 text-center">
-                                <div className="text-[10px] font-mono text-gray-500 uppercase mb-2">Projected Value</div>
-                                <motion.div
-                                    key={projection}
-                                    initial={{ scale: 0.9, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    className="text-2xl md:text-4xl font-black font-orbitron text-trdg-green text-glow-green break-all leading-tight"
+                                <label className="text-[10px] font-mono text-gray-500 uppercase mb-2 block">Target Market Cap</label>
+                                <select
+                                    value={targetMC}
+                                    onChange={(e) => setTargetMC(parseInt(e.target.value))}
+                                    className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-purple-500/50"
                                 >
-                                    {isNaN(projection) ? '$0' : formatCurrency(projection, 2)}
-                                </motion.div>
-                                <div className="text-[10px] font-mono text-gray-400 mt-2">
-                                    {(growthPotential).toFixed(1)}x growth possible
-                                </div>
+                                    <option value={1000000}>$1 Million</option>
+                                    <option value={5000000}>$5 Million</option>
+                                    <option value={10000000}>$10 Million</option>
+                                    <option value={50000000}>$50 Million</option>
+                                    <option value={100000000}>$100 Million</option>
+                                    <option value={500000000}>$500 Million</option>
+                                    <option value={1000000000}>$1 Billion</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 p-4 rounded-xl bg-purple-500/10 border border-purple-500/20">
+                            <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">Projected Value</div>
+                            <div className="text-2xl font-bold text-purple-400 font-orbitron break-all">
+                                {formatCurrency(projection, 2)}
+                            </div>
+                            <div className="text-[10px] font-mono text-gray-500 mt-2">
+                                {growthPotential.toFixed(1)}x potential growth
                             </div>
                         </div>
                     </motion.div>
-
                 </div>
 
-                {/* Supply Info Banner */}
+                {/* Bottom Info Bar */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    className="mt-8 md:mt-12 p-6 rounded-2xl bg-gradient-to-r from-trdg-cyan/5 via-black to-trdg-green/5 border border-white/5"
+                    className="p-4 md:p-6 rounded-2xl bg-zinc-900/30 border border-white/5 will-change-transform"
                 >
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center lg:text-left">
                         <div>
@@ -543,15 +343,15 @@ export function BioScanner() {
                         <div className="lg:text-right">
                             <div className="text-[9px] font-mono text-gray-500 uppercase mb-1">Contract Address</div>
                             <div className="text-[9px] font-mono text-trdg-cyan selection:bg-trdg-cyan/30">
-                                {TRDG_ADDRESS.slice(0, 10)}...{TRDG_ADDRESS.slice(-8)}
+                                {TRDG_CONTRACT.slice(0, 10)}...{TRDG_CONTRACT.slice(-8)}
                             </div>
                         </div>
                     </div>
                 </motion.div>
 
-                {lastRefresh && (
+                {lastUpdated && (
                     <div className="mt-4 text-[10px] font-mono text-gray-600 text-center">
-                        Last Scan: {lastRefresh.toLocaleTimeString()}
+                        Last Scan: {lastUpdated.toLocaleTimeString()}
                     </div>
                 )}
 
