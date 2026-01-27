@@ -218,8 +218,12 @@ export function BioScanner() {
     }, [fetchChainStats])
 
     const currentStats = activeChain === 'bsc' ? bscStats : ethStats
-    const currentMC = currentStats?.marketCap || 100000
-    const projection = (parseFloat(tokenAmount) * (targetMC / currentMC))
+    const currentPrice = currentStats?.price || 0
+    const circulatingSupply = currentStats?.circulatingSupply || (MAX_SUPPLY / 2)
+
+    // Projection: (Token Amount * Target price) where target price = TargetMC / CircSupply
+    const projection = parseFloat(tokenAmount) * (targetMC / circulatingSupply)
+    const growthPotential = targetMC / (currentPrice * circulatingSupply)
 
     return (
         <section id="bioscanner" className="relative py-16 md:py-32 bg-black overflow-hidden">
@@ -512,7 +516,7 @@ export function BioScanner() {
                                     {isNaN(projection) ? '$0' : formatCurrency(projection, 2)}
                                 </motion.div>
                                 <div className="text-[10px] font-mono text-gray-400 mt-2">
-                                    {(targetMC / currentMC).toFixed(1)}x growth possible
+                                    {(growthPotential).toFixed(1)}x growth possible
                                 </div>
                             </div>
                         </div>

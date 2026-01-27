@@ -88,19 +88,33 @@ export function EmergencyProtocols() {
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-10 md:mb-16">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 mb-4 md:mb-6"
                     >
                         <AlertTriangle className="text-red-400 animate-pulse" size={14} />
                         <span className="text-[9px] md:text-[10px] font-mono text-red-400 uppercase tracking-widest font-black">System Protocols</span>
                     </motion.div>
-                    <h2 className="text-3xl md:text-7xl font-orbitron font-black text-white mb-2 md:mb-4 uppercase tracking-tighter">
+                    <motion.h2
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                        className="text-3xl md:text-7xl font-orbitron font-black text-white mb-2 md:mb-4 uppercase tracking-tighter"
+                    >
                         EMERGENCY <span className="text-red-500">PROTOCOLS</span>
-                    </h2>
-                    <p className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em]">
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, delay: 0.3 }}
+                        className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em]"
+                    >
                         Cryptobiosis Defense Mechanisms
-                    </p>
+                    </motion.p>
                 </div>
 
                 {/* Protocol Grid */}
@@ -108,9 +122,10 @@ export function EmergencyProtocols() {
                     {protocols.map((protocol, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.05 }}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
                             whileHover={{ y: -5 }}
                             className="p-6 rounded-2xl bg-zinc-900/50 border border-white/10 relative overflow-hidden group"
                         >

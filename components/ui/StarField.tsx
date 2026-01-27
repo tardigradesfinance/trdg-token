@@ -13,12 +13,13 @@ export function StarField() {
 
         let width = window.innerWidth
         let height = window.innerHeight
+        const isMobile = width < 768
         canvas.width = width
         canvas.height = height
 
         // Star properties
         const stars: { x: number; y: number; z: number; color: string; sizeOffset: number }[] = []
-        const numStars = 400 // Reduced significantly for subtlety
+        const numStars = isMobile ? 150 : 350
         const centerX = width / 2
         const centerY = height / 2
 
@@ -28,23 +29,28 @@ export function StarField() {
                 x: Math.random() * width - centerX,
                 y: Math.random() * height - centerY,
                 z: Math.random() * width,
-                color: Math.random() > 0.9 ? '#00F0FF' : '#aaaaaa', // Mostly dim white/grey, rare cyan
+                color: Math.random() > 0.9 ? '#00F0FF' : '#ffffff',
                 sizeOffset: Math.random()
             })
         }
 
-        let speed = 0.2 // Very slow, majestic drift
+        let speed = isMobile ? 0.15 : 0.2
         let mouseX = 0
         let mouseY = 0
+        let targetX = 0
+        let targetY = 0
 
         const handleMouseMove = (e: MouseEvent) => {
-            mouseX = (e.clientX - centerX) * 0.05
-            mouseY = (e.clientY - centerY) * 0.05
+            targetX = (e.clientX - centerX) * 0.03
+            targetY = (e.clientY - centerY) * 0.03
         }
 
         const animate = () => {
-            // Fix for flashing: Fully clear the canvas instead of using transparency trails
             ctx.clearRect(0, 0, width, height)
+
+            // Dynamic easing for mouse parallax
+            mouseX += (targetX - mouseX) * 0.05
+            mouseY += (targetY - mouseY) * 0.05
 
             const cx = centerX + mouseX
             const cy = centerY + mouseY
@@ -62,23 +68,19 @@ export function StarField() {
                 const py = star.y * k + cy
 
                 if (px >= 0 && px <= width && py >= 0 && py <= height) {
-                    // Calculate size and opacity based on Z depth
                     const depth = Math.max(0, 1 - star.z / width)
-                    const size = depth * 2.5 * star.sizeOffset
-                    const alpha = depth * 0.8 // Max opacity 0.8 (never fully opaque bright)
+                    const size = depth * (isMobile ? 1.5 : 2.5) * star.sizeOffset
+                    const alpha = depth * 0.7
 
                     ctx.fillStyle = star.color
                     ctx.globalAlpha = alpha
-                    ctx.beginPath()
-                    ctx.arc(px, py, size, 0, Math.PI * 2)
-                    ctx.fill()
 
-                    // Only very close stars get a tiny glow
-                    if (depth > 0.8 && star.color === '#00F0FF') {
-                        ctx.shadowBlur = 10
-                        ctx.shadowColor = star.color
+                    if (size < 1.2) {
+                        ctx.fillRect(px, py, size, size)
                     } else {
-                        ctx.shadowBlur = 0
+                        ctx.beginPath()
+                        ctx.arc(px, py, size, 0, Math.PI * 2)
+                        ctx.fill()
                     }
                 }
             })

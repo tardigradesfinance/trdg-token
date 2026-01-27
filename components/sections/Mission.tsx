@@ -16,15 +16,21 @@ export function Mission() {
 
                 {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                     className="text-center mb-20"
                 >
-                    <h2 className="text-5xl md:text-7xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500 mb-6">
+                    <h2 className="text-5xl md:text-7xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500 mb-6 uppercase tracking-tighter">
                         THE MISSION
                     </h2>
-                    <div className="w-24 h-1 bg-trdg-cyan mx-auto rounded-full" />
+                    <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: 96 }}
+                        transition={{ delay: 0.5, duration: 1 }}
+                        className="h-1 bg-trdg-cyan mx-auto rounded-full"
+                    />
                 </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -33,8 +39,9 @@ export function Mission() {
 
                         {/* Intro Text */}
                         <motion.p
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                             viewport={{ once: true }}
                             className="text-xl text-gray-300 leading-relaxed font-light"
                         >
@@ -47,10 +54,10 @@ export function Mission() {
 
                         {/* Story Card 1 */}
                         <motion.div
-                            initial={{ opacity: 0, x: -50 }}
+                            initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: 0.2 }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
                             className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-cyan/50 hover:bg-white/10 transition-all duration-500 relative overflow-hidden"
                         >
                             <div className="absolute inset-0 bg-trdg-cyan/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700 ease-out" />
@@ -69,10 +76,10 @@ export function Mission() {
 
                         {/* Story Card 2 */}
                         <motion.div
-                            initial={{ opacity: 0, x: -50 }}
+                            initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: 0.4 }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
                             className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-green/50 hover:bg-white/10 transition-all duration-500 relative overflow-hidden"
                         >
                             <div className="absolute inset-0 bg-trdg-green/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700 ease-out" />

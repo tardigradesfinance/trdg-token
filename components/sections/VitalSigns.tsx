@@ -60,21 +60,23 @@ export function VitalSigns() {
 
                     {/* Left: Uptime Counter */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                         className="flex items-center gap-6"
                     >
                         <div className="relative">
                             <motion.div
-                                animate={{ scale: [1, 1.2, 1] }}
-                                transition={{ duration: 1, repeat: Infinity }}
+                                animate={{ scale: [1, 1.1, 1] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                                 className="w-16 h-16 rounded-full bg-trdg-green/20 flex items-center justify-center"
                             >
                                 <Cpu className="text-trdg-green" size={32} />
                             </motion.div>
                             <motion.div
-                                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                                transition={{ duration: 1, repeat: Infinity }}
+                                animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0, 0.3] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                                 className="absolute inset-0 rounded-full border-2 border-trdg-green"
                             />
                         </div>
@@ -92,9 +94,10 @@ export function VitalSigns() {
                         {vitals.map((vital, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 10 }}
+                                initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
                                 className="p-4 rounded-xl bg-white/5 border border-white/10 text-center group hover:border-trdg-green/30 transition-all"
                             >
                                 <vital.icon className={`mx-auto mb-2 ${vital.color} group-hover:scale-110 transition-transform`} size={20} />

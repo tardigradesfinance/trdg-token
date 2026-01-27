@@ -30,18 +30,19 @@ export function ParticleField() {
         window.addEventListener('resize', resize)
 
         const colors = ['#00F0FF', '#00FF94', '#a855f7', '#f472b6']
+        const isMobile = window.innerWidth < 768
         const particles: Particle[] = []
-        const particleCount = 80
+        const particleCount = isMobile ? 30 : 60
 
         // Create particles
         for (let i = 0; i < particleCount; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                size: Math.random() * 2 + 1,
-                alpha: Math.random() * 0.5 + 0.1,
+                vx: (Math.random() - 0.5) * 0.2,
+                vy: (Math.random() - 0.5) * 0.2,
+                size: Math.random() * 2 + 0.5,
+                alpha: Math.random() * 0.4 + 0.1,
                 color: colors[Math.floor(Math.random() * colors.length)]
             })
         }
@@ -52,38 +53,39 @@ export function ParticleField() {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
 
             particles.forEach((p, i) => {
-                // Update position
                 p.x += p.vx
                 p.y += p.vy
 
-                // Wrap around screen
                 if (p.x < 0) p.x = canvas.width
                 if (p.x > canvas.width) p.x = 0
                 if (p.y < 0) p.y = canvas.height
                 if (p.y > canvas.height) p.y = 0
 
-                // Draw particle
                 ctx.beginPath()
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
                 ctx.fillStyle = p.color
                 ctx.globalAlpha = p.alpha
                 ctx.fill()
 
-                // Draw connections to nearby particles
-                particles.slice(i + 1).forEach(p2 => {
-                    const dx = p.x - p2.x
-                    const dy = p.y - p2.y
-                    const dist = Math.sqrt(dx * dx + dy * dy)
+                // Skip connections on mobile for performance
+                if (!isMobile) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j]
+                        const dx = p.x - p2.x
+                        const dy = p.y - p2.y
+                        const distSq = dx * dx + dy * dy
 
-                    if (dist < 120) {
-                        ctx.beginPath()
-                        ctx.moveTo(p.x, p.y)
-                        ctx.lineTo(p2.x, p2.y)
-                        ctx.strokeStyle = p.color
-                        ctx.globalAlpha = (1 - dist / 120) * 0.1
-                        ctx.stroke()
+                        if (distSq < 10000) { // 100 * 100
+                            const dist = Math.sqrt(distSq)
+                            ctx.beginPath()
+                            ctx.moveTo(p.x, p.y)
+                            ctx.lineTo(p2.x, p2.y)
+                            ctx.strokeStyle = p.color
+                            ctx.globalAlpha = (1 - dist / 100) * 0.1
+                            ctx.stroke()
+                        }
                     }
-                })
+                }
             })
 
             ctx.globalAlpha = 1

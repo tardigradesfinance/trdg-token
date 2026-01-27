@@ -77,9 +77,9 @@ export function Hero() {
                 {/* Main Title Animation */}
                 <motion.div
                     style={{ y: y1 }}
-                    initial={{ opacity: 0, y: 100 }}
+                    initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
                     className="mb-4 md:mb-8 relative"
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-4 backdrop-blur-sm">
@@ -93,14 +93,14 @@ export function Hero() {
                     <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: "100%" }}
-                        transition={{ delay: 1.5, duration: 1 }}
+                        transition={{ delay: 1.2, duration: 1.5, ease: "circOut" }}
                         className="h-0.5 md:h-1 bg-gradient-to-r from-transparent via-trdg-cyan to-transparent w-full mt-2"
                     />
                     <motion.p
-                        initial={{ opacity: 0, letterSpacing: "0em" }}
+                        initial={{ opacity: 0, letterSpacing: "0.1em" }}
                         animate={{ opacity: 1, letterSpacing: "0.2em" }}
                         whileInView={{ letterSpacing: "0.5em" }}
-                        transition={{ delay: 1, duration: 2 }}
+                        transition={{ delay: 0.8, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
                         className="text-xs md:text-3xl font-orbitron text-white font-bold uppercase mt-4 md:mt-6 drop-shadow-md"
                     >
                         The Unkillable Token
@@ -109,9 +109,9 @@ export function Hero() {
 
                 {/* Introduction Text */}
                 <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 2, duration: 1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.8, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-2xl text-blue-200 text-sm md:text-xl leading-relaxed mb-6 md:mb-12 font-light backdrop-blur-sm bg-black/30 p-3 md:p-4 rounded-xl border border-white/5"
                 >
                     Surviving market turmoil through <span className="text-trdg-green font-bold glow-text">Cryptobiosis</span>.
@@ -129,9 +129,9 @@ export function Hero() {
                         whileHover={{ scale: 1.05, borderColor: "rgba(0, 240, 255, 0.8)", boxShadow: "0 0 30px rgba(0, 240, 255, 0.3)" }}
                         whileTap={{ scale: 0.95 }}
                         onClick={copyToClipboard}
-                        className="group relative px-6 py-3 md:px-8 md:py-4 bg-space-light/50 backdrop-blur-md border border-trdg-cyan/30 rounded-xl flex items-center justify-center gap-4 transition-all overflow-hidden w-full md:w-auto"
+                        className="group relative px-6 py-3 md:px-8 md:py-4 bg-space-light/40 backdrop-blur-md border border-trdg-cyan/30 rounded-xl flex items-center justify-center gap-4 transition-all overflow-hidden w-full md:w-auto"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-r from-trdg-cyan/0 via-trdg-cyan/10 to-trdg-cyan/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-trdg-cyan/0 via-trdg-cyan/10 to-trdg-cyan/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
 
                         <div className="text-left">
                             <div className="text-[10px] md:text-xs text-trdg-cyan/70 uppercase tracking-widest font-bold">Contract Address (BSC & ETH)</div>
@@ -139,7 +139,7 @@ export function Hero() {
                                 {contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}
                             </div>
                         </div>
-                        {copied ? <span className="text-green-400 text-sm font-bold">COPIED!</span> : <Copy size={20} className="text-trdg-cyan" />}
+                        {copied ? <span className="text-green-400 text-sm font-bold">COPIED!</span> : <Copy size={20} className="text-trdg-cyan shrink-0" />}
                     </motion.button>
 
                     <motion.a

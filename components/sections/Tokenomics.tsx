@@ -10,20 +10,30 @@ export function Tokenomics() {
             <GridBackground />
 
             <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-4">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-4 uppercase tracking-tighter">
                         Tokenomics
                     </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                    <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light">
                         The biological engine of the <span className="text-trdg-cyan">$TRDG</span> ecosystem.
                         Designed for longevity, scarcity, and instant rewards for the colony.
                     </p>
-                </div>
+                </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                     {/* Distribution Card */}
                     <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                         whileHover={{ y: -5 }}
                         className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-trdg-cyan/50 transition-all group relative overflow-hidden"
                     >
@@ -58,6 +68,10 @@ export function Tokenomics() {
 
                     {/* Resilience Mechanism */}
                     <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                         whileHover={{ y: -5 }}
                         className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-orange-500/50 transition-all group relative overflow-hidden"
                     >
@@ -78,6 +92,10 @@ export function Tokenomics() {
 
                     {/* Infrastructure Card */}
                     <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
                         whileHover={{ y: -5 }}
                         className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-purple-500/50 transition-all group relative overflow-hidden"
                     >
