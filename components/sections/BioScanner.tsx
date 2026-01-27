@@ -554,6 +554,18 @@ export function BioScanner() {
                         Last Scan: {lastRefresh.toLocaleTimeString()}
                     </div>
                 )}
+
+                {/* Link to Full Stats Page */}
+                <div className="mt-8 text-center">
+                    <a
+                        href="/stats"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-trdg-cyan/10 border border-trdg-cyan/30 text-trdg-cyan font-orbitron font-bold text-xs uppercase tracking-wider hover:bg-trdg-cyan/20 hover:border-trdg-cyan/50 transition-all"
+                    >
+                        <BarChart3 size={16} />
+                        View Full Stats Dashboard
+                        <ExternalLink size={14} />
+                    </a>
+                </div>
             </div>
         </section>
     )

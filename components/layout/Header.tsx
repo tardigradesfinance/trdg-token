@@ -12,6 +12,7 @@ const navItems = [
     { name: 'Mission', href: '/#mission' },
     { name: 'Tokenomics', href: '/#tokenomics' },
     { name: 'Acquire', href: '/#acquire' },
+    { name: 'Stats', href: '/stats' },
     { name: 'About', href: '/about' },
     { name: 'Whitepaper', href: '/whitepaper' },
 ]
