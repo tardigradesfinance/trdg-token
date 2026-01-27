@@ -96,11 +96,12 @@ export function AchievementBadges() {
                     {achievements.map((badge, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, scale: 0.8 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.05 }}
+                            viewport={{ once: true, amount: 0.1 }}
+                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
                             whileHover={{ scale: 1.05, y: -5 }}
-                            className={`p-6 rounded-2xl border text-center group cursor-pointer transition-all ${getRarityStyle(badge.rarity)}`}
+                            className={`p-6 rounded-2xl border text-center group cursor-pointer transition-all ${getRarityStyle(badge.rarity)} will-change-transform`}
                         >
                             {/* Icon */}
                             <motion.div

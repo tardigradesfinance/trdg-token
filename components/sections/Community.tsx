@@ -11,10 +11,11 @@ export function Community() {
 
             <div className="container mx-auto px-4 text-center">
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="will-change-transform"
                 >
                     <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-6">
                         Enter the <span className="text-transparent bg-clip-text bg-gradient-to-r from-trdg-cyan to-trdg-green">Colony</span>

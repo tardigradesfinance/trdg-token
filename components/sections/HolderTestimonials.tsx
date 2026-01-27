@@ -82,11 +82,12 @@ export function HolderTestimonials() {
                     {testimonials.map((item, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.05 }}
+                            viewport={{ once: true, amount: 0.1 }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
                             whileHover={{ y: -5, scale: 1.02 }}
-                            className="p-6 rounded-2xl bg-zinc-900/50 border border-white/10 relative overflow-hidden group hover:border-pink-500/30 transition-all"
+                            className="p-6 rounded-2xl bg-zinc-900/50 border border-white/10 relative overflow-hidden group hover:border-pink-500/30 transition-all will-change-transform"
                         >
                             {/* Quote Icon */}
                             <Quote className="absolute top-4 right-4 text-white/5 group-hover:text-pink-500/10 transition-colors" size={40} />

@@ -45,12 +45,12 @@ export function Roadmap() {
                         {steps.map((step, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                                initial={{ opacity: 0, x: index % 2 === 0 ? -10 : 10 }}
                                 whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
+                                viewport={{ once: true, amount: 0.1 }}
                                 transition={{ duration: 0.6, delay: index * 0.2 }}
                                 className={`relative flex flex-col md:flex-row gap-8 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''
-                                    }`}
+                                    } will-change-transform`}
                             >
                                 {/* Dot */}
                                 <div className="absolute left-0 md:left-1/2 top-0 w-8 h-8 bg-space-black border-4 border-trdg-cyan rounded-full md:-translate-x-1/2 z-10 shadow-[0_0_15px_rgba(0,240,255,0.5)]" />
@@ -58,7 +58,7 @@ export function Roadmap() {
                                 <div className="md:w-1/2 pl-12 md:pl-0" /> {/* Spacer */}
 
                                 <div className={`md:w-1/2 pl-12 md:pl-0 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
-                                    <div className="bg-space-light/40 p-6 rounded-xl border border-white/5 hover:border-trdg-cyan/30 transition-colors">
+                                    <div className="bg-white/5 p-6 rounded-xl border border-white/5 hover:border-trdg-cyan/30 transition-colors">
                                         <div className="text-trdg-cyan font-mono text-sm mb-2">{step.date}</div>
                                         <h3 className={`text-2xl font-bold font-orbitron mb-2 ${step.status === 'active' ? 'text-trdg-cyan' : 'text-white'}`}>
                                             {step.title}

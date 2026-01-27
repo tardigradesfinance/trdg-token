@@ -1,7 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import Image from 'next/image'
+import { useRef } from 'react'
 
 const stickers = [
     "are-you-my-friend.png", "be-safe.png", "binance-soon.png", "call-me-moss-piglet.png",
@@ -21,27 +22,28 @@ const stickers = [
 ]
 
 export function StickerMarquee() {
-    // Split stickers into two halves for two rows to increase variety
-    const row1 = [...stickers].sort(() => Math.random() - 0.5)
-    const row2 = [...stickers].sort(() => Math.random() - 0.5)
+    const row1 = [...stickers].sort(() => 0.5 - Math.random())
+    const row2 = [...stickers].sort(() => 0.5 - Math.random())
+    const containerRef = useRef<HTMLElement>(null)
+    const isInView = useInView(containerRef, { amount: 0.1 })
 
     return (
-        <section className="py-20 bg-black overflow-hidden border-y border-white/5 relative z-10">
+        <section ref={containerRef} className="py-20 bg-black overflow-hidden border-y border-white/5 relative z-10">
             <div className="flex flex-col gap-12">
 
                 {/* Row 1: Moving Right */}
                 <div className="relative flex overflow-hidden">
                     <motion.div
-                        animate={{ x: [0, -4000] }}
+                        animate={isInView ? { x: [0, -4000] } : {}}
                         transition={{
                             duration: 60,
                             repeat: Infinity,
                             ease: "linear"
                         }}
-                        className="flex gap-12 whitespace-nowrap"
+                        className="flex gap-12 whitespace-nowrap will-change-transform"
                     >
                         {[...row1, ...row1, ...row1].map((sticker, i) => (
-                            <div key={i} className="relative w-40 h-40 flex-shrink-0 group hover:scale-110 transition-transform duration-300">
+                            <div key={i} className="relative w-40 h-40 flex-shrink-0 group hover:scale-110 transition-transform duration-300 will-change-transform">
                                 <Image
                                     src={`/images/stickers/${sticker}`}
                                     alt="sticker"
@@ -57,13 +59,13 @@ export function StickerMarquee() {
                 {/* Row 2: Moving Left */}
                 <div className="relative flex overflow-hidden">
                     <motion.div
-                        animate={{ x: [-4000, 0] }}
+                        animate={isInView ? { x: [-4000, 0] } : {}}
                         transition={{
                             duration: 70,
                             repeat: Infinity,
                             ease: "linear"
                         }}
-                        className="flex gap-12 whitespace-nowrap"
+                        className="flex gap-12 whitespace-nowrap will-change-transform"
                     >
                         {[...row2, ...row2, ...row2].map((sticker, i) => (
                             <div key={i} className="relative w-40 h-40 flex-shrink-0 group hover:scale-110 transition-transform duration-300">
