@@ -48,8 +48,9 @@ export function SpeciesComparison() {
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-16">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
                         className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 mb-6"
                     >
                         <Skull className="text-red-400" size={16} />
@@ -80,10 +81,11 @@ export function SpeciesComparison() {
                     {comparisons.map((item, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
                             transition={{ delay: index * 0.05 }}
-                            className="flex flex-col md:grid md:grid-cols-3 gap-4 p-4 rounded-xl bg-white/5 border border-white/10 mb-2 hover:bg-white/10 transition-all group"
+                            className="flex flex-col md:grid md:grid-cols-3 gap-4 p-4 rounded-xl bg-white/5 border border-white/10 mb-2 hover:bg-white/10 group will-change-transform"
                         >
                             {/* Trait */}
                             <div className="flex items-center gap-3 md:col-span-1">
@@ -126,8 +128,9 @@ export function SpeciesComparison() {
 
                 {/* Bottom Stats */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
                     className="mt-16 text-center"
                 >
                     <div className="inline-flex flex-col md:flex-row items-center gap-8 p-8 rounded-3xl bg-gradient-to-r from-trdg-green/5 via-black to-red-500/5 border border-white/5">

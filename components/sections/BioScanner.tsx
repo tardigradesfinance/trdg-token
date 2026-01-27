@@ -303,7 +303,7 @@ export function BioScanner() {
                             <div>
                                 <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">Price_Per_Token</div>
                                 <div className="text-xl md:text-2xl font-bold text-white font-mono break-all leading-tight">
-                                    {loading ? '...' : `$${currentStats?.price.toFixed(18) || '0'}`}
+                                    {loading ? '...' : `$${currentStats?.price.toFixed(12) || '0'}...`}
                                 </div>
                             </div>
                             <div className="p-4 bg-black/40 rounded-xl border border-white/5">
@@ -542,8 +542,8 @@ export function BioScanner() {
                         </div>
                         <div className="lg:text-right">
                             <div className="text-[9px] font-mono text-gray-500 uppercase mb-1">Contract Address</div>
-                            <div className="text-[9px] font-mono text-trdg-cyan break-all selection:bg-trdg-cyan/30">
-                                {TRDG_ADDRESS}
+                            <div className="text-[9px] font-mono text-trdg-cyan selection:bg-trdg-cyan/30">
+                                {TRDG_ADDRESS.slice(0, 10)}...{TRDG_ADDRESS.slice(-8)}
                             </div>
                         </div>
                     </div>

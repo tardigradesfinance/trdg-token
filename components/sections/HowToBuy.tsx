@@ -89,10 +89,12 @@ export function HowToBuy() {
                 </div>
 
                 <div className="mt-16 text-center">
-                    <div className="inline-block p-1 rounded-xl bg-gradient-to-r from-trdg-cyan/20 to-trdg-green/20">
-                        <div className="bg-black/80 backdrop-blur-md rounded-lg px-8 py-4 border border-white/10">
-                            <span className="text-gray-400 font-mono text-sm mr-4">OFFICIAL CONTRACT:</span>
-                            <span className="text-white font-mono font-bold select-all">0x92a42Db88Ed0F02c71D439e55962Ca7CAB0168b5</span>
+                    <div className="inline-block p-1 rounded-xl bg-gradient-to-r from-trdg-cyan/20 to-trdg-green/20 max-w-full">
+                        <div className="bg-black/80 backdrop-blur-md rounded-lg px-4 md:px-8 py-4 border border-white/10 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 overflow-hidden">
+                            <span className="text-gray-400 font-mono text-[10px] md:text-sm whitespace-nowrap">OFFICIAL CONTRACT:</span>
+                            <span className="text-white font-mono font-bold select-all text-xs md:text-base break-all">
+                                {`0x92a42Db88Ed...68b5`}
+                            </span>
                         </div>
                     </div>
 

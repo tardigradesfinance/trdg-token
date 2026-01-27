@@ -103,7 +103,7 @@ export function SocialNexus() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-8">
                     {socialLinks.map((social, index) => (
                         <motion.a
                             key={index}
@@ -115,7 +115,7 @@ export function SocialNexus() {
                             viewport={{ once: true, amount: 0.1 }}
                             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
                             whileHover={{ y: -5, scale: 1.02 }}
-                            className={`group relative p-6 rounded-2xl bg-white/5 border border-white/10 ${social.color} transition-all duration-300 overflow-hidden flex flex-col items-center justify-center gap-4 ${social.glow} will-change-transform`}
+                            className={`group relative p-6 rounded-2xl bg-white/5 border border-white/10 ${social.color} overflow-hidden flex flex-col items-center justify-center gap-4 ${social.glow} will-change-transform`}
                         >
                             {/* Animated Background Gradient */}
                             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />

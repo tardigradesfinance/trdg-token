@@ -58,9 +58,14 @@
   }
 
   * {
+    /* More targeted approach to prevent global compositing issues in Chrome */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .will-change-transform {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    /* Fixes flashing in some mobile browsers */
+    transform: translateZ(0);
   }
 }
 

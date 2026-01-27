@@ -164,6 +164,7 @@ export function EmergencyProtocols() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
                     className="mt-16 p-6 rounded-2xl bg-trdg-green/5 border border-trdg-green/20 max-w-2xl mx-auto text-center"
                 >
                     <div className="flex items-center justify-center gap-3 mb-2">

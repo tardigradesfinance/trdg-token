@@ -76,8 +76,9 @@ export function AchievementBadges() {
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-16">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
                         className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 mb-6"
                     >
                         <Trophy className="text-yellow-400" size={16} />
@@ -101,7 +102,7 @@ export function AchievementBadges() {
                             viewport={{ once: true, amount: 0.1 }}
                             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
                             whileHover={{ scale: 1.05, y: -5 }}
-                            className={`p-6 rounded-2xl border text-center group cursor-pointer transition-all ${getRarityStyle(badge.rarity)} will-change-transform`}
+                            className={`p-6 rounded-2xl border text-center group cursor-pointer ${getRarityStyle(badge.rarity)} will-change-transform`}
                         >
                             {/* Icon */}
                             <motion.div
@@ -135,6 +136,7 @@ export function AchievementBadges() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
                     className="mt-12 text-center"
                 >
                     <p className="text-xs text-gray-600 font-mono uppercase tracking-widest">

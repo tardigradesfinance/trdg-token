@@ -98,7 +98,7 @@ export function VitalSigns() {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true, amount: 0.1 }}
                                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
-                                className="p-4 rounded-xl bg-white/5 border border-white/10 text-center group hover:border-trdg-green/30 transition-all will-change-transform"
+                                className="p-4 rounded-xl bg-white/5 border border-white/10 text-center group hover:border-trdg-green/30 will-change-transform"
                             >
                                 <vital.icon className={`mx-auto mb-2 ${vital.color} group-hover:scale-110 transition-transform`} size={20} />
                                 <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">{vital.label}</div>

@@ -469,18 +469,19 @@ export default function WhitepaperPage() {
                                 <div className="w-3 h-3 rounded-full bg-yellow-500" />
                                 <div className="w-3 h-3 rounded-full bg-green-500" />
                             </div>
-                            <div className="flex-1 text-center">
-                                <span className="font-mono text-sm text-gray-400">
-                                    trdg@mainframe:~/whitepaper$
+                            <div className="flex-1 text-center overflow-hidden">
+                                <span className="font-mono text-[10px] md:text-sm text-gray-400 truncate block">
+                                    <span className="hidden sm:inline">trdg@mainframe:</span>~/whitepaper$
                                 </span>
                             </div>
                             <a
                                 href="https://ea6606de-4b0e-4d9c-8b09-9efbd0cf8116.filesusr.com/ugd/134033_e07d36208707464180db00aa8da37a2b.pdf"
                                 target="_blank"
-                                className="flex items-center gap-2 px-3 py-1 rounded bg-purple-500/20 text-purple-400 text-xs font-mono hover:bg-purple-500/30 transition-colors"
+                                className="flex items-center gap-2 px-2 md:px-3 py-1 rounded bg-purple-500/20 text-purple-400 text-[10px] md:text-xs font-mono hover:bg-purple-500/30 transition-colors shrink-0"
                             >
                                 <Download size={12} />
-                                DOWNLOAD PDF
+                                <span className="hidden xs:inline">PDF</span>
+                                <span className="hidden sm:inline">DOWNLOAD</span>
                             </a>
                         </motion.div>
 
@@ -506,8 +507,8 @@ export default function WhitepaperPage() {
                                             onClick={() => loadSection(section.id)}
                                             disabled={!bootComplete}
                                             className={`w-full text-left p-2 rounded-lg flex items-center gap-2 text-xs font-mono transition-all group ${activeSection === section.id
-                                                    ? 'bg-trdg-cyan/20 text-trdg-cyan border border-trdg-cyan/30'
-                                                    : 'hover:bg-white/5 text-gray-400 hover:text-white border border-transparent'
+                                                ? 'bg-trdg-cyan/20 text-trdg-cyan border border-trdg-cyan/30'
+                                                : 'hover:bg-white/5 text-gray-400 hover:text-white border border-transparent'
                                                 } ${!bootComplete ? 'opacity-30 cursor-not-allowed' : ''}`}
                                         >
                                             <ChevronRight size={12} className={`transition-transform ${activeSection === section.id ? 'rotate-90 text-trdg-cyan' : 'group-hover:translate-x-1'}`} />
@@ -538,47 +539,48 @@ export default function WhitepaperPage() {
                             <div className="flex-1 bg-black border-x border-b border-white/10 rounded-b-xl lg:rounded-bl-none lg:rounded-r-xl overflow-hidden">
                                 <div
                                     ref={terminalRef}
-                                    className="h-[70vh] overflow-y-auto p-6 font-mono text-sm"
+                                    className="h-[60vh] md:h-[70vh] overflow-y-auto overflow-x-hidden p-4 md:p-6 font-mono text-sm"
                                     style={{
                                         background: 'radial-gradient(ellipse at bottom, #0a0a0a 0%, #000 100%)',
                                         textShadow: '0 0 5px rgba(0,255,148,0.3)'
                                     }}
                                 >
-                                    {/* Boot Sequence */}
-                                    <AnimatePresence>
-                                        {!bootComplete && (
-                                            <motion.div className="space-y-2 mb-8">
-                                                {bootSequence.slice(0, bootStep).map((msg, i) => (
-                                                    <motion.div
-                                                        key={i}
-                                                        initial={{ opacity: 0, x: -10 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        className={msg.highlight ? 'text-trdg-green font-bold' : 'text-gray-500'}
-                                                    >
-                                                        <span className="text-gray-600">[{String(i).padStart(2, '0')}]</span> {msg.text}
-                                                        {i === bootStep - 1 && !msg.highlight && (
-                                                            <motion.span
-                                                                animate={{ opacity: [1, 0] }}
-                                                                transition={{ repeat: Infinity, duration: 0.5 }}
-                                                            >
-                                                                _
-                                                            </motion.span>
-                                                        )}
-                                                    </motion.div>
-                                                ))}
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
+                                    <div className="min-w-0 w-full overflow-x-auto"> {/* Internal scroll for long lines */}
+                                        {/* Boot Sequence */}
+                                        <AnimatePresence>
+                                            {!bootComplete && (
+                                                <motion.div className="space-y-2 mb-8">
+                                                    {bootSequence.slice(0, bootStep).map((msg, i) => (
+                                                        <motion.div
+                                                            key={i}
+                                                            initial={{ opacity: 0, x: -10 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            className={msg.highlight ? 'text-trdg-green font-bold' : 'text-gray-500'}
+                                                        >
+                                                            <span className="text-gray-600">[{String(i).padStart(2, '0')}]</span> {msg.text}
+                                                            {i === bootStep - 1 && !msg.highlight && (
+                                                                <motion.span
+                                                                    animate={{ opacity: [1, 0] }}
+                                                                    transition={{ repeat: Infinity, duration: 0.5 }}
+                                                                >
+                                                                    _
+                                                                </motion.span>
+                                                            )}
+                                                        </motion.div>
+                                                    ))}
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
 
-                                    {/* Welcome Message */}
-                                    {bootComplete && !activeSection && (
-                                        <motion.div
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            className="text-center py-16"
-                                        >
-                                            <pre className="text-trdg-cyan text-[8px] md:text-xs mb-8 leading-tight">
-                                                {`
+                                        {/* Welcome Message */}
+                                        {bootComplete && !activeSection && (
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className="text-center py-16"
+                                            >
+                                                <pre className="text-trdg-cyan text-[8px] md:text-xs mb-8 leading-tight">
+                                                    {`
  ████████╗██████╗ ██████╗  ██████╗ 
  ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝ 
     ██║   ██████╔╝██║  ██║██║  ███╗
@@ -586,106 +588,107 @@ export default function WhitepaperPage() {
     ██║   ██║  ██║██████╔╝╚██████╔╝
     ╚═╝   ╚═╝  ╚═╝╚═════╝  ╚═════╝ 
 `}
-                                            </pre>
-                                            <h1 className="text-2xl md:text-4xl font-orbitron font-black text-white mb-4">
-                                                WHITEPAPER <span className="text-trdg-cyan">v2.0</span>
-                                            </h1>
-                                            <p className="text-gray-500 mb-8">
-                                                Tardigrades Finance Technical Documentation
-                                            </p>
-                                            <div className="text-gray-600 text-xs animate-pulse">
-                                                ← Select a section from the menu to begin
-                                            </div>
-                                        </motion.div>
-                                    )}
-
-                                    {/* Command History */}
-                                    {commandHistory.map((cmd, i) => (
-                                        <div key={i} className="mb-2 text-gray-600">
-                                            <span className="text-trdg-cyan">trdg@mainframe</span>
-                                            <span className="text-white">:</span>
-                                            <span className="text-blue-400">~/whitepaper</span>
-                                            <span className="text-white">$ </span>
-                                            <span className="text-gray-300">{cmd}</span>
-                                        </div>
-                                    ))}
-
-                                    {/* Loading Animation */}
-                                    {loadingSection && (
-                                        <motion.div
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            className="text-yellow-400 flex items-center gap-2"
-                                        >
-                                            <motion.span
-                                                animate={{ rotate: 360 }}
-                                                transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-                                            >
-                                                ⚙
-                                            </motion.span>
-                                            Loading document...
-                                        </motion.div>
-                                    )}
-
-                                    {/* Active Section Content */}
-                                    {activeSection && !loadingSection && (
-                                        <motion.div
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            className="mt-4"
-                                        >
-                                            {/* Section Header */}
-                                            <div className="flex items-center gap-4 mb-6 pb-4 border-b border-white/10">
-                                                <div className="flex-1">
-                                                    <h2 className="text-xl font-orbitron font-bold text-trdg-cyan">
-                                                        {sections.find(s => s.id === activeSection)?.title}
-                                                    </h2>
+                                                </pre>
+                                                <h1 className="text-2xl md:text-4xl font-orbitron font-black text-white mb-4">
+                                                    WHITEPAPER <span className="text-trdg-cyan">v2.0</span>
+                                                </h1>
+                                                <p className="text-gray-500 mb-8">
+                                                    Tardigrades Finance Technical Documentation
+                                                </p>
+                                                <div className="text-gray-600 text-xs animate-pulse">
+                                                    ← Select a section from the menu to begin
                                                 </div>
-                                                <div className={`px-3 py-1 rounded text-[10px] font-mono uppercase ${sections.find(s => s.id === activeSection)?.status === 'complete'
+                                            </motion.div>
+                                        )}
+
+                                        {/* Command History */}
+                                        {commandHistory.map((cmd, i) => (
+                                            <div key={i} className="mb-2 text-gray-600">
+                                                <span className="text-trdg-cyan">trdg@mainframe</span>
+                                                <span className="text-white">:</span>
+                                                <span className="text-blue-400">~/whitepaper</span>
+                                                <span className="text-white">$ </span>
+                                                <span className="text-gray-300">{cmd}</span>
+                                            </div>
+                                        ))}
+
+                                        {/* Loading Animation */}
+                                        {loadingSection && (
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className="text-yellow-400 flex items-center gap-2"
+                                            >
+                                                <motion.span
+                                                    animate={{ rotate: 360 }}
+                                                    transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                                                >
+                                                    ⚙
+                                                </motion.span>
+                                                Loading document...
+                                            </motion.div>
+                                        )}
+
+                                        {/* Active Section Content */}
+                                        {activeSection && !loadingSection && (
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className="mt-4"
+                                            >
+                                                {/* Section Header */}
+                                                <div className="flex items-center gap-4 mb-6 pb-4 border-b border-white/10">
+                                                    <div className="flex-1">
+                                                        <h2 className="text-xl font-orbitron font-bold text-trdg-cyan">
+                                                            {sections.find(s => s.id === activeSection)?.title}
+                                                        </h2>
+                                                    </div>
+                                                    <div className={`px-3 py-1 rounded text-[10px] font-mono uppercase ${sections.find(s => s.id === activeSection)?.status === 'complete'
                                                         ? 'bg-trdg-green/20 text-trdg-green'
                                                         : sections.find(s => s.id === activeSection)?.status === 'partial'
                                                             ? 'bg-yellow-400/20 text-yellow-400'
                                                             : 'bg-orange-400/20 text-orange-400'
-                                                    }`}>
-                                                    {getStatusLabel(sections.find(s => s.id === activeSection)?.status || '')}
+                                                        }`}>
+                                                        {getStatusLabel(sections.find(s => s.id === activeSection)?.status || '')}
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            {/* Content with typing effect */}
-                                            <pre className="whitespace-pre-wrap text-gray-300 leading-relaxed text-xs md:text-sm">
-                                                {typedContent}
+                                                {/* Content with typing effect */}
+                                                <pre className="whitespace-pre-wrap text-gray-300 leading-relaxed text-xs md:text-sm">
+                                                    {typedContent}
+                                                    <motion.span
+                                                        animate={{ opacity: [1, 0] }}
+                                                        transition={{ repeat: Infinity, duration: 0.5 }}
+                                                        className="text-trdg-green"
+                                                    >
+                                                        █
+                                                    </motion.span>
+                                                </pre>
+                                            </motion.div>
+                                        )}
+
+                                        {/* Command Line Prompt */}
+                                        {bootComplete && activeSection && !loadingSection && typedContent === sections.find(s => s.id === activeSection)?.content && (
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ delay: 0.5 }}
+                                                className="mt-8 pt-4 border-t border-white/10"
+                                            >
+                                                <span className="text-trdg-cyan">trdg@mainframe</span>
+                                                <span className="text-white">:</span>
+                                                <span className="text-blue-400">~/whitepaper</span>
+                                                <span className="text-white">$ </span>
                                                 <motion.span
                                                     animate={{ opacity: [1, 0] }}
-                                                    transition={{ repeat: Infinity, duration: 0.5 }}
-                                                    className="text-trdg-green"
+                                                    transition={{ repeat: Infinity, duration: 0.8 }}
+                                                    className="text-white"
                                                 >
-                                                    █
+                                                    _
                                                 </motion.span>
-                                            </pre>
-                                        </motion.div>
-                                    )}
-
-                                    {/* Command Line Prompt */}
-                                    {bootComplete && activeSection && !loadingSection && typedContent === sections.find(s => s.id === activeSection)?.content && (
-                                        <motion.div
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            transition={{ delay: 0.5 }}
-                                            className="mt-8 pt-4 border-t border-white/10"
-                                        >
-                                            <span className="text-trdg-cyan">trdg@mainframe</span>
-                                            <span className="text-white">:</span>
-                                            <span className="text-blue-400">~/whitepaper</span>
-                                            <span className="text-white">$ </span>
-                                            <motion.span
-                                                animate={{ opacity: [1, 0] }}
-                                                transition={{ repeat: Infinity, duration: 0.8 }}
-                                                className="text-white"
-                                            >
-                                                _
-                                            </motion.span>
-                                        </motion.div>
-                                    )}
+                                            </motion.div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -704,6 +707,6 @@ export default function WhitepaperPage() {
             </div>
 
             <Footer />
-        </main>
+        </main >
     )
 }

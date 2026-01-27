@@ -214,7 +214,7 @@ export function Chronoscope() {
                                         key={projection}
                                         initial={{ scale: 0.9, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
-                                        className="text-4xl md:text-6xl font-black font-orbitron text-trdg-green text-glow-green mb-2"
+                                        className="text-3xl sm:text-4xl md:text-6xl font-black font-orbitron text-trdg-green text-glow-green mb-2 break-all"
                                     >
                                         ${isNaN(projection) ? '0.00' : projection.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                                     </motion.div>

@@ -53,7 +53,7 @@ export function ArchiveLogs() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, amount: 0.1 }}
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
-                            className="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-green/40 transition-all duration-500 overflow-hidden will-change-transform"
+                            className="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-green/40 overflow-hidden will-change-transform"
                         >
                             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <Book size={100} />
@@ -76,15 +76,16 @@ export function ArchiveLogs() {
 
                             {/* HUD scanning Effect */}
                             <motion.div
-                                className="absolute bottom-0 left-0 h-0.5 bg-trdg-green/50 w-0 group-hover:w-full transition-all duration-1000"
+                                viewport={{ once: true }}
+                                className="absolute bottom-0 left-0 h-0.5 bg-trdg-green/50 w-0 group-hover:w-full duration-1000"
                             />
                         </motion.div>
                     ))}
                 </div>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     className="mt-16 p-10 rounded-3xl bg-gradient-to-br from-trdg-green/10 via-black to-black border border-white/5 relative overflow-hidden"
                 >

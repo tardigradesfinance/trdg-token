@@ -91,7 +91,7 @@ export function Footer() {
                     $TRDG is a community-driven experiment. Cryptocurrency investments involve extreme volatility and high risk.
                     The $TRDG token mechanics (reflections and burns) are experimental and subject to blockspace conditions.
                     Past performance of $TRDG is not indicative of future galactic travel.
-                    Always verify smart contract addresses (0x92a42Db88Ed0F02c71D439e55962Ca7CAB0168b5) before execution.
+                    Always verify smart contract addresses (0x92a42...68b5) before execution.
                     Perform thorough orbital reconnaissance (DYOR) before committing fuel.
                 </div>
             </div>
