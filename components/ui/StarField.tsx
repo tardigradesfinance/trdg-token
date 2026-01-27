@@ -45,46 +45,53 @@ export function StarField() {
             targetY = (e.clientY - centerY) * 0.03
         }
 
+        let isVisible = true
+        const observer = new IntersectionObserver(([entry]) => {
+            isVisible = entry.isIntersecting
+        }, { threshold: 0.1 })
+        observer.observe(canvas)
+
         const animate = () => {
-            ctx.clearRect(0, 0, width, height)
+            if (isVisible) {
+                ctx.clearRect(0, 0, width, height)
 
-            // Dynamic easing for mouse parallax
-            mouseX += (targetX - mouseX) * 0.05
-            mouseY += (targetY - mouseY) * 0.05
+                // Dynamic easing for mouse parallax
+                mouseX += (targetX - mouseX) * 0.05
+                mouseY += (targetY - mouseY) * 0.05
 
-            const cx = centerX + mouseX
-            const cy = centerY + mouseY
+                const cx = centerX + mouseX
+                const cy = centerY + mouseY
 
-            stars.forEach((star) => {
-                star.z -= speed
-                if (star.z <= 0) {
-                    star.z = width
-                    star.x = Math.random() * width - centerX
-                    star.y = Math.random() * height - centerY
-                }
-
-                const k = 128.0 / star.z
-                const px = star.x * k + cx
-                const py = star.y * k + cy
-
-                if (px >= 0 && px <= width && py >= 0 && py <= height) {
-                    const depth = Math.max(0, 1 - star.z / width)
-                    const size = depth * (isMobile ? 1.5 : 2.5) * star.sizeOffset
-                    const alpha = depth * 0.7
-
-                    ctx.fillStyle = star.color
-                    ctx.globalAlpha = alpha
-
-                    if (size < 1.2) {
-                        ctx.fillRect(px, py, size, size)
-                    } else {
-                        ctx.beginPath()
-                        ctx.arc(px, py, size, 0, Math.PI * 2)
-                        ctx.fill()
+                stars.forEach((star) => {
+                    star.z -= speed
+                    if (star.z <= 0) {
+                        star.z = width
+                        star.x = Math.random() * width - centerX
+                        star.y = Math.random() * height - centerY
                     }
-                }
-            })
 
+                    const k = 128.0 / star.z
+                    const px = star.x * k + cx
+                    const py = star.y * k + cy
+
+                    if (px >= 0 && px <= width && py >= 0 && py <= height) {
+                        const depth = Math.max(0, 1 - star.z / width)
+                        const size = depth * (isMobile ? 1.5 : 2.5) * star.sizeOffset
+                        const alpha = depth * 0.7
+
+                        ctx.fillStyle = star.color
+                        ctx.globalAlpha = alpha
+
+                        if (size < 1.2) {
+                            ctx.fillRect(px, py, size, size)
+                        } else {
+                            ctx.beginPath()
+                            ctx.arc(px, py, size, 0, Math.PI * 2)
+                            ctx.fill()
+                        }
+                    }
+                })
+            }
             requestAnimationFrame(animate)
         }
 
@@ -103,6 +110,7 @@ export function StarField() {
             cancelAnimationFrame(animationId)
             window.removeEventListener('mousemove', handleMouseMove)
             window.removeEventListener('resize', resize)
+            observer.disconnect()
         }
 
     }, [])

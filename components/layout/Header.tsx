@@ -105,7 +105,7 @@ export function Header() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-space-black/95 backdrop-blur-xl border-b border-white/10"
+                        className="md:hidden bg-[#0A0D10] border-b border-white/10"
                     >
                         <div className="px-4 pt-2 pb-6 space-y-2">
                             {navItems.map((item) => (

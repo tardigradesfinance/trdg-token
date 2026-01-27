@@ -44,7 +44,8 @@ const funFacts = [
 
 export function Resilience() {
     const { scrollYProgress } = useScroll()
-    const scale = useTransform(scrollYProgress, [0.3, 0.6], [0.9, 1])
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false
+    const scale = useTransform(scrollYProgress, [0.3, 0.6], [0.95, 1])
 
     return (
         <section id="resilience" className="relative py-32 bg-black border-y border-white/5 overflow-hidden">
@@ -84,9 +85,9 @@ export function Resilience() {
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
+                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
                             whileHover={{ y: -10 }}
-                            className="bg-space-light/50 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-trdg-cyan/30 transition-all group cursor-default shadow-lg hover:shadow-trdg-cyan/10"
+                            className="bg-black/40 md:bg-space-light/50 md:backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-trdg-cyan/30 transition-all group cursor-default shadow-lg hover:shadow-trdg-cyan/10 will-change-transform"
                         >
                             <div className={`w-16 h-16 ${feature.bg} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                                 <feature.icon className={feature.color} size={32} />
@@ -105,7 +106,7 @@ export function Resilience() {
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="bg-space-light/30 border border-white/5 rounded-3xl p-10 relative overflow-hidden"
+                        className="bg-space-light/30 border border-white/5 rounded-3xl p-10 relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute top-0 right-0 p-10 opacity-10">
                             <Zap size={100} className="text-yellow-400" />
@@ -125,8 +126,8 @@ export function Resilience() {
 
                     {/* Community Callout */}
                     <motion.div
-                        style={{ scale }}
-                        className="rounded-3xl bg-gradient-to-br from-trdg-green/20 to-black border border-trdg-green/20 p-10 flex flex-col justify-center text-center relative overflow-hidden"
+                        style={{ scale, transform: 'translateZ(0)' }}
+                        className="rounded-3xl bg-gradient-to-br from-trdg-green/20 to-black border border-trdg-green/20 p-10 flex flex-col justify-center text-center relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute inset-0 bg-trdg-cyan/5 opacity-10 mix-blend-overlay" />
                         <div className="relative z-10">

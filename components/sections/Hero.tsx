@@ -17,15 +17,17 @@ export function Hero() {
     const mouseY = useSpring(y, { stiffness: 50, damping: 20 })
 
     function handleMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        if (window.matchMedia('(pointer: coarse)').matches) return // Skip on touch
         const { clientX, clientY } = event
         const { innerWidth, innerHeight } = window
-        x.set((clientX / innerWidth - 0.5) * 50) // -25 to 25
-        y.set((clientY / innerHeight - 0.5) * 50) // -25 to 25
+        x.set((clientX / innerWidth - 0.5) * 50)
+        y.set((clientY / innerHeight - 0.5) * 50)
     }
 
     const { scrollY } = useScroll()
-    const y1 = useTransform(scrollY, [0, 500], [0, 200])
-    const y2 = useTransform(scrollY, [0, 500], [0, -150])
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false
+    const y1 = useTransform(scrollY, [0, 500], [0, isMobile ? 100 : 200])
+    const y2 = useTransform(scrollY, [0, 500], [0, isMobile ? -70 : -150])
     const opacity = useTransform(scrollY, [0, 500], [1, 0])
     const scale = useTransform(scrollY, [0, 500], [1, 0.9])
 
@@ -58,13 +60,13 @@ export function Hero() {
                 {/* Logo with 3D Float */}
                 <motion.div
                     style={{ y: y2, rotateX: mouseY, rotateY: mouseX }}
-                    className="relative w-32 h-32 md:w-80 md:h-80 mb-6 md:mb-12 perspective-1000 cursor-pointer"
+                    className="relative w-32 h-32 md:w-80 md:h-80 mb-6 md:mb-12 perspective-1000 cursor-pointer will-change-transform"
                     whileHover={{ scale: 1.1, rotateY: 10 }}
                     initial={{ opacity: 0, scale: 0, rotate: 180 }}
                     animate={{ opacity: 1, scale: 1, rotate: 0 }}
                     transition={{ type: "spring", duration: 2 }}
                 >
-                    <div className="absolute inset-0 bg-trdg-cyan/20 blur-3xl rounded-full animate-pulse-glow" />
+                    <div className="absolute inset-0 bg-trdg-cyan/20 blur-2xl md:blur-3xl rounded-full animate-pulse-glow" style={{ transform: 'translateZ(0)' }} />
                     <Image
                         src="/images/trdg-logo.png"
                         alt="TRDG Logo"
@@ -80,14 +82,14 @@ export function Hero() {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-                    className="mb-4 md:mb-8 relative"
+                    className="mb-4 md:mb-8 relative will-change-transform"
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-4 backdrop-blur-sm">
                         <span className="w-2 h-2 rounded-full bg-trdg-green animate-pulse" />
                         <span className="text-xs md:text-sm font-mono text-gray-400 uppercase tracking-widest">Est. 2021</span>
                     </div>
 
-                    <h1 className="text-6xl md:text-[10rem] leading-none font-black font-orbitron text-transparent bg-clip-text bg-gradient-to-b from-white via-trdg-cyan to-trdg-cyan/20 drop-shadow-[0_0_30px_rgba(0,240,255,0.3)] select-none uppercase">
+                    <h1 className="text-6xl md:text-[10rem] leading-none font-black font-orbitron text-transparent bg-clip-text bg-gradient-to-b from-white via-trdg-cyan to-trdg-cyan/20 drop-shadow-[0_0_30px_rgba(0,240,255,0.3)] select-none uppercase will-change-transform">
                         $TRDG
                     </h1>
                     <motion.div
@@ -112,7 +114,7 @@ export function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.8, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="max-w-2xl text-blue-200 text-sm md:text-xl leading-relaxed mb-6 md:mb-12 font-light backdrop-blur-sm bg-black/30 p-3 md:p-4 rounded-xl border border-white/5"
+                    className="max-w-2xl text-blue-200 text-sm md:text-xl leading-relaxed mb-6 md:mb-12 font-light bg-black/80 md:backdrop-blur-sm md:bg-black/30 p-3 md:p-4 rounded-xl border border-white/5 md:will-change-transform"
                 >
                     Surviving market turmoil through <span className="text-trdg-green font-bold glow-text">Cryptobiosis</span>.
                     Join the <span className="text-trdg-cyan font-bold">Extremophiles</span> in the conquest of the cryptoverse.
@@ -129,7 +131,7 @@ export function Hero() {
                         whileHover={{ scale: 1.05, borderColor: "rgba(0, 240, 255, 0.8)", boxShadow: "0 0 30px rgba(0, 240, 255, 0.3)" }}
                         whileTap={{ scale: 0.95 }}
                         onClick={copyToClipboard}
-                        className="group relative px-6 py-3 md:px-8 md:py-4 bg-space-light/40 backdrop-blur-md border border-trdg-cyan/30 rounded-xl flex items-center justify-center gap-4 transition-all overflow-hidden w-full md:w-auto"
+                        className="group relative px-6 py-3 md:px-8 md:py-4 bg-black/80 md:bg-space-light/40 md:backdrop-blur-md border border-trdg-cyan/30 rounded-xl flex items-center justify-center gap-4 transition-all overflow-hidden w-full md:w-auto"
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-trdg-cyan/0 via-trdg-cyan/10 to-trdg-cyan/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
 
