@@ -4,20 +4,20 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 const stickers = [
-    "ARE YOU MY FRIEND.png", "BE SAFE.png", "BINANCE SOON.png", "CALL ME MOSS PIGLET.png",
-    "CHECK.png", "COME WITH ME IF YOU WANT TO LIVE.png", "ELON MUSK LOVES EXTREMOPHILES.png",
-    "FUNDS SAFU.png", "GET SUM TRDG.png", "GM.png", "GOT BNB.png", "GREEN BARS.png",
-    "HAPPY 1YEAR.png", "HES DOING RESEARCH.png", "HOLD UP ITS RINGING.png", "HOW YOU DOIN.png",
-    "HOWS THE WEATHER.png", "I GOT YOUR BACK.png", "IS IT COLD OUT.png", "IS IT HOT OUT.png",
-    "LAYAH BULLISH.png", "LETS DRIVE.png", "LOOK MA NO HANDS.png", "MOON SOON.png",
-    "MR BIG WHALE.png", "NO MIGRATION.png", "NO WAY.png", "NOM NOM.png", "OOPS MY BAD.png",
-    "PCS UNI.png", "PEACE LOVE TRDG.png", "PUMP EEEET.png", "RAID TWITTER.png",
-    "SELLERS GET REKT.png", "SER PLZ NO FUD.png", "SLUMDOGE.png", "STRONGEST CREATURES.png",
-    "TARDIGRADES STAY HUNGRY.png", "THATMARTINIGUY.png", "THEMOONCARL.png", "THREADS.png",
-    "TIME TO TAKE A BATH.png", "TRDG HOLDERS BE LIKE.png", "TRDG PEPE.png", "TRDG REFRESH.png",
-    "UPONLYCOBIE.png", "WATER BEAR DONT CARE.png", "WELCOME HOME.png", "WHAT DID YOU SAY.png",
-    "WHAT DIP.png", "WHAT.png", "WHEN COINBASE.png", "WHERE IS MR PRINCE.png", "YO WHAT UP.png",
-    "YOU CANT SEE ME.png", "YUM YOU LIKE PANCAKES TOO.png"
+    "are-you-my-friend.png", "be-safe.png", "binance-soon.png", "call-me-moss-piglet.png",
+    "check.png", "come-with-me-if-you-want-to-live.png", "elon-musk-loves-extremophiles.png",
+    "funds-safu.png", "get-sum-trdg.png", "gm.png", "got-bnb.png", "green-bars.png",
+    "happy-1year.png", "hes-doing-research.png", "hold-up-its-ringing.png", "how-you-doin.png",
+    "hows-the-weather.png", "i-got-your-back.png", "is-it-cold-out.png", "is-it-hot-out.png",
+    "layah-bullish.png", "lets-drive.png", "look-ma-no-hands.png", "moon-soon.png",
+    "mr-big-whale.png", "no-migration.png", "no-way.png", "nom-nom.png", "oops-my-bad.png",
+    "pcs-uni.png", "peace-love-trdg.png", "pump-eeeet.png", "raid-twitter.png",
+    "sellers-get-rekt.png", "ser-plz-no-fud.png", "slumdoge.png", "strongest-creatures.png",
+    "tardigrades-stay-hungry.png", "thatmartiniguy.png", "themooncarl.png", "threads.png",
+    "time-to-take-a-bath.png", "trdg-holders-be-like.png", "trdg-pepe.png", "trdg-refresh.png",
+    "uponlycobie.png", "water-bear-dont-care.png", "welcome-home.png", "what-did-you-say.png",
+    "what-dip.png", "what.png", "when-coinbase.png", "where-is-mr-prince.png", "yo-what-up.png",
+    "you-cant-see-me.png", "yum-you-like-pancakes-too.png"
 ]
 
 export function StickerMarquee() {
