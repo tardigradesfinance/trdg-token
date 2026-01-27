@@ -16,17 +16,18 @@ export function LegacyVision() {
                 >
                     <source src="/og-website.mp4" type="video/mp4" />
                 </video>
-                {/* Dark Fade Overlays */}
-                <div className="absolute inset-0 bg-black/70" />
+                {/* Dark Fade Overlays - High visibility for the OG video */}
+                <div className="absolute inset-0 bg-black/20" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black" />
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-4xl mx-auto text-center"
                 >
                     <h2 className="text-3xl md:text-5xl font-orbitron font-black text-white mb-8 tracking-tighter uppercase">

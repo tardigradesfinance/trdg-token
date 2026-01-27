@@ -96,12 +96,13 @@ export function MicroscopicAnalysis() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {stats.map((stat, idx) => (
                                 <motion.div
+                                    layout
                                     key={idx}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 10 }}
                                     whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: idx * 0.1 }}
-                                    className="p-6 rounded-xl bg-white/5 border border-white/10 hover:border-trdg-cyan/30 transition-all hover:bg-white/10"
+                                    viewport={{ once: true, amount: 0.1 }}
+                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: idx * 0.1 }}
+                                    className="p-6 rounded-xl bg-white/5 border border-white/10 hover:border-trdg-cyan/30 transition-all hover:bg-white/10 will-change-transform"
                                 >
                                     <div className={`mb-4 ${stat.color}`}>
                                         <stat.icon size={28} />

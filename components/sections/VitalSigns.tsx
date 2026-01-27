@@ -60,11 +60,12 @@ export function VitalSigns() {
 
                     {/* Left: Uptime Counter */}
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
+                        layout
+                        initial={{ opacity: 0, x: -10 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex items-center gap-6"
+                        viewport={{ once: true, amount: 0.1 }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex items-center gap-6 will-change-transform"
                     >
                         <div className="relative">
                             <motion.div
@@ -93,12 +94,13 @@ export function VitalSigns() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {vitals.map((vital, index) => (
                             <motion.div
+                                layout
                                 key={index}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
-                                className="p-4 rounded-xl bg-white/5 border border-white/10 text-center group hover:border-trdg-green/30 transition-all"
+                                viewport={{ once: true, amount: 0.1 }}
+                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
+                                className="p-4 rounded-xl bg-white/5 border border-white/10 text-center group hover:border-trdg-green/30 transition-all will-change-transform"
                             >
                                 <vital.icon className={`mx-auto mb-2 ${vital.color} group-hover:scale-110 transition-transform`} size={20} />
                                 <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">{vital.label}</div>

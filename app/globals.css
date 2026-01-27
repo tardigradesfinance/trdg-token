@@ -41,13 +41,26 @@
   html {
     @apply scroll-smooth;
     height: -webkit-fill-available;
+    overflow-x: hidden;
+    width: 100vw;
   }
 
   body {
-    @apply bg-black text-foreground antialiased overflow-x-hidden;
+    @apply bg-black text-foreground antialiased;
     min-height: 100vh;
     min-height: -webkit-fill-available;
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
+    width: 100vw;
+    position: relative;
+    touch-action: pan-y;
+    /* Lock to vertical scroll only */
+  }
+
+  * {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Fixes flashing in some mobile browsers */
   }
 }
 

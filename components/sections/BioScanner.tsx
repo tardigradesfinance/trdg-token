@@ -234,9 +234,9 @@ export function BioScanner() {
                 {/* Header */}
                 <div className="text-center mb-10 md:mb-16">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.1 }}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-trdg-green/10 border border-trdg-green/20 mb-4 md:mb-6"
                     >
                         <Activity className="text-trdg-green animate-pulse" size={14} />

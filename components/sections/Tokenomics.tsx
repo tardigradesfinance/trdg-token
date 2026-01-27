@@ -30,9 +30,10 @@ export function Tokenomics() {
 
                     {/* Distribution Card */}
                     <motion.div
-                        initial={{ opacity: 0, y: 40 }}
+                        layout
+                        initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                         whileHover={{ y: -5 }}
                         className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-trdg-cyan/50 transition-all group relative overflow-hidden"
@@ -68,9 +69,10 @@ export function Tokenomics() {
 
                     {/* Resilience Mechanism */}
                     <motion.div
-                        initial={{ opacity: 0, y: 40 }}
+                        layout
+                        initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                         whileHover={{ y: -5 }}
                         className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-orange-500/50 transition-all group relative overflow-hidden"
@@ -92,9 +94,10 @@ export function Tokenomics() {
 
                     {/* Infrastructure Card */}
                     <motion.div
-                        initial={{ opacity: 0, y: 40 }}
+                        layout
+                        initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
                         whileHover={{ y: -5 }}
                         className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-purple-500/50 transition-all group relative overflow-hidden"
