@@ -54,12 +54,11 @@ export function Mission() {
 
                         {/* Story Card 1 */}
                         <motion.div
-                            layout
-                            initial={{ opacity: 0, x: -10 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, amount: 0.1 }}
                             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                            className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-cyan/50 hover:bg-white/10 transition-all duration-500 relative overflow-hidden"
+                            className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-cyan/50 hover:bg-white/10 transition-all duration-500 relative overflow-hidden will-change-transform"
                         >
                             <div className="absolute inset-0 bg-trdg-cyan/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700 ease-out" />
                             <div className="relative z-10">
@@ -77,12 +76,11 @@ export function Mission() {
 
                         {/* Story Card 2 */}
                         <motion.div
-                            layout
-                            initial={{ opacity: 0, x: -10 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, amount: 0.1 }}
                             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                            className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-green/50 hover:bg-white/10 transition-all duration-500 relative overflow-hidden"
+                            className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-green/50 hover:bg-white/10 transition-all duration-500 relative overflow-hidden will-change-transform"
                         >
                             <div className="absolute inset-0 bg-trdg-green/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700 ease-out" />
                             <div className="relative z-10">

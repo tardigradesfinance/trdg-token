@@ -48,13 +48,12 @@ export function ArchiveLogs() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {logs.map((log, index) => (
                         <motion.div
-                            layout
                             key={index}
-                            initial={{ opacity: 0, x: index % 2 === 0 ? -10 : 10 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, amount: 0.1 }}
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
-                            className="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-green/40 transition-all duration-500 overflow-hidden"
+                            className="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-trdg-green/40 transition-all duration-500 overflow-hidden will-change-transform"
                         >
                             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <Book size={100} />

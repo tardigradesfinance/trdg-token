@@ -286,8 +286,7 @@ export function BioScanner() {
 
                     {/* Price Card */}
                     <motion.div
-                        layout
-                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-white/10 relative overflow-hidden"
+                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute top-4 right-4 font-mono text-[8px] text-gray-700">PRICE_FEED.EXE</div>
                         <div className="flex items-center gap-4 mb-4 md:mb-6">
@@ -318,8 +317,7 @@ export function BioScanner() {
 
                     {/* Burn Stats Card */}
                     <motion.div
-                        layout
-                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-white/10 relative overflow-hidden"
+                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute top-4 right-4 font-mono text-[8px] text-gray-700">BURN_MONITOR.EXE</div>
                         <div className="flex items-center gap-4 mb-4 md:mb-6">
@@ -360,8 +358,7 @@ export function BioScanner() {
 
                     {/* Market Cap & Liquidity Card */}
                     <motion.div
-                        layout
-                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-white/10 relative overflow-hidden"
+                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute top-4 right-4 font-mono text-[8px] text-gray-700">MARKET_DATA.EXE</div>
                         <div className="flex items-center gap-4 mb-4 md:mb-6">
@@ -399,9 +396,9 @@ export function BioScanner() {
 
                     {/* Wallet Tracker */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-white/10 relative overflow-hidden"
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
                     >
                         <div className="flex items-center gap-4 mb-6 md:mb-8">
                             <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400">
@@ -464,9 +461,9 @@ export function BioScanner() {
 
                     {/* Projection Calculator */}
                     <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-white/10 relative overflow-hidden"
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
                     >
                         <div className="flex items-center gap-4 mb-6 md:mb-8">
                             <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-trdg-cyan/10 flex items-center justify-center text-trdg-cyan">

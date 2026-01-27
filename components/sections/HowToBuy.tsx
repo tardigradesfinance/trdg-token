@@ -56,12 +56,12 @@ export function HowToBuy() {
                     {steps.map((step, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
+                            transition={{ delay: index * 0.1, duration: 0.8 }}
                             whileHover={{ y: -10 }}
-                            className="relative group"
+                            className="relative group will-change-transform"
                         >
                             {/* Connector Line (Desktop) */}
                             {index !== steps.length - 1 && (

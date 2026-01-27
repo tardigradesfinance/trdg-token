@@ -30,13 +30,12 @@ export function Tokenomics() {
 
                     {/* Distribution Card */}
                     <motion.div
-                        layout
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true, amount: 0.1 }}
-                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                         whileHover={{ y: -5 }}
-                        className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-trdg-cyan/50 transition-all group relative overflow-hidden"
+                        className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-trdg-cyan/50 transition-all group relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute top-0 right-0 p-4 font-mono text-[8px] md:text-[10px] text-trdg-cyan/20">DATA_PACKET_01</div>
                         <div className="w-10 h-10 md:w-12 md:h-12 bg-trdg-cyan/10 rounded-lg flex items-center justify-center mb-6 text-trdg-cyan">
@@ -69,13 +68,12 @@ export function Tokenomics() {
 
                     {/* Resilience Mechanism */}
                     <motion.div
-                        layout
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true, amount: 0.1 }}
-                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                         whileHover={{ y: -5 }}
-                        className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-orange-500/50 transition-all group relative overflow-hidden"
+                        className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-orange-500/50 transition-all group relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute top-0 right-0 p-4 font-mono text-[8px] md:text-[10px] text-orange-500/20">DATA_PACKET_02</div>
                         <div className="w-10 h-10 md:w-12 md:h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-6 text-orange-500">
@@ -94,13 +92,12 @@ export function Tokenomics() {
 
                     {/* Infrastructure Card */}
                     <motion.div
-                        layout
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true, amount: 0.1 }}
-                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
                         whileHover={{ y: -5 }}
-                        className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-purple-500/50 transition-all group relative overflow-hidden"
+                        className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-purple-500/50 transition-all group relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute top-0 right-0 p-4 font-mono text-[8px] md:text-[10px] text-purple-500/20">DATA_PACKET_03</div>
                         <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-6 text-purple-500">

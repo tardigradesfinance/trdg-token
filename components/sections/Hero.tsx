@@ -62,9 +62,9 @@ export function Hero() {
                     style={{ y: y2, rotateX: mouseY, rotateY: mouseX }}
                     className="relative w-32 h-32 md:w-80 md:h-80 mb-6 md:mb-12 perspective-1000 cursor-pointer will-change-transform"
                     whileHover={{ scale: 1.1, rotateY: 10 }}
-                    initial={{ opacity: 0, scale: 0, rotate: 180 }}
+                    initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
                     animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", duration: 2 }}
+                    transition={{ type: "spring", duration: 1.5, bounce: 0.3 }}
                 >
                     <div className="absolute inset-0 bg-trdg-cyan/20 blur-2xl md:blur-3xl rounded-full animate-pulse-glow" style={{ transform: 'translateZ(0)' }} />
                     <Image
@@ -79,8 +79,8 @@ export function Hero() {
                 {/* Main Title Animation */}
                 <motion.div
                     style={{ y: y1 }}
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.98, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
                     className="mb-4 md:mb-8 relative will-change-transform"
                 >
@@ -111,9 +111,9 @@ export function Hero() {
 
                 {/* Introduction Text */}
                 <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.8, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5, duration: 1.2, ease: "easeOut" }}
                     className="max-w-2xl text-blue-200 text-sm md:text-xl leading-relaxed mb-6 md:mb-12 font-light bg-black/80 md:backdrop-blur-sm md:bg-black/30 p-3 md:p-4 rounded-xl border border-white/5 md:will-change-transform"
                 >
                     Surviving market turmoil through <span className="text-trdg-green font-bold glow-text">Cryptobiosis</span>.
@@ -122,9 +122,9 @@ export function Hero() {
 
                 {/* Buttons / Contract */}
                 <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 2.2, duration: 0.8 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 2, duration: 0.8 }}
                     className="flex flex-col md:flex-row gap-4 md:gap-6 items-center w-full md:w-auto"
                 >
                     <motion.button

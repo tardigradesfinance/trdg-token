@@ -81,12 +81,11 @@ export function Resilience() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
                     {features.map((feature, index) => (
                         <motion.div
-                            layout
                             key={index}
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, amount: 0.1 }}
-                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
                             whileHover={{ y: -10 }}
                             className="bg-black/40 md:bg-space-light/50 md:backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-trdg-cyan/30 transition-all group cursor-default shadow-lg hover:shadow-trdg-cyan/10 will-change-transform"
                         >
@@ -104,10 +103,10 @@ export function Resilience() {
 
                     {/* Fun Facts */}
                     <motion.div
-                        layout
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true, amount: 0.1 }}
+                        transition={{ duration: 0.8 }}
                         className="bg-space-light/30 border border-white/5 rounded-3xl p-10 relative overflow-hidden will-change-transform"
                     >
                         <div className="absolute top-0 right-0 p-10 opacity-10">

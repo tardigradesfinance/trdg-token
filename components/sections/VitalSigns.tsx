@@ -60,9 +60,8 @@ export function VitalSigns() {
 
                     {/* Left: Uptime Counter */}
                     <motion.div
-                        layout
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true, amount: 0.1 }}
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                         className="flex items-center gap-6 will-change-transform"
@@ -94,10 +93,9 @@ export function VitalSigns() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {vitals.map((vital, index) => (
                             <motion.div
-                                layout
                                 key={index}
-                                initial={{ opacity: 0, y: 10 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, scale: 0.98 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true, amount: 0.1 }}
                                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
                                 className="p-4 rounded-xl bg-white/5 border border-white/10 text-center group hover:border-trdg-green/30 transition-all will-change-transform"

@@ -106,13 +106,12 @@ export function SocialNexus() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                     {socialLinks.map((social, index) => (
                         <motion.a
-                            layout
                             key={index}
                             href={social.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, amount: 0.1 }}
                             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
                             whileHover={{ y: -5, scale: 1.02 }}
