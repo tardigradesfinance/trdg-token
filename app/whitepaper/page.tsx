@@ -1,278 +1,318 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 import { CustomCursor } from "@/components/ui/CustomCursor"
-import { ChevronDown, CheckCircle, Clock, AlertTriangle, Download, Terminal } from 'lucide-react'
+import { Download, Terminal } from 'lucide-react'
 
-// Section data
-const sections = [
-    {
-        id: 'executive-summary',
-        title: 'EXECUTIVE SUMMARY',
-        status: 'complete',
-        content: `The payment sector has always been deemed one of the most vital sectors for the economy to function. Although various digital payment options exist, users still face hefty fees, security vulnerabilities, hacking risks, and third-party dependency.
+// Available commands and their content
+const commandData: Record<string, string> = {
+    help: `
+╔════════════════════════════════════════════════════════════════╗
+║                    TARDIGRADES TERMINAL v2.0                   ║
+╠════════════════════════════════════════════════════════════════╣
+║  Available Commands:                                           ║
+║                                                                ║
+║  summary    - Executive summary                                ║
+║  intro      - Introduction to $TRDG                            ║
+║  vision     - Our vision statement                             ║
+║  problems   - Problems we address                              ║
+║  solutions  - $TRDG solutions                                  ║
+║  token      - Token specifications                             ║
+║  security   - Security features                                ║
+║  roadmap    - Project roadmap                                  ║
+║  links      - Official links & socials                         ║
+║  clear      - Clear terminal                                   ║
+║  ascii      - Show tardigrade ASCII art                        ║
+║                                                                ║
+║  Type a command and press ENTER                                ║
+╚════════════════════════════════════════════════════════════════╝`,
 
-Cryptocurrencies were meant to replace the traditional financial system through decentralization. However, consumers regularly face problems with usability, complicated interfaces, and difficulty converting crypto to fiat currency.
+    summary: `
+> EXECUTIVE SUMMARY
+═══════════════════════════════════════════════════════════════
 
-Tardigrades Finance aims to serve as the bridge between the cryptocurrency world and the real world. Our goal is to satisfy consumer demand by providing a state-of-the-art payment processing token without compromising security, efficiency, or cost-effectiveness.
+The payment sector faces hefty fees, security vulnerabilities, 
+hacking risks, and third-party dependency.
 
-Powered by Binance Smart Chain and Ethereum Networks, the $TRDG Token serves as a next-generation payment token combining:
-• Peer-to-peer exchange and storage of value
-• Blockchain-based security
-• Decentralized ownership
-• Deflationary approach towards supply
-• Automatic holder rewards (2.5% per transaction)
-• Automatic burn mechanism (2.5% per transaction)`
-    },
-    {
-        id: 'introduction',
-        title: 'INTRODUCTION',
-        status: 'complete',
-        content: `Tardigrades Finance ($TRDG) is a modern-age blockchain project that aims to resolve problems associated with traditional payment processing by providing a decentralized crypto token with instant, seamless, cost-effective payment capabilities.
+$TRDG Token serves as the bridge between crypto and real world:
 
-Deployed on both Binance Smart Chain (BSC) and Ethereum (ETH) Networks, the $TRDG Token works as a multi-feature payment token allowing users to transact in a seamless, risk-free, and cost-effective manner.
+  ✓ Peer-to-peer exchange and storage of value
+  ✓ Blockchain-based security  
+  ✓ Decentralized ownership
+  ✓ Deflationary supply (2.5% burn per tx)
+  ✓ Automatic holder rewards (2.5% per tx)
 
-KEY MILESTONES ACHIEVED:
-✓ BSC Launch: March 8th, 2021
-✓ ETH Launch: May 11th, 2021
-✓ CoinGecko Listing: May 2021
-✓ CoinMarketCap Listing: May 2021
-✓ Contract Renounced: Permanent
-✓ LP Tokens Burned: Forever
+Powered by BSC + ETH networks for true multi-chain resilience.
 
-The user doesn't have to rely on central authorities whose actions may result in system collapse. $TRDG represents true decentralization.`
-    },
-    {
-        id: 'vision',
-        title: 'VISION STATEMENT',
-        status: 'complete',
-        content: `Tardigrades Finance believes the underlying factor that will continue to define blockchain and DeFi products is the ability to give people and businesses more power and control over their finances.
+Type 'intro' for more details or 'help' for commands.`,
 
-This is the driving force behind $TRDG Token, which envisions:
+    intro: `
+> INTRODUCTION
+═══════════════════════════════════════════════════════════════
 
-1. FINANCIAL FREEDOM - Providing a payment currency where people can freely utilize their crypto assets in a fully secure, fast, and affordable online environment.
+Tardigrades Finance ($TRDG) - Modern blockchain payment solution
 
-2. PASSIVE INCOME - Offering staking rewards through our automatic reflection system—earn 2.5% of every transaction distributed to all holders.
+Deployed on BOTH Binance Smart Chain AND Ethereum Network.
 
-3. DEFLATIONARY GROWTH - With 2.5% of every transaction burned, the circulating supply continuously decreases, potentially increasing value over time.
+KEY MILESTONES:
+───────────────────────────────────────
+  ✓ BSC Launch:           March 8, 2021
+  ✓ ETH Launch:           May 11, 2021  
+  ✓ CoinGecko Listed:     May 2021
+  ✓ CoinMarketCap Listed: May 2021
+  ✓ Contract RENOUNCED:   Permanent
+  ✓ LP Tokens BURNED:     Forever
+───────────────────────────────────────
 
-4. SURVIVAL - Like the biological tardigrade, $TRDG is built to survive any market condition. We've already proven this through multiple bear markets since 2021.
+No central authority. True decentralization.`,
 
-#BeTheFuture 💧🐻`
-    },
-    {
-        id: 'problems',
-        title: 'PROBLEMS WE ADDRESS',
-        status: 'complete',
-        content: `TRADITIONAL PAYMENT ISSUES:
+    vision: `
+> VISION STATEMENT
+═══════════════════════════════════════════════════════════════
 
-❌ SLOW PROCESSING - Despite digital revolution, bank transactions still take days to complete.
-❌ SPENDING DIGITAL ASSETS - Mass adoption remains challenging. Finding places to spend crypto is difficult.
-❌ NO COMMUNITY AUTHORITY - Traditional centralized companies don't grant decision-making to users.
-❌ SECURITY VULNERABILITIES - Centralized systems are prone to hacking attacks and data breaches.
-❌ EXPENSIVE FEES - Micro-transactions often cost more in fees than the transaction itself.
-❌ ACCOUNT RESTRICTIONS - Monthly fees, card limits, minimum balances—traditional banking is restrictive.
-❌ TIME-CONSUMING KYC/AML - Know Your Customer processes can take weeks to complete.
-❌ LACK OF TRANSPARENCY - Investors rarely know how or where funds are being utilized.
+Tardigrades Finance envisions:
 
-$TRDG was created to address these fundamental issues with the traditional financial system.`
-    },
-    {
-        id: 'solutions',
-        title: '$TRDG SOLUTIONS',
-        status: 'partial',
-        content: `IMPLEMENTED SOLUTIONS:
+1. FINANCIAL FREEDOM
+   Freely utilize crypto in a secure, fast, affordable way
 
-✓ INSTANT PAYMENTS - $TRDG payments are instant on-chain. No waiting days for transactions. STATUS: LIVE
-✓ DECENTRALIZATION - Complete control lies with users. No central authority. Contract renounced. STATUS: LIVE
-✓ SAFE & SECURE - LP tokens burned for eternity. Smart contract audited and immutable. STATUS: LIVE
-✓ LOWER COSTS - Minimal gas fees on BSC. Significantly lower than traditional processors. STATUS: LIVE
-✓ TRANSPARENCY - All transactions recorded on public blockchain. Fully auditable. STATUS: LIVE
-✓ TRUSTLESS SYSTEM - Smart contracts eliminate middlemen. No third-party dependencies. STATUS: LIVE
+2. PASSIVE INCOME
+   2.5% of every transaction → distributed to ALL holders
 
-PENDING DEVELOPMENT:
-⏳ MERCHANT PLUGINS - State-of-the-art plugins for business integration.
-⏳ COMMUNITY VOTING - On-chain governance for platform decisions.
-⏳ AI-POWERED KYC - Seamless automated verification system.
-⏳ DEDICATED WALLET APP - Mobile wallet with enhanced features.`
-    },
-    {
-        id: 'token',
-        title: 'TOKEN SPECIFICATIONS',
-        status: 'complete',
-        content: `TOKEN DETAILS:
-═══════════════════════════════════════════════════
-Token Name:     Tardigrades Finance
-Symbol:         $TRDG
-Decimals:       9
-Contract:       0x92a42db88ed0f02c71d439e55962ca7cab0168b5
-Networks:       Binance Smart Chain (BSC) + Ethereum (ETH)
-Initial Supply: 100,000,000,000,000,000 (100 Quadrillion)
-Launch Burn:    50% (Same on both chains)
-═══════════════════════════════════════════════════
+3. DEFLATIONARY GROWTH
+   2.5% burned per tx → decreasing supply over time
 
-TOKENOMICS - 5% TRANSACTION TAX:
-┌─────────────────────────────────────────────────┐
-│  2.5% → BURN WALLET (Permanent Deflation)       │
-│  2.5% → HOLDER REWARDS (Passive Income)         │
-└─────────────────────────────────────────────────┘
+4. SURVIVAL
+   Like the tardigrade organism, $TRDG survives ANY condition
+   Proven through multiple bear markets since 2021
 
-The rewards for $TRDG are set to 2.5%. This allows holders to earn more tokens on EVERY transaction made—without staking required.`
-    },
-    {
-        id: 'security',
-        title: 'SECURITY FEATURES',
-        status: 'complete',
-        content: `SECURITY ARCHITECTURE:
-═══════════════════════════════════════════════════
+#BeTheFuture 💧🐻`,
 
-[VERIFIED] LP TOKENS BURNED FOR ETERNITY
-Instead of time-locking liquidity, LP tokens were sent to:
-0x000000000000000000000000000000000000dead
-This address can NEVER be accessed by anyone. Rug pull = IMPOSSIBLE.
+    problems: `
+> PROBLEMS WE ADDRESS
+═══════════════════════════════════════════════════════════════
 
-[VERIFIED] CONTRACT OWNERSHIP RENOUNCED
-The team renounced ownership of the smart contract.
-This prevents ANY future modifications or tampering. The contract is immutable forever.
+Traditional Financial System Issues:
+
+  ✗ SLOW PROCESSING     Bank transfers take days
+  ✗ DIFFICULT SPENDING  Hard to use crypto in real life
+  ✗ NO USER CONTROL     Centralized decisions
+  ✗ SECURITY RISKS      Hacking and data breaches
+  ✗ EXPENSIVE FEES      High transaction costs
+  ✗ RESTRICTIONS        Limits, minimums, monthly fees
+  ✗ SLOW KYC            Weeks for verification
+  ✗ NO TRANSPARENCY     Hidden fund usage
+
+$TRDG was created to FIX these fundamental issues.`,
+
+    solutions: `
+> $TRDG SOLUTIONS
+═══════════════════════════════════════════════════════════════
+
+LIVE FEATURES:
+  [✓] Instant payments on-chain
+  [✓] Complete decentralization
+  [✓] LP burned forever (no rug pull possible)
+  [✓] Low gas fees on BSC
+  [✓] Full transparency on blockchain
+  [✓] Trustless smart contracts
+
+IN DEVELOPMENT:
+  [⏳] Merchant integration plugins
+  [⏳] Community voting system
+  [⏳] Mobile wallet app
+  [⏳] AI-powered KYC`,
+
+    token: `
+> TOKEN SPECIFICATIONS
+═══════════════════════════════════════════════════════════════
+
+┌────────────────────────────────────────────────────────────┐
+│  Token Name:      Tardigrades Finance                      │
+│  Symbol:          $TRDG                                    │
+│  Decimals:        9                                        │
+│  Networks:        BSC + ETH                                │
+│  Initial Supply:  100,000,000,000,000,000 (100 Quad)       │
+│  Launch Burn:     50% (both chains)                        │
+└────────────────────────────────────────────────────────────┘
+
+TOKENOMICS (5% Transaction Tax):
+╔════════════════════════════════════════╗
+║  2.5% → BURN WALLET (Permanent)        ║
+║  2.5% → HOLDER REWARDS (Passive)       ║
+╚════════════════════════════════════════╝
+
+Contract: 0x92a42db88ed0f02c71d439e55962ca7cab0168b5`,
+
+    security: `
+> SECURITY FEATURES
+═══════════════════════════════════════════════════════════════
+
+[VERIFIED] LP TOKENS BURNED
+  → Sent to 0x000...dead
+  → Can NEVER be retrieved
+  → Rug pull = IMPOSSIBLE
+
+[VERIFIED] CONTRACT RENOUNCED
+  → No owner functions
+  → Immutable forever
+  → Cannot be modified
 
 [VERIFIED] NO TEAM TOKENS
-The founding team holds no reserved allocation. Complete alignment with the community.
+  → Fair distribution
+  → No reserved allocation
 
 [VERIFIED] NO MIGRATION EVER
-$TRDG will NEVER migrate to a new contract. "If it's not broke, why try and fix it?"
+  → This is the only contract
+  → "If it's not broke, don't fix it"
 
 SECURITY RATING: ████████████████████ 100%
-RUG PULL RISK:   □□□□□□□□□□□□□□□□□□□□ 0%`
-    },
-    {
-        id: 'roadmap',
-        title: 'ROADMAP',
-        status: 'partial',
-        content: `TARDIGRADES FINANCE ROADMAP:
+RUG PULL RISK:   ░░░░░░░░░░░░░░░░░░░░  0%`,
 
-PHASE 1: GENESIS [COMPLETE] ✓
-✓ Token Development & Deployment | ✓ BSC Launch (March 8, 2021)
-✓ ETH Launch (May 11, 2021) | ✓ LP Tokens Burned Forever
-✓ Contract Ownership Renounced | ✓ CoinGecko & CMC Listing
+    roadmap: `
+> ROADMAP
+═══════════════════════════════════════════════════════════════
 
-PHASE 2: SURVIVAL [COMPLETE] ✓
-✓ Survive 2021 Bull Market | ✓ Survive 2022 Crypto Winter
-✓ Survive 2023-2024 Market Cycles | ✓ Maintain Community Trust
+PHASE 1: GENESIS ────────────────────────── [COMPLETE] ✓
+  Token deployment, BSC launch, ETH launch
+  LP burned, contract renounced, listings
 
-PHASE 3: REAWAKENING [ACTIVE] ⚡
-✓ Website Redesign 2025 | ⏳ Community Revival Campaign
-⏳ New Exchange Listings | ⏳ Partnership Development
+PHASE 2: SURVIVAL ───────────────────────── [COMPLETE] ✓
+  2021 bull market ✓ | 2022 crypto winter ✓
+  2023-2024 cycles ✓ | Community maintained ✓
 
-PHASE 4: EXPANSION [PENDING] ○
-○ Merchant Integration Plugins | ○ Mobile Wallet Development
-○ NFT Ecosystem (Fugligrades) | ○ Governance Implementation`
-    },
-    {
-        id: 'links',
-        title: 'OFFICIAL LINKS',
-        status: 'complete',
-        content: `VERIFIED OFFICIAL CHANNELS:
-═══════════════════════════════════════════════════
+PHASE 3: REAWAKENING ────────────────────── [ACTIVE] ⚡
+  Website redesign ✓ | Community revival ⏳
+  New exchange listings ⏳ | Partnerships ⏳
 
-WEBSITE: https://tardigradesfinance.com
+PHASE 4: EXPANSION ──────────────────────── [PENDING] ○
+  Merchant plugins ○ | Mobile wallet ○
+  NFT ecosystem ○ | Governance ○`,
 
-SMART CONTRACT:
-BSC:  https://bscscan.com/token/0x92a42db88ed0f02c71d439e55962ca7cab0168b5
-ETH:  https://etherscan.io/token/0x92a42db88ed0f02c71d439e55962ca7cab0168b5
+    links: `
+> OFFICIAL LINKS
+═══════════════════════════════════════════════════════════════
+
+WEBSITE:    https://tardigradesfinance.com
+
+CONTRACTS:
+  BSC: bscscan.com/token/0x92a42db88...
+  ETH: etherscan.io/token/0x92a42db88...
 
 TRADING:
-PancakeSwap V1 (BSC) | Uniswap V2 (ETH) | Xeggex | MintMe
+  PancakeSwap V1 (BSC) | Uniswap V2 (ETH)
+  Xeggex | MintMe
 
 SOCIAL:
-Telegram: https://t.me/TardigradesOfficial
-Twitter/X: https://twitter.com/TRDGtoken
-Reddit: https://reddit.com/r/TRDGToken
-Medium: https://tardigradesfinance.medium.com
+  Telegram: t.me/TardigradesOfficial
+  Twitter:  twitter.com/TRDGtoken
+  Reddit:   reddit.com/r/TRDGToken
 
-FOUNDER CONTACT: https://t.me/jShiz`
-    },
-    {
-        id: 'disclaimer',
-        title: 'LEGAL DISCLAIMER',
-        status: 'complete',
-        content: `⚠️ IMPORTANT LEGAL NOTICE ⚠️
-═══════════════════════════════════════════════════
+FOUNDER: t.me/jShiz`,
 
-This whitepaper is for INFORMATIONAL PURPOSES ONLY and does not constitute financial, legal, or tax advice.
+    ascii: `
+                          ████████
+                      ████████████████
+                    ████░░░░░░░░░░░░████
+       ████████    ██░░░░██████░░░░░░░░██
+     ██        ██  ██░░██      ██░░░░░░██
+    ██  ██  ██  ████░░██  ●  ●  ██░░░░██
+    ██  ██  ██  ██  ░░██        ██░░░░██
+     ██        ██    ░░██      ██░░░░██
+       ████████      ░░░░██████░░░░░░██
+          ██████████████░░░░░░░░░░░░██
+        ██░░░░░░░░░░░░░░░░░░░░░░░░░░██
+       ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░██
+      ██░░██░░░░██░░░░██░░░░██░░░░██░░██
+     ██  ██      ██  ██      ██  ██    ██
+    ██  ██        ████        ████      ██
 
-NO INVESTMENT ADVICE: This document does not constitute a prospectus or offer document of any sort.
-
-RISK WARNING: Cryptocurrency investments carry SIGNIFICANT RISKS. You may lose all or part of the value of your investment. Past performance is not indicative of future results.
-
-DO YOUR OWN RESEARCH (DYOR): You should conduct your own research and consult professional advisors before making any investment decisions.
-
-$TRDG is a community-driven experimental project with no guarantees of returns or feature completion.`
-    }
-]
-
-// Typing effect component
-function TypedContent({ text, onComplete }: { text: string, onComplete?: () => void }) {
-    const [displayed, setDisplayed] = useState('')
-    const [complete, setComplete] = useState(false)
-
-    useEffect(() => {
-        setDisplayed('')
-        setComplete(false)
-        let i = 0
-        const interval = setInterval(() => {
-            if (i < text.length) {
-                setDisplayed(text.slice(0, i + 5)) // Type 5 chars at a time for speed
-                i += 5
-            } else {
-                setComplete(true)
-                clearInterval(interval)
-                onComplete?.()
-            }
-        }, 10)
-        return () => clearInterval(interval)
-    }, [text, onComplete])
-
-    return (
-        <pre className="whitespace-pre-wrap text-gray-300 leading-relaxed text-xs md:text-sm font-mono">
-            {displayed}
-            {!complete && (
-                <motion.span
-                    animate={{ opacity: [1, 0] }}
-                    transition={{ repeat: Infinity, duration: 0.5 }}
-                    className="text-trdg-green"
-                >
-                    █
-                </motion.span>
-            )}
-        </pre>
-    )
+         TARDIGRADE - THE UNKILLABLE ORGANISM
+              $TRDG - THE UNKILLABLE TOKEN`
 }
 
 export default function WhitepaperPage() {
-    const [expandedSection, setExpandedSection] = useState<string | null>(null)
-    const [typingComplete, setTypingComplete] = useState(false)
+    const [input, setInput] = useState('')
+    const [history, setHistory] = useState<{ type: 'cmd' | 'output', text: string }[]>([])
+    const [displayText, setDisplayText] = useState('')
+    const [isTyping, setIsTyping] = useState(false)
+    const terminalRef = useRef<HTMLDivElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
 
-    const handleSectionClick = (sectionId: string) => {
-        if (expandedSection === sectionId) {
-            // Collapse current section
-            setExpandedSection(null)
-            setTypingComplete(false)
+    // Boot sequence on mount
+    useEffect(() => {
+        const bootMessages = [
+            '> Initializing TRDG Terminal...',
+            '> Loading blockchain data...',
+            '> Connecting to BSC Network... OK',
+            '> Connecting to ETH Network... OK',
+            '> Security protocols verified.',
+            '',
+            'Welcome to TARDIGRADES FINANCE WHITEPAPER TERMINAL',
+            'Type "help" for available commands.',
+            ''
+        ]
+
+        let delay = 0
+        bootMessages.forEach((msg, i) => {
+            setTimeout(() => {
+                setHistory(prev => [...prev, { type: 'output', text: msg }])
+            }, delay)
+            delay += 150
+        })
+    }, [])
+
+    // Auto-scroll terminal
+    useEffect(() => {
+        if (terminalRef.current) {
+            terminalRef.current.scrollTop = terminalRef.current.scrollHeight
+        }
+    }, [history, displayText])
+
+    // Type out effect for command output
+    const typeOutput = (text: string) => {
+        setIsTyping(true)
+        setDisplayText('')
+        let i = 0
+        const interval = setInterval(() => {
+            if (i < text.length) {
+                setDisplayText(text.slice(0, i + 3)) // 3 chars at a time for speed
+                i += 3
+            } else {
+                setDisplayText(text)
+                setIsTyping(false)
+                setHistory(prev => [...prev, { type: 'output', text }])
+                setDisplayText('')
+                clearInterval(interval)
+            }
+        }, 5)
+    }
+
+    const handleCommand = (cmd: string) => {
+        const trimmed = cmd.trim().toLowerCase()
+        setHistory(prev => [...prev, { type: 'cmd', text: `$ ${cmd}` }])
+        setInput('')
+
+        if (trimmed === 'clear') {
+            setHistory([])
+            setDisplayText('')
+            return
+        }
+
+        if (commandData[trimmed]) {
+            typeOutput(commandData[trimmed])
+        } else if (trimmed === '') {
+            // Do nothing for empty
         } else {
-            // Expand new section (collapses previous automatically)
-            setExpandedSection(sectionId)
-            setTypingComplete(false)
+            setHistory(prev => [...prev, { type: 'output', text: `Command not found: "${trimmed}". Type "help" for commands.` }])
         }
     }
 
-    const getStatusIcon = (status: string) => {
-        switch (status) {
-            case 'complete': return <CheckCircle size={14} className="text-trdg-green" />
-            case 'partial': return <Clock size={14} className="text-yellow-400" />
-            case 'pending': return <AlertTriangle size={14} className="text-orange-400" />
-            default: return null
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && !isTyping) {
+            handleCommand(input)
         }
     }
 
@@ -281,131 +321,95 @@ export default function WhitepaperPage() {
             <CustomCursor />
             <Header />
 
-            <div className="pt-24 pb-16 min-h-screen">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
+            <div className="pt-20 pb-8 min-h-screen flex flex-col">
+                <div className="container mx-auto px-4 flex-1 flex flex-col max-w-4xl">
 
-                        {/* Header */}
-                        <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="text-center mb-8"
-                        >
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-trdg-cyan/10 border border-trdg-cyan/20 mb-4">
-                                <Terminal className="text-trdg-cyan" size={16} />
-                                <span className="text-[10px] font-mono text-trdg-cyan uppercase tracking-widest font-black">Technical Documentation</span>
+                    {/* Terminal Header Bar */}
+                    <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-3">
+                            <div className="flex gap-1.5">
+                                <div className="w-3 h-3 rounded-full bg-red-500" />
+                                <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                                <div className="w-3 h-3 rounded-full bg-green-500" />
                             </div>
-                            <h1 className="text-4xl md:text-6xl font-orbitron font-black text-white mb-2">
-                                WHITEPAPER <span className="text-trdg-cyan">v2.0</span>
-                            </h1>
-                            <p className="text-gray-500 font-mono text-xs">
-                                Click a section to expand • Click again to collapse
-                            </p>
-
-                            {/* Download PDF Button */}
-                            <a
-                                href="https://ea6606de-4b0e-4d9c-8b09-9efbd0cf8116.filesusr.com/ugd/134033_e07d36208707464180db00aa8da37a2b.pdf"
-                                target="_blank"
-                                className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 text-xs font-mono hover:bg-purple-500/30 transition-colors border border-purple-500/30"
-                            >
-                                <Download size={14} />
-                                DOWNLOAD ORIGINAL PDF
-                            </a>
-                        </motion.div>
-
-                        {/* Accordion Sections */}
-                        <div className="space-y-2">
-                            {sections.map((section, index) => (
-                                <motion.div
-                                    key={section.id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.05 }}
-                                    className="rounded-xl overflow-hidden border border-white/10 bg-zinc-900/50"
-                                >
-                                    {/* Section Header (Clickable) */}
-                                    <button
-                                        onClick={() => handleSectionClick(section.id)}
-                                        className={`w-full px-4 py-4 flex items-center justify-between gap-4 transition-all ${expandedSection === section.id
-                                                ? 'bg-trdg-cyan/10 border-b border-trdg-cyan/20'
-                                                : 'hover:bg-white/5'
-                                            }`}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <span className="text-[10px] font-mono text-gray-600">{String(index + 1).padStart(2, '0')}</span>
-                                            <span className={`font-orbitron font-bold text-sm uppercase tracking-wide ${expandedSection === section.id ? 'text-trdg-cyan' : 'text-white'
-                                                }`}>
-                                                {section.title}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                            {getStatusIcon(section.status)}
-                                            <motion.div
-                                                animate={{ rotate: expandedSection === section.id ? 180 : 0 }}
-                                                transition={{ duration: 0.3 }}
-                                            >
-                                                <ChevronDown size={18} className={expandedSection === section.id ? 'text-trdg-cyan' : 'text-gray-500'} />
-                                            </motion.div>
-                                        </div>
-                                    </button>
-
-                                    {/* Section Content (Expandable) */}
-                                    <AnimatePresence>
-                                        {expandedSection === section.id && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: 'auto', opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                                                className="overflow-hidden"
-                                            >
-                                                <div
-                                                    className="p-4 md:p-6 bg-black/60"
-                                                    style={{
-                                                        textShadow: '0 0 5px rgba(0,255,148,0.2)'
-                                                    }}
-                                                >
-                                                    <TypedContent
-                                                        text={section.content}
-                                                        onComplete={() => setTypingComplete(true)}
-                                                    />
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </motion.div>
-                            ))}
+                            <span className="text-xs font-mono text-gray-500">trdg-whitepaper — bash</span>
                         </div>
-
-                        {/* Status Legend */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                            className="mt-8 p-4 rounded-xl bg-zinc-900/30 border border-white/5"
+                        <a
+                            href="https://ea6606de-4b0e-4d9c-8b09-9efbd0cf8116.filesusr.com/ugd/134033_e07d36208707464180db00aa8da37a2b.pdf"
+                            target="_blank"
+                            className="flex items-center gap-2 px-3 py-1.5 rounded bg-purple-500/20 text-purple-400 text-xs font-mono hover:bg-purple-500/30 transition-colors border border-purple-500/30"
                         >
-                            <div className="flex flex-wrap justify-center gap-6 text-[10px] font-mono">
-                                <div className="flex items-center gap-2 text-trdg-green">
-                                    <CheckCircle size={12} /> VERIFIED / LIVE
-                                </div>
-                                <div className="flex items-center gap-2 text-yellow-400">
-                                    <Clock size={12} /> IN DEVELOPMENT
-                                </div>
-                                <div className="flex items-center gap-2 text-orange-400">
-                                    <AlertTriangle size={12} /> FUTURE PLANNED
-                                </div>
-                            </div>
-                        </motion.div>
+                            <Download size={12} />
+                            PDF
+                        </a>
+                    </div>
 
-                        {/* Footer Note */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.6 }}
-                            className="mt-8 text-center text-xs text-gray-600 font-mono"
+                    {/* Terminal Window */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="flex-1 rounded-lg border border-white/10 bg-[#0d1117] overflow-hidden flex flex-col min-h-[70vh]"
+                    >
+                        {/* Terminal Content */}
+                        <div
+                            ref={terminalRef}
+                            className="flex-1 p-4 md:p-6 overflow-y-auto font-mono text-sm leading-relaxed"
+                            onClick={() => inputRef.current?.focus()}
+                            style={{
+                                textShadow: '0 0 8px rgba(0,255,148,0.15)'
+                            }}
                         >
-                            TARDIGRADES FINANCE WHITEPAPER • LAST UPDATED: JANUARY 2025 • VERSION 2.0
-                        </motion.div>
+                            {/* History */}
+                            {history.map((item, i) => (
+                                <div key={i} className={item.type === 'cmd' ? 'text-trdg-cyan' : 'text-gray-300 whitespace-pre-wrap'}>
+                                    {item.text}
+                                </div>
+                            ))}
+
+                            {/* Currently typing output */}
+                            {displayText && (
+                                <div className="text-gray-300 whitespace-pre-wrap">
+                                    {displayText}
+                                    <span className="animate-pulse text-trdg-green">█</span>
+                                </div>
+                            )}
+
+                            {/* Input line */}
+                            {!isTyping && (
+                                <div className="flex items-center gap-2 mt-2">
+                                    <span className="text-trdg-green">$</span>
+                                    <input
+                                        ref={inputRef}
+                                        type="text"
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                        onKeyDown={handleKeyDown}
+                                        className="flex-1 bg-transparent outline-none text-white caret-trdg-green"
+                                        autoFocus
+                                        spellCheck={false}
+                                    />
+                                    <span className="animate-pulse text-trdg-green">█</span>
+                                </div>
+                            )}
+                        </div>
+                    </motion.div>
+
+                    {/* Quick Commands */}
+                    <div className="mt-4 flex flex-wrap gap-2 justify-center">
+                        {['help', 'summary', 'token', 'security', 'roadmap', 'ascii'].map(cmd => (
+                            <button
+                                key={cmd}
+                                onClick={() => !isTyping && handleCommand(cmd)}
+                                disabled={isTyping}
+                                className="px-3 py-1.5 rounded bg-white/5 border border-white/10 text-gray-400 text-xs font-mono hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50"
+                            >
+                                {cmd}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="mt-4 text-center text-[10px] text-gray-600 font-mono">
+                        TARDIGRADES FINANCE • WHITEPAPER v2.0 • JANUARY 2025
                     </div>
                 </div>
             </div>
