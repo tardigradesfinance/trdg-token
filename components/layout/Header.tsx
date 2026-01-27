@@ -7,11 +7,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const navItems = [
-    { name: 'Nexus', href: '#nexus' },
-    { name: 'BioScanner', href: '#bioscanner' },
-    { name: 'Mission', href: '#mission' },
-    { name: 'Tokenomics', href: '#tokenomics' },
-    { name: 'Acquire', href: '#acquire' },
+    { name: 'Nexus', href: '/#nexus' },
+    { name: 'BioScanner', href: '/#bioscanner' },
+    { name: 'Mission', href: '/#mission' },
+    { name: 'Tokenomics', href: '/#tokenomics' },
+    { name: 'Acquire', href: '/#acquire' },
     { name: 'About', href: '/about' },
     { name: 'Whitepaper', href: '/whitepaper' },
 ]
