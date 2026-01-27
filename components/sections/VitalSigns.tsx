@@ -11,7 +11,7 @@ export function VitalSigns() {
 
     // Calculate uptime since launch (April 2021)
     useEffect(() => {
-        const launchDate = new Date('2021-04-15')
+        const launchDate = new Date('2021-03-08')
         const updateUptime = () => {
             const now = new Date()
             const days = Math.floor((now.getTime() - launchDate.getTime()) / (1000 * 60 * 60 * 24))
@@ -85,7 +85,7 @@ export function VitalSigns() {
                             <div className="text-4xl font-black font-orbitron text-white">
                                 {uptime.toLocaleString()} <span className="text-trdg-green text-xl">DAYS</span>
                             </div>
-                            <div className="text-xs text-gray-400 font-mono">Since Genesis Block (April 2021)</div>
+                            <div className="text-xs text-gray-400 font-mono">Since Genesis (March 2021)</div>
                         </div>
                     </motion.div>
 

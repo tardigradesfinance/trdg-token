@@ -5,11 +5,19 @@ import { Calendar, Flag, Rocket, Shield, Zap, Award, Globe, Users } from 'lucide
 
 const milestones = [
     {
-        date: 'April 2021',
-        title: 'Genesis',
-        description: 'TRDG deployed on BSC & ETH simultaneously. 50% supply burned at launch.',
+        date: 'March 2021',
+        title: 'BSC Genesis',
+        description: 'TRDG deployed on Binance Smart Chain. First colony established.',
         icon: Rocket,
         color: 'bg-trdg-cyan',
+        status: 'complete'
+    },
+    {
+        date: 'May 2021',
+        title: 'ETH Expansion',
+        description: 'The Extremophiles bridge to Ethereum (Uniswap). Multi-chain survival achieved.',
+        icon: Globe,
+        color: 'bg-blue-500',
         status: 'complete'
     },
     {

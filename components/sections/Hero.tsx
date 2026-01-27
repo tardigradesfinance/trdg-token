@@ -25,7 +25,15 @@ export function Hero() {
     }
 
     const { scrollY } = useScroll()
-    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
     const y1 = useTransform(scrollY, [0, 500], [0, isMobile ? 100 : 200])
     const y2 = useTransform(scrollY, [0, 500], [0, isMobile ? -70 : -150])
     const opacity = useTransform(scrollY, [0, 500], [1, 0])
@@ -39,7 +47,7 @@ export function Hero() {
 
     return (
         <section
-            className="sticky top-0 z-0 relative min-h-[100dvh] flex flex-col items-center justify-center pt-20 pb-4 md:pt-24 md:pb-6"
+            className="sticky top-0 z-0 relative min-h-[100dvh] flex flex-col items-center justify-center pt-20 pb-4 md:pt-24 md:pb-6 overflow-hidden"
             onMouseMove={handleMouseMove}
         >
             <motion.div style={{ opacity }} className="absolute inset-0 pointer-events-none">
@@ -62,8 +70,8 @@ export function Hero() {
                     style={{ y: y2, rotateX: mouseY, rotateY: mouseX }}
                     className="relative w-32 h-32 md:w-80 md:h-80 mb-6 md:mb-12 perspective-1000 cursor-pointer will-change-transform"
                     whileHover={{ scale: 1.1, rotateY: 10 }}
-                    initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{ type: "spring", duration: 1.5, bounce: 0.3 }}
                 >
                     <div className="absolute inset-0 bg-trdg-cyan/20 blur-2xl md:blur-3xl rounded-full animate-pulse-glow" style={{ transform: 'translateZ(0)' }} />
@@ -79,9 +87,9 @@ export function Hero() {
                 {/* Main Title Animation */}
                 <motion.div
                     style={{ y: y1 }}
-                    initial={{ opacity: 0, scale: 0.98, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
                     className="mb-4 md:mb-8 relative will-change-transform"
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-4 backdrop-blur-sm">
@@ -95,14 +103,14 @@ export function Hero() {
                     <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: "100%" }}
-                        transition={{ delay: 1.2, duration: 1.5, ease: "circOut" }}
+                        transition={{ delay: 0.5, duration: 1, ease: "circOut" }}
                         className="h-0.5 md:h-1 bg-gradient-to-r from-transparent via-trdg-cyan to-transparent w-full mt-2"
                     />
                     <motion.p
                         initial={{ opacity: 0, letterSpacing: "0.1em" }}
                         animate={{ opacity: 1, letterSpacing: "0.2em" }}
-                        whileInView={{ letterSpacing: "0.5em" }}
-                        transition={{ delay: 0.8, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+                        whileInView={{ letterSpacing: "0.3em" }}
+                        transition={{ delay: 0.8, duration: 1.5, ease: "easeOut" }}
                         className="text-xs md:text-3xl font-orbitron text-white font-bold uppercase mt-4 md:mt-6 drop-shadow-md"
                     >
                         The Unkillable Token
@@ -111,9 +119,9 @@ export function Hero() {
 
                 {/* Introduction Text */}
                 <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5, duration: 1.2, ease: "easeOut" }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
                     className="max-w-2xl text-blue-200 text-sm md:text-xl leading-relaxed mb-6 md:mb-12 font-light bg-black/80 md:backdrop-blur-sm md:bg-black/30 p-3 md:p-4 rounded-xl border border-white/5 md:will-change-transform"
                 >
                     Surviving market turmoil through <span className="text-trdg-green font-bold glow-text">Cryptobiosis</span>.

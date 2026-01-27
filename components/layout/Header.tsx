@@ -106,9 +106,9 @@ export function Header() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-[#0A0D10] border-b border-white/10"
+                        className="md:hidden bg-[#0A0D10] border-b border-white/10 overflow-hidden"
                     >
-                        <div className="px-4 pt-2 pb-6 space-y-2">
+                        <div className="px-4 pt-2 pb-6 space-y-2 max-h-[80vh] overflow-y-auto">
                             {navItems.map((item) => (
                                 <Link
                                     key={item.name}
@@ -119,7 +119,7 @@ export function Header() {
                                     {item.name}
                                 </Link>
                             ))}
-                            <div className="pt-4 flex flex-col gap-2">
+                            <div className="pt-4 flex flex-col gap-2 pb-4">
                                 <a
                                     href="https://pancakeswap.finance/swap?outputCurrency=0x92a42Db88Ed0F02c71D439e55962Ca7CAB0168b5"
                                     target="_blank"

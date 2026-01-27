@@ -103,7 +103,7 @@ export function SocialNexus() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-8">
                     {socialLinks.map((social, index) => (
                         <motion.a
                             key={index}

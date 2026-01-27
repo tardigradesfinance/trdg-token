@@ -73,7 +73,8 @@ export function useTRDGStats(refreshInterval: number = 60000) {
 
     const fetchStats = useCallback(async () => {
         try {
-            setLoading(true)
+            // Don't set loading to true if we have stats (background refresh)
+            if (stats.bscPrice === 0) setLoading(true)
             setError(null)
 
             // Use server-side API route to avoid CORS issues
@@ -83,6 +84,15 @@ export function useTRDGStats(refreshInterval: number = 60000) {
             if (result.success && result.data) {
                 setStats(result.data)
                 setLastUpdated(new Date())
+
+                // Cache to localStorage
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('trdg_stats', JSON.stringify({
+                        data: result.data,
+                        timestamp: new Date().toISOString()
+                    }))
+                }
+
                 console.log('TRDG Stats Updated:', {
                     bscPrice: result.data.bscPrice,
                     ethPrice: result.data.ethPrice,
@@ -100,6 +110,23 @@ export function useTRDGStats(refreshInterval: number = 60000) {
             setError('Failed to fetch stats')
         } finally {
             setLoading(false)
+        }
+    }, [stats.bscPrice])
+
+    // Load from cache on mount
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const cached = localStorage.getItem('trdg_stats')
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached)
+                    setStats(parsed.data)
+                    setLastUpdated(new Date(parsed.timestamp))
+                    setLoading(false)
+                } catch (e) {
+                    console.error('Failed to parse cached stats', e)
+                }
+            }
         }
     }, [])
 
