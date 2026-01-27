@@ -21,28 +21,33 @@ const stickers = [
 ]
 
 export function StickerMarquee() {
-    // Split stickers into two halves for two rows
+    // Split stickers into two halves for two rows to increase variety
     const row1 = [...stickers].sort(() => Math.random() - 0.5)
     const row2 = [...stickers].sort(() => Math.random() - 0.5)
 
     return (
-        <section className="py-20 bg-black overflow-hidden border-y border-white/5">
-            <div className="flex flex-col gap-8">
+        <section className="py-20 bg-black overflow-hidden border-y border-white/5 relative z-10">
+            <div className="flex flex-col gap-12">
 
                 {/* Row 1: Moving Right */}
                 <div className="relative flex overflow-hidden">
                     <motion.div
-                        animate={{ x: [0, -2000] }}
-                        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                        className="flex gap-8 whitespace-nowrap"
+                        animate={{ x: [0, -4000] }}
+                        transition={{
+                            duration: 60,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                        className="flex gap-12 whitespace-nowrap"
                     >
-                        {[...row1, ...row1].map((sticker, i) => (
-                            <div key={i} className="relative w-32 h-32 flex-shrink-0 group">
+                        {[...row1, ...row1, ...row1].map((sticker, i) => (
+                            <div key={i} className="relative w-40 h-40 flex-shrink-0 group hover:scale-110 transition-transform duration-300">
                                 <Image
                                     src={`/images/stickers/${sticker}`}
                                     alt="sticker"
                                     fill
-                                    className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                                    className="object-contain filter brightness-90 contrast-125 group-hover:brightness-100 transition-all duration-300"
+                                    loading="lazy"
                                 />
                             </div>
                         ))}
@@ -52,17 +57,22 @@ export function StickerMarquee() {
                 {/* Row 2: Moving Left */}
                 <div className="relative flex overflow-hidden">
                     <motion.div
-                        animate={{ x: [-2000, 0] }}
-                        transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                        className="flex gap-8 whitespace-nowrap"
+                        animate={{ x: [-4000, 0] }}
+                        transition={{
+                            duration: 70,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                        className="flex gap-12 whitespace-nowrap"
                     >
-                        {[...row2, ...row2].map((sticker, i) => (
-                            <div key={i} className="relative w-32 h-32 flex-shrink-0 group">
+                        {[...row2, ...row2, ...row2].map((sticker, i) => (
+                            <div key={i} className="relative w-40 h-40 flex-shrink-0 group hover:scale-110 transition-transform duration-300">
                                 <Image
                                     src={`/images/stickers/${sticker}`}
                                     alt="sticker"
                                     fill
-                                    className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                                    className="object-contain filter brightness-90 contrast-125 group-hover:brightness-100 transition-all duration-300"
+                                    loading="lazy"
                                 />
                             </div>
                         ))}
