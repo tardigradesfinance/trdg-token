@@ -65,7 +65,7 @@ const defaultStats: TRDGStats = {
     ethCirculating: 0,
 }
 
-export function useTRDGStats(refreshInterval: number = 30000) {
+export function useTRDGStats(refreshInterval: number = 60000) {
     const [stats, setStats] = useState<TRDGStats>(defaultStats)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
