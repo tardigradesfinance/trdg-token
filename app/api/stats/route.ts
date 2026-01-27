@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 
+// Required for Cloudflare Pages deployment
+export const runtime = 'edge'
+
 // Contract addresses
 const TRDG_BSC_ADDRESS = '0x92a42db88ed0f02c71d439e55962ca7cab0168b5'
 const TRDG_ETH_ADDRESS = '0x92a42db88ed0f02c71d439e55962ca7cab0168b5'
