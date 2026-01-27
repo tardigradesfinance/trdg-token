@@ -12,36 +12,57 @@ const PCSV1_POOL_ADDRESS = '0xC5c0Be18218182bF33e2585a6D9A2e6d7324BC0E'
 const UNISWAP_POOL_ADDRESS = '0xc2367025716cf1109321e4cb96f47c0e3f9beb05'
 const BURN_WALLET_ADDRESS = '0x000000000000000000000000000000000000dead'
 
-// API Keys
-const BSC_API_KEY = '2TSW88MVBF8FBT31JSDW7KD2IBE1BJ2CET'
+// API Key for Etherscan V2 (only works for ETH mainnet on free tier)
 const ETH_API_KEY = 'U4GW7GB7GYNZESDYSUH9GKPJ3VQZCGVSK2'
+
+// BSC Public RPC endpoint
+const BSC_RPC_URL = 'https://bsc-dataseed.binance.org'
+const ETH_RPC_URL = 'https://eth.llamarpc.com'
 
 const MAX_SUPPLY = 100000 * 10 ** 12
 
-// Wait helper - 500ms like the original main.js
+// Wait helper
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-async function getBscTokenBalance(contractAddress: string, walletAddress: string): Promise<number> {
+// ERC20 balanceOf function signature
+const BALANCE_OF_SELECTOR = '0x70a08231'
+
+// Format address for ABI encoding (pad to 32 bytes)
+function padAddress(address: string): string {
+    return '000000000000000000000000' + address.toLowerCase().replace('0x', '')
+}
+
+// Call balanceOf via RPC
+async function getTokenBalanceViaRpc(rpcUrl: string, tokenAddress: string, walletAddress: string): Promise<number> {
     try {
-        const url = `https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${BSC_API_KEY}`
-        const response = await fetch(url, {
-            headers: { 'Accept': 'application/json' }
+        const data = BALANCE_OF_SELECTOR + padAddress(walletAddress)
+        const response = await fetch(rpcUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                jsonrpc: '2.0',
+                method: 'eth_call',
+                params: [{ to: tokenAddress, data }, 'latest'],
+                id: 1
+            })
         })
-        const data = await response.json()
-        if (data.status === '1' && data.result) {
-            return parseInt(data.result) || 0
+        const result = await response.json()
+        if (result.result) {
+            // Convert hex to number (BigInt for large values)
+            return Number(BigInt(result.result))
         }
-        console.log('BSC API response:', JSON.stringify(data))
+        console.log('RPC response:', JSON.stringify(result))
         return 0
     } catch (error) {
-        console.error('BSC fetch error:', error)
+        console.error('RPC fetch error:', error)
         return 0
     }
 }
 
+// Get ETH token balance via Etherscan V2 API
 async function getEthTokenBalance(contractAddress: string, walletAddress: string): Promise<number> {
     try {
-        const url = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${ETH_API_KEY}`
+        const url = `https://api.etherscan.io/v2/api?chainid=1&module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${ETH_API_KEY}`
         const response = await fetch(url, {
             headers: { 'Accept': 'application/json' }
         })
@@ -49,47 +70,29 @@ async function getEthTokenBalance(contractAddress: string, walletAddress: string
         if (data.status === '1' && data.result) {
             return parseInt(data.result) || 0
         }
-        console.log('ETH API response:', JSON.stringify(data))
+        console.log('Etherscan V2 API response:', JSON.stringify(data))
         return 0
     } catch (error) {
-        console.error('ETH fetch error:', error)
+        console.error('Etherscan fetch error:', error)
         return 0
     }
 }
 
-async function getBnbPrice(): Promise<number> {
+// Get prices from CoinGecko (free, no API key needed)
+async function getPrices(): Promise<{ bnbPrice: number; ethPrice: number }> {
     try {
-        const url = `https://api.bscscan.com/api?module=stats&action=bnbprice&apikey=${BSC_API_KEY}`
-        const response = await fetch(url, {
-            headers: { 'Accept': 'application/json' }
-        })
+        const response = await fetch(
+            'https://api.coingecko.com/api/v3/simple/price?ids=binancecoin,ethereum&vs_currencies=usd',
+            { headers: { 'Accept': 'application/json' } }
+        )
         const data = await response.json()
-        if (data.status === '1' && data.result?.ethusd) {
-            return parseFloat(data.result.ethusd) || 0
+        return {
+            bnbPrice: data.binancecoin?.usd || 0,
+            ethPrice: data.ethereum?.usd || 0
         }
-        console.log('BNB price API response:', JSON.stringify(data))
-        return 0
     } catch (error) {
-        console.error('BNB price fetch error:', error)
-        return 0
-    }
-}
-
-async function getEthPrice(): Promise<number> {
-    try {
-        const url = `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${ETH_API_KEY}`
-        const response = await fetch(url, {
-            headers: { 'Accept': 'application/json' }
-        })
-        const data = await response.json()
-        if (data.status === '1' && data.result?.ethusd) {
-            return parseFloat(data.result.ethusd) || 0
-        }
-        console.log('ETH price API response:', JSON.stringify(data))
-        return 0
-    } catch (error) {
-        console.error('ETH price fetch error:', error)
-        return 0
+        console.error('CoinGecko fetch error:', error)
+        return { bnbPrice: 0, ethPrice: 0 }
     }
 }
 
@@ -100,48 +103,44 @@ function calculateTrdgPrice(nativeInPool: number, trdgInPool: number, nativePric
     return (nativeBalanceAdjusted * nativePrice) / trdgBalanceAdjusted
 }
 
-// Fetch all BSC data sequentially with delays
+// Fetch all BSC data via RPC
 async function fetchBscData() {
-    const bnbPrice = await getBnbPrice()
-    await wait(500)
+    const bscPoolWbnbRaw = await getTokenBalanceViaRpc(BSC_RPC_URL, WBNB_ADDRESS, PCSV1_POOL_ADDRESS)
+    await wait(100)
 
-    const bscPoolWbnbRaw = await getBscTokenBalance(WBNB_ADDRESS, PCSV1_POOL_ADDRESS)
-    await wait(500)
+    const bscPoolTrdgRaw = await getTokenBalanceViaRpc(BSC_RPC_URL, TRDG_BSC_ADDRESS, PCSV1_POOL_ADDRESS)
+    await wait(100)
 
-    const bscPoolTrdgRaw = await getBscTokenBalance(TRDG_BSC_ADDRESS, PCSV1_POOL_ADDRESS)
-    await wait(500)
+    const bscBurnedRaw = await getTokenBalanceViaRpc(BSC_RPC_URL, TRDG_BSC_ADDRESS, BURN_WALLET_ADDRESS)
 
-    const bscBurnedRaw = await getBscTokenBalance(TRDG_BSC_ADDRESS, BURN_WALLET_ADDRESS)
-
-    return { bnbPrice, bscPoolWbnbRaw, bscPoolTrdgRaw, bscBurnedRaw }
+    return { bscPoolWbnbRaw, bscPoolTrdgRaw, bscBurnedRaw }
 }
 
-// Fetch all ETH data sequentially with delays
+// Fetch all ETH data via Etherscan V2 API
 async function fetchEthData() {
-    const ethNativePrice = await getEthPrice()
-    await wait(500)
-
     const ethPoolWethRaw = await getEthTokenBalance(WETH_ADDRESS, UNISWAP_POOL_ADDRESS)
-    await wait(500)
+    await wait(300)
 
     const ethPoolTrdgRaw = await getEthTokenBalance(TRDG_ETH_ADDRESS, UNISWAP_POOL_ADDRESS)
-    await wait(500)
+    await wait(300)
 
     const ethBurnedRaw = await getEthTokenBalance(TRDG_ETH_ADDRESS, BURN_WALLET_ADDRESS)
 
-    return { ethNativePrice, ethPoolWethRaw, ethPoolTrdgRaw, ethBurnedRaw }
+    return { ethPoolWethRaw, ethPoolTrdgRaw, ethBurnedRaw }
 }
 
 export async function GET() {
     try {
-        // Fetch BSC and ETH data in parallel (they use different API endpoints)
-        const [bscData, ethData] = await Promise.all([
+        // Fetch prices and chain data in parallel
+        const [prices, bscData, ethData] = await Promise.all([
+            getPrices(),
             fetchBscData(),
             fetchEthData()
         ])
 
-        const { bnbPrice, bscPoolWbnbRaw, bscPoolTrdgRaw, bscBurnedRaw } = bscData
-        const { ethNativePrice, ethPoolWethRaw, ethPoolTrdgRaw, ethBurnedRaw } = ethData
+        const { bnbPrice, ethPrice: ethNativePrice } = prices
+        const { bscPoolWbnbRaw, bscPoolTrdgRaw, bscBurnedRaw } = bscData
+        const { ethPoolWethRaw, ethPoolTrdgRaw, ethBurnedRaw } = ethData
 
         // Calculate prices
         const bscPrice = calculateTrdgPrice(bscPoolWbnbRaw, bscPoolTrdgRaw, bnbPrice)
