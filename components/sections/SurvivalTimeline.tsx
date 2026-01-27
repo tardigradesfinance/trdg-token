@@ -103,19 +103,19 @@ export function SurvivalTimeline() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            className={`relative flex items-start gap-8 mb-12 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                            className={`relative flex items-start mb-12 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
                         >
                             {/* Content */}
-                            <div className={`flex-1 ${index % 2 === 0 ? 'md:text-right' : ''}`}>
+                            <div className={`flex-1 pl-16 md:pl-0 ${index % 2 === 0 ? 'md:text-right md:pr-16' : 'md:pl-16'}`}>
                                 <div className={`p-6 rounded-2xl bg-white/5 border transition-all hover:bg-white/10 ${milestone.status === 'active'
-                                        ? 'border-trdg-green/50 shadow-[0_0_30px_rgba(0,255,148,0.1)]'
-                                        : milestone.status === 'upcoming'
-                                            ? 'border-yellow-500/30 border-dashed'
-                                            : 'border-white/10'
+                                    ? 'border-trdg-green/50 shadow-[0_0_30px_rgba(0,255,148,0.1)]'
+                                    : milestone.status === 'upcoming'
+                                        ? 'border-yellow-500/30 border-dashed'
+                                        : 'border-white/10'
                                     }`}>
                                     <div className="text-xs font-mono text-gray-500 uppercase mb-2">{milestone.date}</div>
                                     <h3 className="text-xl font-orbitron font-bold text-white mb-2">{milestone.title}</h3>
-                                    <p className="text-gray-400 text-sm">{milestone.description}</p>
+                                    <p className="text-gray-400 text-sm leading-relaxed">{milestone.description}</p>
                                     {milestone.status === 'active' && (
                                         <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-trdg-green/10 text-trdg-green text-[10px] font-mono uppercase">
                                             <span className="w-2 h-2 rounded-full bg-trdg-green animate-pulse" />
@@ -126,10 +126,10 @@ export function SurvivalTimeline() {
                             </div>
 
                             {/* Icon Node */}
-                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 z-10">
+                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 z-10 top-6">
                                 <motion.div
                                     whileHover={{ scale: 1.2 }}
-                                    className={`w-10 h-10 rounded-full ${milestone.color} flex items-center justify-center shadow-lg`}
+                                    className={`w-10 h-10 rounded-full ${milestone.color} flex items-center justify-center shadow-lg border-4 border-black`}
                                 >
                                     <milestone.icon size={18} className="text-white" />
                                 </motion.div>

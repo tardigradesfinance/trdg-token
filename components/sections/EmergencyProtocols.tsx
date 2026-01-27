@@ -86,19 +86,19 @@ export function EmergencyProtocols() {
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="text-center mb-16">
+                <div className="text-center mb-10 md:mb-16">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 mb-6"
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 mb-4 md:mb-6"
                     >
-                        <AlertTriangle className="text-red-400 animate-pulse" size={16} />
-                        <span className="text-[10px] font-mono text-red-400 uppercase tracking-widest font-black">System Protocols</span>
+                        <AlertTriangle className="text-red-400 animate-pulse" size={14} />
+                        <span className="text-[9px] md:text-[10px] font-mono text-red-400 uppercase tracking-widest font-black">System Protocols</span>
                     </motion.div>
-                    <h2 className="text-4xl md:text-7xl font-orbitron font-black text-white mb-4 uppercase tracking-tighter">
+                    <h2 className="text-3xl md:text-7xl font-orbitron font-black text-white mb-2 md:mb-4 uppercase tracking-tighter">
                         EMERGENCY <span className="text-red-500">PROTOCOLS</span>
                     </h2>
-                    <p className="text-gray-500 font-mono text-xs uppercase tracking-[0.3em]">
+                    <p className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em]">
                         Cryptobiosis Defense Mechanisms
                     </p>
                 </div>

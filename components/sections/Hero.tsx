@@ -87,7 +87,7 @@ export function Hero() {
                         <span className="text-xs md:text-sm font-mono text-gray-400 uppercase tracking-widest">Est. 2021</span>
                     </div>
 
-                    <h1 className="text-5xl md:text-[10rem] leading-none font-black font-orbitron text-transparent bg-clip-text bg-gradient-to-b from-white via-trdg-cyan to-trdg-cyan/20 drop-shadow-[0_0_30px_rgba(0,240,255,0.3)] select-none">
+                    <h1 className="text-6xl md:text-[10rem] leading-none font-black font-orbitron text-transparent bg-clip-text bg-gradient-to-b from-white via-trdg-cyan to-trdg-cyan/20 drop-shadow-[0_0_30px_rgba(0,240,255,0.3)] select-none uppercase">
                         $TRDG
                     </h1>
                     <motion.div
@@ -98,9 +98,10 @@ export function Hero() {
                     />
                     <motion.p
                         initial={{ opacity: 0, letterSpacing: "0em" }}
-                        animate={{ opacity: 1, letterSpacing: "0.5em" }}
+                        animate={{ opacity: 1, letterSpacing: "0.2em" }}
+                        whileInView={{ letterSpacing: "0.5em" }}
                         transition={{ delay: 1, duration: 2 }}
-                        className="text-sm md:text-3xl font-orbitron text-white font-bold uppercase mt-4 md:mt-6 drop-shadow-md"
+                        className="text-xs md:text-3xl font-orbitron text-white font-bold uppercase mt-4 md:mt-6 drop-shadow-md"
                     >
                         The Unkillable Token
                     </motion.p>

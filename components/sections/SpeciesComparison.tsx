@@ -83,37 +83,41 @@ export function SpeciesComparison() {
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.05 }}
-                            className="grid grid-cols-3 gap-4 p-4 rounded-xl bg-white/5 border border-white/10 mb-2 hover:bg-white/10 transition-all group"
+                            className="flex flex-col md:grid md:grid-cols-3 gap-4 p-4 rounded-xl bg-white/5 border border-white/10 mb-2 hover:bg-white/10 transition-all group"
                         >
                             {/* Trait */}
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 md:col-span-1">
                                 <item.icon size={18} className="text-gray-400 group-hover:text-white transition-colors" />
-                                <span className="text-sm text-white font-medium">{item.trait}</span>
+                                <span className="text-sm text-white font-medium uppercase font-mono tracking-wider">{item.trait}</span>
                             </div>
 
-                            {/* TRDG Value */}
-                            <div className="text-center">
-                                <span className="text-lg font-bold text-trdg-green font-orbitron">{item.trdg.value}</span>
-                                <div className="flex justify-center gap-1 mt-1">
-                                    {[...Array(5)].map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className={`w-2 h-2 rounded-full ${i < item.trdg.rating ? 'bg-trdg-green' : 'bg-white/10'}`}
-                                        />
-                                    ))}
+                            <div className="grid grid-cols-2 md:contents gap-4">
+                                {/* TRDG Value */}
+                                <div className="text-center md:col-span-1 p-3 bg-trdg-green/5 rounded-lg border border-trdg-green/10 md:bg-transparent md:border-0">
+                                    <div className="md:hidden text-[8px] font-mono text-gray-500 uppercase mb-1">$TRDG Status</div>
+                                    <span className="text-lg font-bold text-trdg-green font-orbitron">{item.trdg.value}</span>
+                                    <div className="flex justify-center gap-1 mt-1">
+                                        {[...Array(5)].map((_, i) => (
+                                            <div
+                                                key={i}
+                                                className={`w-1.5 h-1.5 rounded-full ${i < item.trdg.rating ? 'bg-trdg-green shadow-[0_0_5px_rgba(0,255,148,0.5)]' : 'bg-white/10'}`}
+                                            />
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Others Value */}
-                            <div className="text-center">
-                                <span className="text-lg font-bold text-red-400 font-orbitron">{item.others.value}</span>
-                                <div className="flex justify-center gap-1 mt-1">
-                                    {[...Array(5)].map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className={`w-2 h-2 rounded-full ${i < item.others.rating ? 'bg-red-500' : 'bg-white/10'}`}
-                                        />
-                                    ))}
+                                {/* Others Value */}
+                                <div className="text-center md:col-span-1 p-3 bg-red-500/5 rounded-lg border border-red-500/10 md:bg-transparent md:border-0">
+                                    <div className="md:hidden text-[8px] font-mono text-gray-500 uppercase mb-1">Competitors</div>
+                                    <span className="text-lg font-bold text-red-400 font-orbitron">{item.others.value}</span>
+                                    <div className="flex justify-center gap-1 mt-1">
+                                        {[...Array(5)].map((_, i) => (
+                                            <div
+                                                key={i}
+                                                className={`w-1.5 h-1.5 rounded-full ${i < item.others.rating ? 'bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.5)]' : 'bg-white/10'}`}
+                                            />
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>

@@ -112,18 +112,18 @@ export function Header() {
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className="block px-3 py-4 text-base font-orbitron text-white hover:text-trdg-cyan border-b border-white/5"
+                                    className="block px-3 py-3 text-sm font-orbitron text-white hover:text-trdg-cyan border-b border-white/5 uppercase tracking-wider"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     {item.name}
                                 </Link>
                             ))}
-                            <div className="pt-4 flex flex-col gap-3">
+                            <div className="pt-4 flex flex-col gap-2">
                                 <a
                                     href="https://pancakeswap.finance/swap?outputCurrency=0x92a42Db88Ed0F02c71D439e55962Ca7CAB0168b5"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-full py-3 rounded-md bg-trdg-cyan/10 border border-trdg-cyan text-trdg-cyan text-center font-orbitron uppercase text-sm"
+                                    className="w-full py-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 text-center font-orbitron uppercase text-[10px] tracking-widest font-black"
                                 >
                                     Buy on PancakeSwap
                                 </a>
@@ -131,7 +131,7 @@ export function Header() {
                                     href="https://app.uniswap.org/#/swap?outputCurrency=0x92a42db88ed0f02c71d439e55962ca7cab0168b5"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-full py-3 rounded-md bg-pink-500/10 border border-pink-500 text-pink-500 text-center font-orbitron uppercase text-sm"
+                                    className="w-full py-3 rounded-lg bg-pink-500/10 border border-pink-500/30 text-pink-500 text-center font-orbitron uppercase text-[10px] tracking-widest font-black"
                                 >
                                     Buy on Uniswap
                                 </a>
