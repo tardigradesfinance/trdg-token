@@ -110,18 +110,42 @@ export function Community() {
                         <span className="text-white font-bold mt-2 block">Join the Extremophiles and survive anything.</span>
                     </p>
 
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
-                        {socials.map((social) => (
-                            <a
+                    <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto perspective-1000">
+                        {socials.map((social, index) => (
+                            <motion.a
                                 key={social.name}
                                 href={social.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border transition-all duration-300 group ${social.bg} ${social.border} ${social.color} ${social.hover}`}
+                                initial={{ opacity: 0, rotateX: 20, y: 50 }}
+                                whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+                                transition={{ delay: index * 0.05, duration: 0.5 }}
+                                whileHover={{
+                                    scale: 1.1,
+                                    rotateX: 10,
+                                    boxShadow: '0 20px 40px -10px rgba(0,240,255,0.2)'
+                                }}
+                                className={`
+                                    relative w-36 h-36 md:w-44 md:h-44 flex flex-col items-center justify-center gap-4 
+                                    backdrop-blur-md rounded-xl border transition-all duration-300 group
+                                    ${social.bg} ${social.border} ${social.color}
+                                    hover:bg-opacity-20 hover:border-opacity-50
+                                    transform-gpu preserve-3d
+                                `}
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                }}
                             >
-                                <social.icon className="group-hover:scale-110 transition-transform duration-300" size={28} />
-                                <span className="font-bold font-orbitron text-xs uppercase tracking-wider">{social.name}</span>
-                            </a>
+                                {/* Trapezoid/Sci-Fi Shape masking or clip path could be used, but CSS 3D rotateX gives a nice tilt */}
+                                {/* Inner glow */}
+                                <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                <social.icon className="relative z-10 w-8 h-8 md:w-10 md:h-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" strokeWidth={1.5} />
+                                <span className="relative z-10 font-bold font-orbitron text-[10px] md:text-xs uppercase tracking-wider text-center px-2">{social.name}</span>
+
+                                {/* Bottom decoration line */}
+                                <div className={`absolute bottom-3 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-current opacity-30 group-hover:w-16 transition-all duration-300`} />
+                            </motion.a>
                         ))}
                     </div>
                 </motion.div>
