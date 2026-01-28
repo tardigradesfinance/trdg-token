@@ -19,10 +19,10 @@ export function StarField() {
 
         // CONFIGURATION
         const CONFIG = {
-            starCount: isMobile ? 400 : 1000, // user wants "much more"
+            starCount: isMobile ? 400 : 1000,
             speed: isMobile ? 0.2 : 0.3,
-            trailLength: 0.15, // Trail length multiplier
-            planetCount: 3,
+            trailLength: 0.15,
+            planetCount: 1, // Minimize planets as requested
         }
 
         const centerX = width / 2
@@ -46,8 +46,8 @@ export function StarField() {
 
         function createStar(): Star {
             return {
-                x: Math.random() * width - centerX,
-                y: Math.random() * height - centerY,
+                x: (Math.random() * width - centerX) * 0.7,
+                y: (Math.random() * height - centerY) * 0.7,
                 z: Math.random() * width,
                 color: Math.random() > 0.85 ? '#00A3FF' : '#ffffff', // TRDG Cyan/Blue mix
                 sizeBase: Math.random(),
@@ -120,9 +120,7 @@ export function StarField() {
                     if (planet.y < -planet.radius) planet.y = height + planet.radius
                     if (planet.y > height + planet.radius) planet.y = -planet.radius
 
-                    ctx.save() // Save context for clipping
-
-                    // Draw Gradient Planet Base
+                    // Draw Gradient Planet
                     const gradient = ctx.createRadialGradient(
                         planet.x - planet.radius * 0.3,
                         planet.y - planet.radius * 0.3,
@@ -131,36 +129,14 @@ export function StarField() {
                         planet.y,
                         planet.radius
                     )
-                    gradient.addColorStop(0, planet.color)
+                    gradient.addColorStop(0, '#1a237e') // Lighter blue center
+                    gradient.addColorStop(0.5, planet.color)
                     gradient.addColorStop(1, 'transparent')
 
+                    ctx.fillStyle = gradient
                     ctx.beginPath()
                     ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2)
-                    ctx.fillStyle = gradient
                     ctx.fill()
-
-                    // Clip to planet circle for texture
-                    ctx.clip()
-
-                    // Procedural Texture (Craters/Bands)
-                    ctx.fillStyle = 'rgba(0,0,0,0.2)'
-                    // deterministic "random" based on planet x/y makes them jitter if we aren't careful.
-                    // Ideally we store texture data in the planet object, but for simple noise we can use procedural drawing relative to center
-
-                    // Simple Craters
-                    for (let j = 0; j < 3; j++) {
-                        ctx.beginPath()
-                        // Offset crater positions based on planet properties to keep them consistent relative to the planet
-                        // We use the radius as a seed-ish
-                        const craterX = planet.x + planet.radius * Math.sin(j * 2) * 0.5
-                        const craterY = planet.y + planet.radius * Math.cos(j * 3) * 0.5
-                        const craterSize = planet.radius * (0.1 + Math.abs(Math.sin(j)) * 0.2)
-                        ctx.arc(craterX, craterY, craterSize, 0, Math.PI * 2)
-                        ctx.fill()
-                    }
-
-                    // Optional Rings (Redrawn inside clip? No, rings should be outside. Restore first)
-                    ctx.restore()
 
                     // Optional Rings
                     if (planet.hasRings) {
@@ -179,8 +155,9 @@ export function StarField() {
                     star.z -= CONFIG.speed
                     if (star.z <= 0) {
                         star.z = width
-                        star.x = Math.random() * width - centerX
-                        star.y = Math.random() * height - centerY
+                        // Concentrate stars more in center (0.7 spread) to prevent early exit
+                        star.x = (Math.random() * width - centerX) * 0.7
+                        star.y = (Math.random() * height - centerY) * 0.7
                     }
 
                     const k = 128.0 / star.z
@@ -190,8 +167,9 @@ export function StarField() {
                     // Bounds check
                     if (px >= -50 && px <= width + 50 && py >= -50 && py <= height + 50) {
                         const depth = 1 - star.z / width
-                        const size = (1 - depth) * 0.1 + depth * 3 * star.sizeBase // scales up as it gets closer
-                        const alpha = depth * star.alphaBase
+                        const size = (1 - depth) * 0.1 + depth * 3 * star.sizeBase
+                        // Boost distant visibility
+                        const alpha = (0.2 + depth * 0.8) * star.alphaBase
 
                         // Store previous position for trail (but clamp it so it doesn't streak across screen on wrap)
                         // Actually, we can just project a point slightly further back in Z for the tail
