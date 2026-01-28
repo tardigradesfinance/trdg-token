@@ -70,7 +70,8 @@ export function Footer() {
                             <li><a href="https://pancakeswap.finance/swap?outputCurrency=0x92a42db88ed0f02c71d439e55962ca7cab0168b5" target="_blank" className="hover:text-yellow-400 transition-colors">Buy on BSC (Pancake)</a></li>
                             <li><a href="https://app.uniswap.org/#/swap?outputCurrency=0x92a42db88ed0f02c71d439e55962ca7cab0168b5" target="_blank" className="hover:text-pink-400 transition-colors">Buy on ETH (Uniswap)</a></li>
                             <li><a href="https://www.coingecko.com/en/coins/trdgtoken" target="_blank" className="hover:text-green-400 transition-colors">CoinGecko</a></li>
-                            <li><a href="https://coinmarketcap.com/currencies/tardigrades-finance-bsc/" target="_blank" className="hover:text-blue-400 transition-colors">CoinMarketCap</a></li>
+                            <li><a href="https://coinmarketcap.com/currencies/tardigrades-finance-bsc/" target="_blank" className="hover:text-blue-400 transition-colors">CoinMarketCap (BSC)</a></li>
+                            <li><a href="https://coinmarketcap.com/currencies/tardigrades-finance-eth/" target="_blank" className="hover:text-blue-400 transition-colors">CoinMarketCap (ETH)</a></li>
                         </ul>
                     </div>
 

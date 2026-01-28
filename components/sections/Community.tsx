@@ -1,10 +1,94 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Twitter, Send, Globe } from 'lucide-react'
+import { Twitter, Send, Globe, Github, Youtube, Instagram, Facebook, BookOpen, MessageSquare } from 'lucide-react'
 import { OrganicBackground } from '@/components/ui/SectionBackgrounds'
 
 export function Community() {
+    const socials = [
+        {
+            name: 'Telegram Main',
+            url: 'https://t.me/TardigradesOfficial',
+            icon: Send,
+            color: 'text-[#229ED9]',
+            bg: 'bg-[#229ED9]/10',
+            border: 'border-[#229ED9]/20',
+            hover: 'hover:bg-[#229ED9] hover:text-white',
+        },
+        {
+            name: 'Announcements',
+            url: 'https://t.me/TRDGAnnouncement',
+            icon: Send,
+            color: 'text-[#229ED9]/80',
+            bg: 'bg-[#229ED9]/5',
+            border: 'border-[#229ED9]/10',
+            hover: 'hover:bg-[#229ED9] hover:text-white',
+        },
+        {
+            name: 'X (Twitter)',
+            url: 'https://x.com/TRDGtoken',
+            icon: Twitter,
+            color: 'text-white',
+            bg: 'bg-white/5',
+            border: 'border-white/10',
+            hover: 'hover:bg-white/10 hover:border-white/30',
+        },
+        {
+            name: 'Reddit',
+            url: 'https://www.reddit.com/r/TRDGToken',
+            icon: MessageSquare,
+            color: 'text-[#FF4500]',
+            bg: 'bg-[#FF4500]/10',
+            border: 'border-[#FF4500]/20',
+            hover: 'hover:bg-[#FF4500] hover:text-white',
+        },
+        {
+            name: 'Medium',
+            url: 'https://tardigradesfinance.medium.com/',
+            icon: BookOpen,
+            color: 'text-trdg-green',
+            bg: 'bg-trdg-green/10',
+            border: 'border-trdg-green/20',
+            hover: 'hover:bg-trdg-green hover:text-black',
+        },
+        {
+            name: 'Instagram',
+            url: 'https://www.instagram.com/trdgtoken/',
+            icon: Instagram,
+            color: 'text-[#E4405F]',
+            bg: 'bg-[#E4405F]/10',
+            border: 'border-[#E4405F]/20',
+            hover: 'hover:bg-[#E4405F] hover:text-white',
+        },
+        {
+            name: 'Facebook',
+            url: 'https://www.facebook.com/TRDGtoken',
+            icon: Facebook,
+            color: 'text-[#1877F2]',
+            bg: 'bg-[#1877F2]/10',
+            border: 'border-[#1877F2]/20',
+            hover: 'hover:bg-[#1877F2] hover:text-white',
+        },
+        {
+            name: 'YouTube',
+            url: 'https://www.youtube.com/@TRDGLive',
+            icon: Youtube,
+            color: 'text-[#FF0000]',
+            bg: 'bg-[#FF0000]/10',
+            border: 'border-[#FF0000]/20',
+            hover: 'hover:bg-[#FF0000] hover:text-white',
+        },
+        {
+            name: 'GitHub',
+            url: 'https://github.com/tardigradesfinance',
+            icon: Github,
+            color: 'text-purple-400',
+            bg: 'bg-purple-500/10',
+            border: 'border-purple-500/20',
+            hover: 'hover:bg-purple-500 hover:text-white',
+        }
+    ]
+
     return (
         <section id="community" className="relative py-24 md:py-32 overflow-hidden bg-black">
             <OrganicBackground />
@@ -26,42 +110,19 @@ export function Community() {
                         <span className="text-white font-bold mt-2 block">Join the Extremophiles and survive anything.</span>
                     </p>
 
-                    <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-                        <a href="https://t.me/TardigradesOfficial" target="_blank" className="flex items-center gap-3 px-6 py-3 bg-[#229ED9]/10 border border-[#229ED9]/30 text-[#229ED9] rounded-xl hover:bg-[#229ED9] hover:text-white transition-all duration-300 group shadow-lg shadow-[#229ED9]/5">
-                            <Send className="group-hover:scale-110 transition-transform" size={20} />
-                            <span className="font-bold font-orbitron text-sm uppercase tracking-wider">Telegram</span>
-                        </a>
-                        <a href="https://t.me/TRDGAnnouncement" target="_blank" className="flex items-center gap-3 px-6 py-3 bg-[#229ED9]/5 border border-[#229ED9]/20 text-[#229ED9]/80 rounded-xl hover:bg-[#229ED9] hover:text-white transition-all duration-300 group">
-                            <Send className="group-hover:scale-110 transition-transform" size={18} />
-                            <span className="font-bold font-orbitron text-xs uppercase tracking-wider">Announcements</span>
-                        </a>
-                        <a href="https://x.com/TRDGtoken" target="_blank" className="flex items-center gap-3 px-6 py-3 bg-white/5 border border-white/20 text-white rounded-xl hover:bg-white/10 hover:border-white/40 transition-all duration-300 group shadow-lg shadow-white/5">
-                            <Twitter className="group-hover:scale-110 transition-transform" size={20} />
-                            <span className="font-bold font-orbitron text-sm uppercase tracking-wider">X (Twitter)</span>
-                        </a>
-                        <a href="https://www.reddit.com/r/TRDGToken" target="_blank" className="flex items-center gap-3 px-6 py-3 bg-[#FF4500]/10 border border-[#FF4500]/30 text-[#FF4500] rounded-xl hover:bg-[#FF4500] hover:text-white transition-all duration-300 group shadow-lg shadow-[#FF4500]/5">
-                            <Globe className="group-hover:scale-110 transition-transform" size={20} />
-                            <span className="font-bold font-orbitron text-sm uppercase tracking-wider">Reddit</span>
-                        </a>
-                    </div>
-
-                    <div className="mt-12 flex flex-wrap justify-center gap-8 md:gap-12 text-sm text-gray-500 font-mono uppercase tracking-[0.2em]">
-                        <a href="https://tardigradesfinance.medium.com/" target="_blank" className="hover:text-trdg-green transition-colors flex items-center gap-2 group">
-                            <div className="w-1.5 h-1.5 rounded-full bg-trdg-green/30 group-hover:bg-trdg-green transition-colors" />
-                            Medium
-                        </a>
-                        <a href="https://www.instagram.com/trdgtoken/" target="_blank" className="hover:text-[#E4405F] transition-colors flex items-center gap-2 group">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#E4405F]/30 group-hover:bg-[#E4405F] transition-colors" />
-                            Instagram
-                        </a>
-                        <a href="https://www.facebook.com/TRDGtoken" target="_blank" className="hover:text-blue-500 transition-colors flex items-center gap-2 group">
-                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500/30 group-hover:bg-blue-500 transition-colors" />
-                            Facebook
-                        </a>
-                        <a href="https://www.youtube.com/@TRDGLive" target="_blank" className="hover:text-red-500 transition-colors flex items-center gap-2 group">
-                            <div className="w-1.5 h-1.5 rounded-full bg-red-500/30 group-hover:bg-red-500 transition-colors" />
-                            YouTube
-                        </a>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
+                        {socials.map((social) => (
+                            <a
+                                key={social.name}
+                                href={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border transition-all duration-300 group ${social.bg} ${social.border} ${social.color} ${social.hover}`}
+                            >
+                                <social.icon className="group-hover:scale-110 transition-transform duration-300" size={28} />
+                                <span className="font-bold font-orbitron text-xs uppercase tracking-wider">{social.name}</span>
+                            </a>
+                        ))}
                     </div>
                 </motion.div>
             </div>
