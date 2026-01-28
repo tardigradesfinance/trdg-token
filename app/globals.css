@@ -95,3 +95,23 @@
 .text-gradient-gold {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-trdg-gold;
 }
+
+/* Procedural Moss Texture */
+.moss-texture {
+  position: relative;
+}
+
+.moss-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 24%, rgba(74, 222, 128, 0.3) 1px, transparent 1px),
+    radial-gradient(1.5px 1.5px at 82% 15%, rgba(34, 197, 94, 0.3) 1px, transparent 1px),
+    radial-gradient(1.5px 1.5px at 43% 66%, rgba(22, 163, 74, 0.3) 1px, transparent 1px),
+    radial-gradient(1.5px 1.5px at 91% 83%, rgba(134, 239, 172, 0.2) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: overlay;
+}

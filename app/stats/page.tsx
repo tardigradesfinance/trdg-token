@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 import { CustomCursor } from "@/components/ui/CustomCursor"
 import { useTRDGStats, useWalletStats, formatNumber, formatCurrency, formatCompact } from '@/lib/useTRDGStats'
+import { StarField } from '@/components/ui/StarField'
 import {
     Activity, RefreshCw, Flame, TrendingUp, BarChart3, Wallet,
     DollarSign, Droplets, Shield, Clock, AlertCircle, Copy, Check,
@@ -44,7 +45,10 @@ export default function StatsPage() {
     const contractAddress = '0x92a42Db88Ed0F02c71D439e55962Ca7CAB0168b5'
 
     return (
-        <main className="min-h-screen bg-black text-white">
+        <main className="min-h-screen bg-black text-white relative overflow-hidden">
+            <div className="fixed inset-0 z-0">
+                <StarField />
+            </div>
             <CustomCursor />
             <Header />
 

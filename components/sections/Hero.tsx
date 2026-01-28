@@ -36,7 +36,7 @@ export function Hero() {
 
     const y1 = useTransform(scrollY, [0, 500], [0, isMobile ? 100 : 200])
     const y2 = useTransform(scrollY, [0, 500], [0, isMobile ? -70 : -150])
-    const opacity = useTransform(scrollY, [0, 500], [1, 0])
+    const opacity = useTransform(scrollY, [0, 800], [1, 0]) // Extended fade out
     const scale = useTransform(scrollY, [0, 500], [1, 0.9])
 
     const copyToClipboard = () => {
@@ -139,7 +139,7 @@ export function Hero() {
                         whileHover={{ scale: 1.05, borderColor: "rgba(0, 240, 255, 0.8)", boxShadow: "0 0 30px rgba(0, 240, 255, 0.3)" }}
                         whileTap={{ scale: 0.95 }}
                         onClick={copyToClipboard}
-                        className="group relative px-6 py-3 md:px-8 md:py-4 bg-black/80 md:bg-space-light/40 md:backdrop-blur-md border border-trdg-cyan/30 rounded-xl flex items-center justify-center gap-4 transition-all overflow-hidden w-full md:w-auto"
+                        className="group relative px-6 py-3 md:px-8 md:py-4 bg-black/80 md:bg-space-light/40 md:backdrop-blur-md border border-trdg-cyan/30 rounded-xl flex items-center justify-center gap-4 transition-all overflow-hidden w-full md:w-auto moss-texture"
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-trdg-cyan/0 via-trdg-cyan/10 to-trdg-cyan/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
 
@@ -156,7 +156,7 @@ export function Hero() {
                         href="#mission"
                         whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(0, 255, 148, 0.4)" }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-8 py-4 md:px-10 md:py-5 bg-gradient-to-r from-trdg-cyan to-trdg-green text-black font-black font-orbitron rounded-xl text-md md:text-lg uppercase tracking-widest flex items-center justify-center gap-3 relative overflow-hidden group w-full md:w-auto"
+                        className="px-8 py-4 md:px-10 md:py-5 bg-gradient-to-r from-trdg-cyan to-trdg-green text-black font-black font-orbitron rounded-xl text-md md:text-lg uppercase tracking-widest flex items-center justify-center gap-3 relative overflow-hidden group w-full md:w-auto moss-texture"
                     >
                         <span className="relative z-10">Enlist Now</span>
                         <Rocket className="relative z-10 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

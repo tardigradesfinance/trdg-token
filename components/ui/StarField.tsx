@@ -17,32 +17,78 @@ export function StarField() {
         canvas.width = width
         canvas.height = height
 
-        // Star properties
-        const stars: { x: number; y: number; z: number; color: string; sizeOffset: number }[] = []
-        const numStars = isMobile ? 150 : 350
+        // CONFIGURATION
+        const CONFIG = {
+            starCount: isMobile ? 400 : 1000, // user wants "much more"
+            speed: isMobile ? 0.2 : 0.3,
+            trailLength: 0.15, // Trail length multiplier
+            planetCount: 3,
+        }
+
         const centerX = width / 2
         const centerY = height / 2
 
-        // Initialize stars
-        for (let i = 0; i < numStars; i++) {
-            stars.push({
+        // --- STARS ---
+        // We use a Z-coordinate based starfield (warp effect)
+        type Star = {
+            x: number
+            y: number
+            z: number
+            color: string
+            sizeBase: number
+            alphaBase: number
+        }
+
+        const stars: Star[] = []
+        for (let i = 0; i < CONFIG.starCount; i++) {
+            stars.push(createStar())
+        }
+
+        function createStar(): Star {
+            return {
                 x: Math.random() * width - centerX,
                 y: Math.random() * height - centerY,
                 z: Math.random() * width,
-                color: Math.random() > 0.9 ? '#00F0FF' : '#ffffff',
-                sizeOffset: Math.random()
+                color: Math.random() > 0.85 ? '#00A3FF' : '#ffffff', // TRDG Cyan/Blue mix
+                sizeBase: Math.random(),
+                alphaBase: 0.5 + Math.random() * 0.5
+            }
+        }
+
+        // --- PLANETS ---
+        type Planet = {
+            x: number
+            y: number
+            radius: number
+            color: string
+            speedX: number
+            speedY: number
+            hasRings: boolean
+        }
+        const planets: Planet[] = []
+        // Initialize planets nicely distributed
+        for (let i = 0; i < CONFIG.planetCount; i++) {
+            planets.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: isMobile ? 20 + Math.random() * 40 : 40 + Math.random() * 80,
+                color: i % 2 === 0 ? '#003366' : '#220033', // Dark deep space colors
+                speedX: (Math.random() - 0.5) * 0.05,
+                speedY: (Math.random() - 0.5) * 0.05,
+                hasRings: Math.random() > 0.5
             })
         }
 
-        let speed = isMobile ? 0.15 : 0.2
+
+        // Mouse Parallax
         let mouseX = 0
         let mouseY = 0
-        let targetX = 0
-        let targetY = 0
+        let targetMouseX = 0
+        let targetMouseY = 0
 
         const handleMouseMove = (e: MouseEvent) => {
-            targetX = (e.clientX - centerX) * 0.03
-            targetY = (e.clientY - centerY) * 0.03
+            targetMouseX = (e.clientX - centerX) * 0.05
+            targetMouseY = (e.clientY - centerY) * 0.05
         }
 
         let isVisible = true
@@ -53,17 +99,84 @@ export function StarField() {
 
         const animate = () => {
             if (isVisible) {
+                ctx.fillStyle = 'rgba(0, 0, 5, 0.4)' // Slight trail/fade effect on background for smoother visuals? No, clean start each frame for crisp stars.
                 ctx.clearRect(0, 0, width, height)
 
-                // Dynamic easing for mouse parallax
-                mouseX += (targetX - mouseX) * 0.05
-                mouseY += (targetY - mouseY) * 0.05
-
+                // Update Mouse Orbit
+                mouseX += (targetMouseX - mouseX) * 0.05
+                mouseY += (targetMouseY - mouseY) * 0.05
                 const cx = centerX + mouseX
                 const cy = centerY + mouseY
 
+                // 1. Draw Planets (Background Layer)
+                // They move very slowly and are unaffected by warp z-index (simulating infinite distance)
+                planets.forEach(planet => {
+                    planet.x += planet.speedX
+                    planet.y += planet.speedY
+
+                    // Wrap around screen
+                    if (planet.x < -planet.radius) planet.x = width + planet.radius
+                    if (planet.x > width + planet.radius) planet.x = -planet.radius
+                    if (planet.y < -planet.radius) planet.y = height + planet.radius
+                    if (planet.y > height + planet.radius) planet.y = -planet.radius
+
+                    ctx.save() // Save context for clipping
+
+                    // Draw Gradient Planet Base
+                    const gradient = ctx.createRadialGradient(
+                        planet.x - planet.radius * 0.3,
+                        planet.y - planet.radius * 0.3,
+                        planet.radius * 0.1,
+                        planet.x,
+                        planet.y,
+                        planet.radius
+                    )
+                    gradient.addColorStop(0, planet.color)
+                    gradient.addColorStop(1, 'transparent')
+
+                    ctx.beginPath()
+                    ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2)
+                    ctx.fillStyle = gradient
+                    ctx.fill()
+
+                    // Clip to planet circle for texture
+                    ctx.clip()
+
+                    // Procedural Texture (Craters/Bands)
+                    ctx.fillStyle = 'rgba(0,0,0,0.2)'
+                    // deterministic "random" based on planet x/y makes them jitter if we aren't careful.
+                    // Ideally we store texture data in the planet object, but for simple noise we can use procedural drawing relative to center
+
+                    // Simple Craters
+                    for (let j = 0; j < 3; j++) {
+                        ctx.beginPath()
+                        // Offset crater positions based on planet properties to keep them consistent relative to the planet
+                        // We use the radius as a seed-ish
+                        const craterX = planet.x + planet.radius * Math.sin(j * 2) * 0.5
+                        const craterY = planet.y + planet.radius * Math.cos(j * 3) * 0.5
+                        const craterSize = planet.radius * (0.1 + Math.abs(Math.sin(j)) * 0.2)
+                        ctx.arc(craterX, craterY, craterSize, 0, Math.PI * 2)
+                        ctx.fill()
+                    }
+
+                    // Optional Rings (Redrawn inside clip? No, rings should be outside. Restore first)
+                    ctx.restore()
+
+                    // Optional Rings
+                    if (planet.hasRings) {
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)'
+                        ctx.lineWidth = planet.radius * 0.1
+                        ctx.beginPath()
+                        ctx.ellipse(planet.x, planet.y, planet.radius * 1.6, planet.radius * 0.4, Math.PI / 6, 0, Math.PI * 2)
+                        ctx.stroke()
+                    }
+                })
+
+
+                // 2. Draw Stars (Warp Layer)
                 stars.forEach((star) => {
-                    star.z -= speed
+                    // Move star closer
+                    star.z -= CONFIG.speed
                     if (star.z <= 0) {
                         star.z = width
                         star.x = Math.random() * width - centerX
@@ -74,20 +187,39 @@ export function StarField() {
                     const px = star.x * k + cx
                     const py = star.y * k + cy
 
-                    if (px >= 0 && px <= width && py >= 0 && py <= height) {
-                        const depth = Math.max(0, 1 - star.z / width)
-                        const size = depth * (isMobile ? 1.5 : 2.5) * star.sizeOffset
-                        const alpha = depth * 0.7
+                    // Bounds check
+                    if (px >= -50 && px <= width + 50 && py >= -50 && py <= height + 50) {
+                        const depth = 1 - star.z / width
+                        const size = (1 - depth) * 0.1 + depth * 3 * star.sizeBase // scales up as it gets closer
+                        const alpha = depth * star.alphaBase
 
-                        ctx.fillStyle = star.color
+                        // Store previous position for trail (but clamp it so it doesn't streak across screen on wrap)
+                        // Actually, we can just project a point slightly further back in Z for the tail
+                        const tailZ = star.z + (CONFIG.speed * 20) // Simulated previous Z
+                        const kTail = 128.0 / tailZ
+                        const tailX = star.x * kTail + cx
+                        const tailY = star.y * kTail + cy
+
                         ctx.globalAlpha = alpha
+                        ctx.fillStyle = star.color
+                        ctx.strokeStyle = star.color
 
-                        if (size < 1.2) {
-                            ctx.fillRect(px, py, size, size)
-                        } else {
+                        // If star is close (high depth) and moving fast visually, draw trail
+                        const distToCenter = Math.sqrt((px - cx) ** 2 + (py - cy) ** 2)
+                        const isFast = distToCenter > 100 // Stars at edges move faster
+
+                        if (isFast && depth > 0.5) {
+                            ctx.lineWidth = size
+                            ctx.beginPath()
+                            ctx.moveTo(tailX, tailY)
+                            ctx.lineTo(px, py)
+                            ctx.stroke()
+                        } else if (size > 1.5) {
                             ctx.beginPath()
                             ctx.arc(px, py, size, 0, Math.PI * 2)
                             ctx.fill()
+                        } else {
+                            ctx.fillRect(px, py, size, size)
                         }
                     }
                 })
@@ -117,11 +249,14 @@ export function StarField() {
 
     return (
         <div className="absolute inset-0 z-0 pointer-events-none">
-            {/* CSS-based Nebula Background - Made slightly darker/subtler */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-black to-black" />
+            {/* CSS-based Nebula Background - Deep Space */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#050b14] via-[#000000] to-[#000000]" />
+
+            {/* Overlay Gradient for depth */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 mix-blend-overlay" />
 
             {/* Canvas Stars */}
-            <canvas ref={canvasRef} className="absolute inset-0 block" />
+            <canvas ref={canvasRef} className="absolute inset-0 block mix-blend-screen" />
         </div>
     )
 }
