@@ -55,27 +55,31 @@ export function StarField() {
             }
         }
 
-        // --- PLANETS ---
-        type Planet = {
+        // --- SPACE ORBS (Subtle background colors) ---
+        type SpaceOrb = {
             x: number
             y: number
             radius: number
             color: string
             speedX: number
             speedY: number
-            hasRings: boolean
         }
-        const planets: Planet[] = []
-        // Initialize planets nicely distributed
-        for (let i = 0; i < CONFIG.planetCount; i++) {
-            planets.push({
+        const orbs: SpaceOrb[] = []
+        // Initialize subtle color orbs
+        const ORB_COLORS = [
+            'rgba(0, 240, 255, 0.1)', // TRDG Cyan (faint)
+            'rgba(0, 0, 50, 0.3)',    // Deep Blue
+            'rgba(50, 0, 50, 0.2)',    // Deep Purple
+        ]
+
+        for (let i = 0; i < CONFIG.planetCount + 2; i++) { // A few more orbs than planets
+            orbs.push({
                 x: Math.random() * width,
                 y: Math.random() * height,
-                radius: isMobile ? 20 + Math.random() * 40 : 40 + Math.random() * 80,
-                color: i % 2 === 0 ? '#003366' : '#220033', // Dark deep space colors
+                radius: isMobile ? 100 + Math.random() * 100 : 200 + Math.random() * 300, // Large soft blobs
+                color: ORB_COLORS[Math.floor(Math.random() * ORB_COLORS.length)],
                 speedX: (Math.random() - 0.5) * 0.05,
                 speedY: (Math.random() - 0.5) * 0.05,
-                hasRings: Math.random() > 0.5
             })
         }
 
@@ -99,7 +103,7 @@ export function StarField() {
 
         const animate = () => {
             if (isVisible) {
-                ctx.fillStyle = 'rgba(0, 0, 5, 0.4)' // Slight trail/fade effect on background for smoother visuals? No, clean start each frame for crisp stars.
+                // Clear and Draw
                 ctx.clearRect(0, 0, width, height)
 
                 // Update Mouse Orbit
@@ -108,44 +112,32 @@ export function StarField() {
                 const cx = centerX + mouseX
                 const cy = centerY + mouseY
 
-                // 1. Draw Planets (Background Layer)
-                // They move very slowly and are unaffected by warp z-index (simulating infinite distance)
-                planets.forEach(planet => {
-                    planet.x += planet.speedX
-                    planet.y += planet.speedY
+                // 1. Draw Space Orbs (Background Layer)
+                // Very soft, moving slowly
+                orbs.forEach(orb => {
+                    orb.x += orb.speedX
+                    orb.y += orb.speedY
 
-                    // Wrap around screen
-                    if (planet.x < -planet.radius) planet.x = width + planet.radius
-                    if (planet.x > width + planet.radius) planet.x = -planet.radius
-                    if (planet.y < -planet.radius) planet.y = height + planet.radius
-                    if (planet.y > height + planet.radius) planet.y = -planet.radius
+                    // Wrap
+                    if (orb.x < -orb.radius) orb.x = width + orb.radius
+                    if (orb.x > width + orb.radius) orb.x = -orb.radius
+                    if (orb.y < -orb.radius) orb.y = height + orb.radius
+                    if (orb.y > height + orb.radius) orb.y = -orb.radius
 
-                    // Draw Gradient Planet
+                    // Soft Gradient Glow
                     const gradient = ctx.createRadialGradient(
-                        planet.x - planet.radius * 0.3,
-                        planet.y - planet.radius * 0.3,
-                        planet.radius * 0.1,
-                        planet.x,
-                        planet.y,
-                        planet.radius
+                        orb.x, orb.y, 0,
+                        orb.x, orb.y, orb.radius
                     )
-                    gradient.addColorStop(0, '#1a237e') // Lighter blue center
-                    gradient.addColorStop(0.5, planet.color)
-                    gradient.addColorStop(1, 'transparent')
+                    gradient.addColorStop(0, orb.color) // Center color
+                    gradient.addColorStop(1, 'transparent') // Fade out
 
                     ctx.fillStyle = gradient
+                    ctx.globalCompositeOperation = 'screen' // Blend nicely
                     ctx.beginPath()
-                    ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2)
+                    ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2)
                     ctx.fill()
-
-                    // Optional Rings
-                    if (planet.hasRings) {
-                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)'
-                        ctx.lineWidth = planet.radius * 0.1
-                        ctx.beginPath()
-                        ctx.ellipse(planet.x, planet.y, planet.radius * 1.6, planet.radius * 0.4, Math.PI / 6, 0, Math.PI * 2)
-                        ctx.stroke()
-                    }
+                    ctx.globalCompositeOperation = 'source-over' // Reset
                 })
 
 
