@@ -52,7 +52,7 @@ export default function StatsPage() {
             <CustomCursor />
             <Header />
 
-            <div className="pt-28 pb-16 min-h-screen">
+            <div className="pt-28 pb-16 min-h-screen relative z-10">
                 <div className="container mx-auto px-4">
                     {/* Header */}
                     <div className="text-center mb-12">
