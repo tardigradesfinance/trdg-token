@@ -56,14 +56,12 @@ export default function StatsPage() {
                 <div className="container mx-auto px-4">
                     {/* Header */}
                     <div className="text-center mb-12">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                        <div
                             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-trdg-cyan/10 border border-trdg-cyan/20 mb-6"
                         >
                             <Activity className="text-trdg-cyan animate-pulse" size={16} />
                             <span className="text-[10px] font-mono text-trdg-cyan uppercase tracking-widest font-black">Live Stats Dashboard</span>
-                        </motion.div>
+                        </div>
                         <h1 className="text-4xl md:text-7xl font-orbitron font-black text-white mb-4 uppercase tracking-tighter">
                             TRDG <span className="text-trdg-cyan text-glow-trdg">STATS</span>
                         </h1>
@@ -124,10 +122,7 @@ export default function StatsPage() {
                     {/* Main Stats Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                         {/* BSC Card */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.2 }}
+                        <div
                             className="p-6 rounded-2xl bg-gradient-to-br from-yellow-500/5 to-transparent border border-yellow-500/20"
                         >
                             <div className="flex items-center gap-3 mb-6">
@@ -260,13 +255,10 @@ export default function StatsPage() {
                                     )}
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
 
                         {/* ETH Card */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.3 }}
+                        <div
                             className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/5 to-transparent border border-blue-500/20"
                         >
                             <div className="flex items-center gap-3 mb-6">
@@ -399,7 +391,7 @@ export default function StatsPage() {
                                     )}
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     </div>
 
                     {/* Combined Stats */}
