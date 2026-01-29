@@ -123,7 +123,7 @@ export default function StatsPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                         {/* BSC Card */}
                         <div
-                            className="p-6 rounded-2xl bg-gradient-to-br from-yellow-500/5 to-transparent border border-yellow-500/20"
+                            className="p-6 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-yellow-500/20 shadow-lg shadow-yellow-500/5"
                         >
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-10 h-10 rounded-xl bg-yellow-500/20 flex items-center justify-center">
@@ -137,7 +137,7 @@ export default function StatsPage() {
 
                             <div className="space-y-4">
                                 {/* Price */}
-                                <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                                <div className="p-4 rounded-xl bg-black/80 border border-white/5">
                                     <div className="flex items-center justify-between mb-2">
                                         <span className="text-[10px] font-mono text-gray-500 uppercase flex items-center gap-1">
                                             <DollarSign size={10} /> Price
@@ -153,7 +153,7 @@ export default function StatsPage() {
                                 </div>
 
                                 {/* Market Cap */}
-                                <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                                <div className="p-4 rounded-xl bg-black/80 border border-white/5">
                                     <div className="flex items-center justify-between">
                                         <span className="text-[10px] font-mono text-gray-500 uppercase flex items-center gap-1">
                                             <BarChart3 size={10} /> Market Cap
@@ -165,7 +165,7 @@ export default function StatsPage() {
                                 </div>
 
                                 {/* Liquidity */}
-                                <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                                <div className="p-4 rounded-xl bg-black/80 border border-white/5">
                                     <div className="flex items-center justify-between">
                                         <span className="text-[10px] font-mono text-gray-500 uppercase flex items-center gap-1">
                                             <Droplets size={10} /> Liquidity
@@ -180,7 +180,7 @@ export default function StatsPage() {
                                 </div>
 
                                 {/* Burned */}
-                                <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20">
+                                <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20 bg-black/60">
                                     <div className="flex items-center justify-between">
                                         <span className="text-[10px] font-mono text-orange-400 uppercase flex items-center gap-1">
                                             <Flame size={10} /> Total Burned
@@ -220,7 +220,7 @@ export default function StatsPage() {
                                                     placeholder="Enter BSC wallet address..."
                                                     value={bscWalletAddress}
                                                     onChange={(e) => setBscWalletAddress(e.target.value)}
-                                                    className="flex-1 px-3 py-2 rounded-lg bg-black/50 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-yellow-500/50"
+                                                    className="flex-1 px-3 py-2 rounded-lg bg-black/90 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-yellow-500/50"
                                                 />
                                                 <button
                                                     onClick={handleBscWalletSubmit}
@@ -232,7 +232,7 @@ export default function StatsPage() {
                                             </div>
 
                                             {bscWalletStats && (
-                                                <div className="p-3 rounded-lg bg-black/40 border border-yellow-500/20 space-y-2">
+                                                <div className="p-3 rounded-lg bg-black/80 border border-yellow-500/20 space-y-2">
                                                     <div className="flex justify-between text-xs">
                                                         <span className="text-gray-500">Balance:</span>
                                                         <span className="text-white font-mono">{formatCompact(bscWalletStats.balance)} TRDG</span>
@@ -259,7 +259,7 @@ export default function StatsPage() {
 
                         {/* ETH Card */}
                         <div
-                            className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/5 to-transparent border border-blue-500/20"
+                            className="p-6 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-blue-500/20 shadow-lg shadow-blue-500/5"
                         >
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
@@ -273,7 +273,7 @@ export default function StatsPage() {
 
                             <div className="space-y-4">
                                 {/* Price */}
-                                <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                                <div className="p-4 rounded-xl bg-black/80 border border-white/5">
                                     <div className="flex items-center justify-between mb-2">
                                         <span className="text-[10px] font-mono text-gray-500 uppercase flex items-center gap-1">
                                             <DollarSign size={10} /> Price
@@ -289,7 +289,7 @@ export default function StatsPage() {
                                 </div>
 
                                 {/* Market Cap */}
-                                <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                                <div className="p-4 rounded-xl bg-black/80 border border-white/5">
                                     <div className="flex items-center justify-between">
                                         <span className="text-[10px] font-mono text-gray-500 uppercase flex items-center gap-1">
                                             <BarChart3 size={10} /> Market Cap
@@ -301,7 +301,7 @@ export default function StatsPage() {
                                 </div>
 
                                 {/* Liquidity */}
-                                <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                                <div className="p-4 rounded-xl bg-black/80 border border-white/5">
                                     <div className="flex items-center justify-between">
                                         <span className="text-[10px] font-mono text-gray-500 uppercase flex items-center gap-1">
                                             <Droplets size={10} /> Liquidity
@@ -316,7 +316,7 @@ export default function StatsPage() {
                                 </div>
 
                                 {/* Burned */}
-                                <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20">
+                                <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20 bg-black/60">
                                     <div className="flex items-center justify-between">
                                         <span className="text-[10px] font-mono text-orange-400 uppercase flex items-center gap-1">
                                             <Flame size={10} /> Total Burned
@@ -356,7 +356,7 @@ export default function StatsPage() {
                                                     placeholder="Enter ETH wallet address..."
                                                     value={ethWalletAddress}
                                                     onChange={(e) => setEthWalletAddress(e.target.value)}
-                                                    className="flex-1 px-3 py-2 rounded-lg bg-black/50 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-blue-500/50"
+                                                    className="flex-1 px-3 py-2 rounded-lg bg-black/90 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-blue-500/50"
                                                 />
                                                 <button
                                                     onClick={handleEthWalletSubmit}
@@ -368,7 +368,7 @@ export default function StatsPage() {
                                             </div>
 
                                             {ethWalletStats && (
-                                                <div className="p-3 rounded-lg bg-black/40 border border-blue-500/20 space-y-2">
+                                                <div className="p-3 rounded-lg bg-black/80 border border-blue-500/20 space-y-2">
                                                     <div className="flex justify-between text-xs">
                                                         <span className="text-gray-500">Balance:</span>
                                                         <span className="text-white font-mono">{formatCompact(ethWalletStats.balance)} TRDG</span>
@@ -401,7 +401,7 @@ export default function StatsPage() {
                         transition={{ delay: 0.4 }}
                         className="max-w-4xl mx-auto"
                     >
-                        <div className="p-8 rounded-2xl bg-gradient-to-r from-trdg-cyan/5 via-purple-500/5 to-trdg-green/5 border border-white/10">
+                        <div className="p-8 rounded-2xl bg-zinc-950/90 backdrop-blur-md border border-white/10 shadow-2xl">
                             <h3 className="text-center text-xl font-orbitron font-bold text-white mb-8 uppercase">Combined Statistics</h3>
 
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
