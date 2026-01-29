@@ -21,9 +21,16 @@ const BSC_RPC_URLS = [
     'https://bsc-dataseed1.defibit.io',
     'https://bsc-dataseed1.ninicoin.io',
     'https://bsc-dataseed2.defibit.io',
+    'https://bsc-dataseed2.defibit.io',
 ]
 
-const ETH_RPC_URL = 'https://eth.llamarpc.com'
+// ETH Public RPC endpoints - Round robin
+const ETH_RPC_URLS = [
+    'https://eth.llamarpc.com',
+    'https://rpc.ankr.com/eth',
+    'https://ethereum.publicnode.com',
+    'https://1rpc.io/eth',
+]
 
 const MAX_SUPPLY = 100000 * 10 ** 12
 
@@ -69,27 +76,8 @@ async function getTokenBalanceViaRpc(rpcUrls: string[], tokenAddress: string, wa
         }
     }
 
-    console.error('All BSC RPCs failed for', tokenAddress)
+    console.error('All RPCs failed for', tokenAddress)
     return 0
-}
-
-// Get ETH token balance via Etherscan V2 API
-async function getEthTokenBalance(contractAddress: string, walletAddress: string): Promise<number> {
-    try {
-        const url = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${ETH_API_KEY}`
-        const response = await fetch(url, {
-            headers: { 'Accept': 'application/json' }
-        })
-        const data = await response.json()
-        if (data.status === '1' && data.result) {
-            return parseInt(data.result) || 0
-        }
-        console.log('Etherscan V2 API response:', JSON.stringify(data))
-        return 0
-    } catch (error) {
-        console.error('Etherscan fetch error:', error)
-        return 0
-    }
 }
 
 // Get prices from CoinGecko (free, no API key needed)
@@ -130,15 +118,15 @@ async function fetchBscData() {
     return { bscPoolWbnbRaw, bscPoolTrdgRaw, bscBurnedRaw }
 }
 
-// Fetch all ETH data via Etherscan V2 API
+// Fetch all ETH data via RPC
 async function fetchEthData() {
-    const ethPoolWethRaw = await getEthTokenBalance(WETH_ADDRESS, UNISWAP_POOL_ADDRESS)
-    await wait(300)
+    const ethPoolWethRaw = await getTokenBalanceViaRpc(ETH_RPC_URLS, WETH_ADDRESS, UNISWAP_POOL_ADDRESS)
+    await wait(100)
 
-    const ethPoolTrdgRaw = await getEthTokenBalance(TRDG_ETH_ADDRESS, UNISWAP_POOL_ADDRESS)
-    await wait(300)
+    const ethPoolTrdgRaw = await getTokenBalanceViaRpc(ETH_RPC_URLS, TRDG_ETH_ADDRESS, UNISWAP_POOL_ADDRESS)
+    await wait(100)
 
-    const ethBurnedRaw = await getEthTokenBalance(TRDG_ETH_ADDRESS, BURN_WALLET_ADDRESS)
+    const ethBurnedRaw = await getTokenBalanceViaRpc(ETH_RPC_URLS, TRDG_ETH_ADDRESS, BURN_WALLET_ADDRESS)
 
     return { ethPoolWethRaw, ethPoolTrdgRaw, ethBurnedRaw }
 }
