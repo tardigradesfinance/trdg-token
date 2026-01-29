@@ -74,6 +74,14 @@ export function useTRDGStats(refreshInterval: number = 60000) {
     // Use ref to track initialization to avoid stale closure issues in useCallback
     const isInitializedRef = useRef(false)
 
+    // Use ref to track current stats to avoid stale closures in fetchStats without triggering re-renders
+    const statsRef = useRef(defaultStats)
+
+    // Sync ref with state
+    useEffect(() => {
+        statsRef.current = stats
+    }, [stats])
+
     const fetchStats = useCallback(async () => {
         try {
             // Only show loading state if we haven't initialized yet
@@ -90,8 +98,9 @@ export function useTRDGStats(refreshInterval: number = 60000) {
                 // Validate data quality before updating
                 // Only update if we have valid price data OR if we currently have nothing
                 const isValidData = result.data.bscPrice > 0
+                const currentPrice = statsRef.current.bscPrice
 
-                if (isValidData || stats.bscPrice === 0) {
+                if (isValidData || currentPrice === 0) {
                     setStats(prev => ({ ...defaultStats, ...result.data }))
                     setLastUpdated(new Date())
                     isInitializedRef.current = true
@@ -110,7 +119,7 @@ export function useTRDGStats(refreshInterval: number = 60000) {
                     ethPrice: result.data.ethPrice,
                     bnbPrice: result.data.bnbPrice,
                     status: isValidData ? 'Valid' : 'Ignored (Invalid)',
-                    currentPrice: stats.bscPrice
+                    currentPrice: currentPrice
                 })
             } else {
                 setError('Failed to fetch stats')
@@ -131,7 +140,9 @@ export function useTRDGStats(refreshInterval: number = 60000) {
             if (cached) {
                 try {
                     const parsed = JSON.parse(cached)
-                    setStats({ ...defaultStats, ...parsed.data })
+                    const fusedStats = { ...defaultStats, ...parsed.data }
+                    setStats(fusedStats)
+                    statsRef.current = fusedStats // Sync ref immediately
                     setLastUpdated(new Date(parsed.timestamp))
                     setLoading(false)
                     isInitializedRef.current = true
