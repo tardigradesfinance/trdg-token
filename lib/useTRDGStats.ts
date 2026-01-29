@@ -87,7 +87,7 @@ export function useTRDGStats(refreshInterval: number = 60000) {
             const result = await response.json()
 
             if (result.success && result.data) {
-                setStats(result.data)
+                setStats(prev => ({ ...defaultStats, ...result.data }))
                 setLastUpdated(new Date())
                 isInitializedRef.current = true
 
@@ -126,7 +126,7 @@ export function useTRDGStats(refreshInterval: number = 60000) {
             if (cached) {
                 try {
                     const parsed = JSON.parse(cached)
-                    setStats(parsed.data)
+                    setStats({ ...defaultStats, ...parsed.data })
                     setLastUpdated(new Date(parsed.timestamp))
                     setLoading(false)
                     isInitializedRef.current = true
