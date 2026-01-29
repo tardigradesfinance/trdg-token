@@ -87,25 +87,30 @@ export function useTRDGStats(refreshInterval: number = 60000) {
             const result = await response.json()
 
             if (result.success && result.data) {
-                setStats(prev => ({ ...defaultStats, ...result.data }))
-                setLastUpdated(new Date())
-                isInitializedRef.current = true
+                // Validate data quality before updating
+                // Only update if we have valid price data OR if we currently have nothing
+                const isValidData = result.data.bscPrice > 0
 
-                // Cache to localStorage
-                if (typeof window !== 'undefined') {
-                    localStorage.setItem('trdg_stats', JSON.stringify({
-                        data: result.data,
-                        timestamp: new Date().toISOString()
-                    }))
+                if (isValidData || stats.bscPrice === 0) {
+                    setStats(prev => ({ ...defaultStats, ...result.data }))
+                    setLastUpdated(new Date())
+                    isInitializedRef.current = true
+
+                    // Only cache high quality data
+                    if (isValidData && typeof window !== 'undefined') {
+                        localStorage.setItem('trdg_stats', JSON.stringify({
+                            data: result.data,
+                            timestamp: new Date().toISOString()
+                        }))
+                    }
                 }
 
                 console.log('TRDG Stats Updated:', {
                     bscPrice: result.data.bscPrice,
                     ethPrice: result.data.ethPrice,
                     bnbPrice: result.data.bnbPrice,
-                    ethNativePrice: result.data.ethNativePrice,
-                    bscBurned: formatCompact(result.data.bscBurned),
-                    timestamp: result.timestamp
+                    status: isValidData ? 'Valid' : 'Ignored (Invalid)',
+                    currentPrice: stats.bscPrice
                 })
             } else {
                 setError('Failed to fetch stats')
