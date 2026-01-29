@@ -62,7 +62,7 @@ async function getTokenBalanceViaRpc(rpcUrl: string, tokenAddress: string, walle
 // Get ETH token balance via Etherscan V2 API
 async function getEthTokenBalance(contractAddress: string, walletAddress: string): Promise<number> {
     try {
-        const url = `https://api.etherscan.io/v2/api?chainid=1&module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${ETH_API_KEY}`
+        const url = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${ETH_API_KEY}`
         const response = await fetch(url, {
             headers: { 'Accept': 'application/json' }
         })

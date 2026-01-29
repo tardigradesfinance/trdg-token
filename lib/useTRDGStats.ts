@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 // Contract addresses for reference
 const TRDG_BSC_ADDRESS = '0x92a42db88ed0f02c71d439e55962ca7cab0168b5'
@@ -71,10 +71,15 @@ export function useTRDGStats(refreshInterval: number = 60000) {
     const [error, setError] = useState<string | null>(null)
     const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
+    // Use ref to track initialization to avoid stale closure issues in useCallback
+    const isInitializedRef = useRef(false)
+
     const fetchStats = useCallback(async () => {
         try {
-            // Don't set loading to true if we have stats (background refresh)
-            if (stats.bscPrice === 0) setLoading(true)
+            // Only show loading state if we haven't initialized yet
+            if (!isInitializedRef.current) {
+                setLoading(true)
+            }
             setError(null)
 
             // Use server-side API route to avoid CORS issues
@@ -84,6 +89,7 @@ export function useTRDGStats(refreshInterval: number = 60000) {
             if (result.success && result.data) {
                 setStats(result.data)
                 setLastUpdated(new Date())
+                isInitializedRef.current = true
 
                 // Cache to localStorage
                 if (typeof window !== 'undefined') {
@@ -111,7 +117,7 @@ export function useTRDGStats(refreshInterval: number = 60000) {
         } finally {
             setLoading(false)
         }
-    }, [stats.bscPrice])
+    }, [])
 
     // Load from cache on mount
     useEffect(() => {
@@ -123,6 +129,7 @@ export function useTRDGStats(refreshInterval: number = 60000) {
                     setStats(parsed.data)
                     setLastUpdated(new Date(parsed.timestamp))
                     setLoading(false)
+                    isInitializedRef.current = true
                 } catch (e) {
                     console.error('Failed to parse cached stats', e)
                 }
