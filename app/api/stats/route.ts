@@ -15,8 +15,14 @@ const BURN_WALLET_ADDRESS = '0x000000000000000000000000000000000000dead'
 // API Key for Etherscan V2 (only works for ETH mainnet on free tier)
 const ETH_API_KEY = 'U4GW7GB7GYNZESDYSUH9GKPJ3VQZCGVSK2'
 
-// BSC Public RPC endpoint
-const BSC_RPC_URL = 'https://bsc-dataseed.binance.org'
+// BSC Public RPC endpoints - Round robin
+const BSC_RPC_URLS = [
+    'https://bsc-dataseed.binance.org',
+    'https://bsc-dataseed1.defibit.io',
+    'https://bsc-dataseed1.ninicoin.io',
+    'https://bsc-dataseed2.defibit.io',
+]
+
 const ETH_RPC_URL = 'https://eth.llamarpc.com'
 
 const MAX_SUPPLY = 100000 * 10 ** 12
@@ -32,31 +38,39 @@ function padAddress(address: string): string {
     return '000000000000000000000000' + address.toLowerCase().replace('0x', '')
 }
 
-// Call balanceOf via RPC
-async function getTokenBalanceViaRpc(rpcUrl: string, tokenAddress: string, walletAddress: string): Promise<number> {
-    try {
-        const data = BALANCE_OF_SELECTOR + padAddress(walletAddress)
-        const response = await fetch(rpcUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                jsonrpc: '2.0',
-                method: 'eth_call',
-                params: [{ to: tokenAddress, data }, 'latest'],
-                id: 1
+// Call balanceOf via RPC with fallback strategy
+async function getTokenBalanceViaRpc(rpcUrls: string[], tokenAddress: string, walletAddress: string): Promise<number> {
+    const data = BALANCE_OF_SELECTOR + padAddress(walletAddress)
+
+    for (const rpcUrl of rpcUrls) {
+        try {
+            const response = await fetch(rpcUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jsonrpc: '2.0',
+                    method: 'eth_call',
+                    params: [{ to: tokenAddress, data }, 'latest'],
+                    id: 1
+                }),
+                signal: AbortSignal.timeout(3000) // 3s timeout per RPC
             })
-        })
-        const result = await response.json()
-        if (result.result) {
-            // Convert hex to number (BigInt for large values)
-            return Number(BigInt(result.result))
+
+            if (!response.ok) continue
+
+            const result = await response.json()
+            if (result.result) {
+                // Convert hex to number (BigInt for large values)
+                return Number(BigInt(result.result))
+            }
+        } catch (error) {
+            // Continue to next RPC
+            continue
         }
-        console.log('RPC response:', JSON.stringify(result))
-        return 0
-    } catch (error) {
-        console.error('RPC fetch error:', error)
-        return 0
     }
+
+    console.error('All BSC RPCs failed for', tokenAddress)
+    return 0
 }
 
 // Get ETH token balance via Etherscan V2 API
@@ -105,13 +119,13 @@ function calculateTrdgPrice(nativeInPool: number, trdgInPool: number, nativePric
 
 // Fetch all BSC data via RPC
 async function fetchBscData() {
-    const bscPoolWbnbRaw = await getTokenBalanceViaRpc(BSC_RPC_URL, WBNB_ADDRESS, PCSV1_POOL_ADDRESS)
+    const bscPoolWbnbRaw = await getTokenBalanceViaRpc(BSC_RPC_URLS, WBNB_ADDRESS, PCSV1_POOL_ADDRESS)
     await wait(100)
 
-    const bscPoolTrdgRaw = await getTokenBalanceViaRpc(BSC_RPC_URL, TRDG_BSC_ADDRESS, PCSV1_POOL_ADDRESS)
+    const bscPoolTrdgRaw = await getTokenBalanceViaRpc(BSC_RPC_URLS, TRDG_BSC_ADDRESS, PCSV1_POOL_ADDRESS)
     await wait(100)
 
-    const bscBurnedRaw = await getTokenBalanceViaRpc(BSC_RPC_URL, TRDG_BSC_ADDRESS, BURN_WALLET_ADDRESS)
+    const bscBurnedRaw = await getTokenBalanceViaRpc(BSC_RPC_URLS, TRDG_BSC_ADDRESS, BURN_WALLET_ADDRESS)
 
     return { bscPoolWbnbRaw, bscPoolTrdgRaw, bscBurnedRaw }
 }
