@@ -13,7 +13,7 @@ const UNISWAP_POOL_ADDRESS = '0xc2367025716cf1109321e4cb96f47c0e3f9beb05'
 const BURN_WALLET_ADDRESS = '0x000000000000000000000000000000000000dead'
 
 // API Keys for Etherscan V2 (works for both ETH and BSC with different chainid)
-const ETH_API_KEY = 'U4GW7GB7GYNZESDYSUH9GKPJ3VQZCGVSK2'
+const ETH_API_KEY = 'NYC5AEGYB163CF5M4WQCVCRGIWV98A6QXI'
 // Note: BSC uses same Etherscan V2 API with chainid=56
 
 // BSC Public RPC endpoints - Round robin
