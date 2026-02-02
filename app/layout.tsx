@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Orbitron, Space_Mono } from "next/font/google"
 import "./globals.css"
+import { BackToTop } from "@/components/ui/BackToTop"
 
 const orbitron = Orbitron({
     subsets: ["latin"],
@@ -156,6 +157,7 @@ export default function RootLayout({
             </head>
             <body className={`${orbitron.variable} ${spaceMono.variable} antialiased bg-black`}>
                 {children}
+                <BackToTop />
             </body>
         </html>
     )
