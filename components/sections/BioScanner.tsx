@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
     Activity, Flame, Droplets, TrendingUp, RefreshCw,
     Calculator, Wallet, Shield, Search, BarChart3,
-    ExternalLink
+    ExternalLink, Users
 } from 'lucide-react'
 import { GridBackground } from '@/components/ui/SectionBackgrounds'
 import { useTRDGStats, useWalletStats, formatNumber, formatCurrency, formatCompact, TRDG_CONTRACT, TRDG_MAX_SUPPLY } from '@/lib/useTRDGStats'
@@ -29,6 +29,7 @@ export function BioScanner() {
     const currentCirculating = activeChain === 'bsc' ? stats.bscCirculating : stats.ethCirculating
     const currentMarketCap = activeChain === 'bsc' ? stats.bscMarketCap : stats.ethMarketCap
     const currentLiquidity = activeChain === 'bsc' ? stats.bscLiquidity : stats.ethLiquidity
+    const currentHolders = activeChain === 'bsc' ? stats.bscHolders : stats.ethHolders
     const burnedPercent = (currentBurned / TRDG_MAX_SUPPLY) * 100
 
     // Wallet stats based on active chain
@@ -176,7 +177,7 @@ export function BioScanner() {
                         </div>
                     </motion.div>
 
-                    {/* Market Stats Card */}
+                    {/* Market Stats Card with Holders */}
                     <motion.div
                         className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 md:backdrop-blur-md border border-white/10 relative overflow-hidden will-change-transform"
                     >
@@ -190,18 +191,24 @@ export function BioScanner() {
                                 <p className="text-[9px] md:text-[10px] text-gray-500 font-mono uppercase">{activeChain.toUpperCase()} Network</p>
                             </div>
                         </div>
-                        <div className="space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <div className="text-[10px] font-mono text-gray-500 mb-1">MARKET CAP</div>
-                                <div className="text-xl md:text-2xl font-bold text-trdg-green font-orbitron">
+                                <div className="text-[10px] font-mono text-gray-500 mb-1 uppercase">Market Cap</div>
+                                <div className="text-lg md:text-xl font-bold text-trdg-green font-orbitron">
                                     {formatCurrency(currentMarketCap, 0)}
                                 </div>
                             </div>
                             <div>
-                                <div className="text-[10px] font-mono text-gray-500 mb-1">LIQUIDITY</div>
-                                <div className="text-xl md:text-2xl font-bold text-trdg-cyan font-orbitron">
-                                    {formatCurrency(currentLiquidity, 0)}
+                                <div className="text-[10px] font-mono text-gray-500 mb-1 uppercase">Holders</div>
+                                <div className={`text-lg md:text-xl font-bold font-orbitron ${activeChain === 'bsc' ? 'text-yellow-400' : 'text-blue-400'}`}>
+                                    {formatNumber(currentHolders)}
                                 </div>
+                            </div>
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-white/10">
+                            <div className="text-[10px] font-mono text-gray-500 mb-1 uppercase">Liquidity</div>
+                            <div className="text-lg md:text-xl font-bold text-trdg-cyan font-orbitron">
+                                {formatCurrency(currentLiquidity, 0)}
                             </div>
                         </div>
                         <div className="mt-4 pt-4 border-t border-white/10 flex items-center gap-2 text-[10px] font-mono text-trdg-green">
@@ -256,12 +263,12 @@ export function BioScanner() {
                                 >
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <div className="text-[9px] font-mono text-gray-500 mb-1">BALANCE</div>
+                                            <div className="text-[9px] font-mono text-gray-500 mb-1 uppercase">Balance</div>
                                             <div className="text-sm font-bold text-white">{formatCompact(walletStats.balance)} TRDG</div>
                                             <div className="text-[10px] text-trdg-green">{formatCurrency(walletStats.valueUsd)}</div>
                                         </div>
                                         <div>
-                                            <div className="text-[9px] font-mono text-gray-500 mb-1">EST. REWARDS</div>
+                                            <div className="text-[9px] font-mono text-gray-500 mb-1 uppercase">Est. Rewards</div>
                                             <div className="text-sm font-bold text-trdg-cyan">{formatCompact(walletStats.rewards)} TRDG</div>
                                             <div className="text-[10px] text-trdg-cyan">{formatCurrency(walletStats.rewardsValueUsd)}</div>
                                         </div>
@@ -329,16 +336,16 @@ export function BioScanner() {
                 >
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center lg:text-left">
                         <div>
-                            <div className="text-[9px] font-mono text-gray-500 uppercase mb-1">Initial Supply</div>
-                            <div className="text-xs md:text-sm font-bold text-white">100 Quadrillion</div>
-                        </div>
-                        <div>
                             <div className="text-[9px] font-mono text-gray-500 uppercase mb-1">Launch Status</div>
-                            <div className="text-xs md:text-sm font-bold text-orange-400">50% BURNED AT GENESIS</div>
+                            <div className="text-xs md:text-sm font-bold text-orange-400 uppercase">50% Burned at Genesis</div>
                         </div>
                         <div>
                             <div className="text-[9px] font-mono text-gray-500 uppercase mb-1">LP Status</div>
-                            <div className="text-xs md:text-sm font-bold text-trdg-green">BURNED FOR ETERNITY</div>
+                            <div className="text-xs md:text-sm font-bold text-trdg-green uppercase">Burned for Eternity</div>
+                        </div>
+                        <div>
+                            <div className="text-[9px] font-mono text-gray-500 uppercase mb-1">Total Holders</div>
+                            <div className="text-xs md:text-sm font-bold text-trdg-cyan uppercase">{formatNumber(stats.totalHolders || 0)}</div>
                         </div>
                         <div className="lg:text-right">
                             <div className="text-[9px] font-mono text-gray-500 uppercase mb-1">Contract Address</div>
@@ -350,8 +357,8 @@ export function BioScanner() {
                 </motion.div>
 
                 {lastUpdated && (
-                    <div className="mt-4 text-[10px] font-mono text-gray-600 text-center">
-                        Last Scan: {lastUpdated.toLocaleTimeString()}
+                    <div className="mt-4 text-[10px] font-mono text-gray-600 text-center uppercase tracking-widest">
+                        Last Biometric Scan: {lastUpdated.toLocaleTimeString()}
                     </div>
                 )}
 
@@ -359,11 +366,11 @@ export function BioScanner() {
                 <div className="mt-8 text-center">
                     <a
                         href="/stats"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-trdg-cyan/10 border border-trdg-cyan/30 text-trdg-cyan font-orbitron font-bold text-xs uppercase tracking-wider hover:bg-trdg-cyan/20 hover:border-trdg-cyan/50 transition-all"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-trdg-cyan/10 border border-trdg-cyan/30 text-trdg-cyan font-orbitron font-bold text-xs uppercase tracking-wider hover:bg-trdg-cyan/20 hover:border-trdg-cyan/50 transition-all group"
                     >
-                        <BarChart3 size={16} />
+                        <BarChart3 size={16} className="group-hover:scale-110 transition-transform" />
                         View Full Stats Dashboard
-                        <ExternalLink size={14} />
+                        <ExternalLink size={14} className="opacity-50 group-hover:opacity-100 transition-opacity" />
                     </a>
                 </div>
             </div>
