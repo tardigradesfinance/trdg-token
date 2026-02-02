@@ -108,8 +108,8 @@ async function getPrices(): Promise<{ bnbPrice: number; ethPrice: number }> {
 const MORALIS_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImE5ODljOThiLTg3MmQtNGNkZS04OGFkLWUyZGE1Y2I4ODRjNiIsIm9yZ0lkIjoiMTE3MzIxIiwidXNlcklkIjoiMTE2OTY3IiwidHlwZUlkIjoiMDM1MmY5MjMtMWFkNC00NzA4LWE3YzgtYmUzMzM2ZDYyZTIwIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE2ODk4ODIyODEsImV4cCI6NDg0NTY0MjI4MX0.vkVS5sLymNyOAFjrmtdVlk555eQ_Ql0UE6KsP141Eto'
 
 // Static fallback values (last known good counts)
-const FALLBACK_BSC_HOLDERS = 14850 // Approximate latest
-const FALLBACK_ETH_HOLDERS = 1620  // Approximate latest
+const FALLBACK_BSC_HOLDERS = 113849
+const FALLBACK_ETH_HOLDERS = 2185
 
 // Fetch holder count from Moralis API with static fallback
 async function getHolderCount(chain: string, contractAddress: string): Promise<number> {
