@@ -250,16 +250,8 @@ export default function StatsPage() {
                                                         <span className="text-white font-mono">{formatCompact(bscWalletStats.balance)} TRDG</span>
                                                     </div>
                                                     <div className="flex justify-between text-xs">
-                                                        <span className="text-gray-500">Value:</span>
-                                                        <span className="text-trdg-green font-mono">{formatCurrency(bscWalletStats.valueUsd)}</span>
-                                                    </div>
-                                                    <div className="flex justify-between text-xs">
-                                                        <span className="text-gray-500">Est. Rewards:</span>
-                                                        <span className="text-yellow-400 font-mono">{formatCompact(bscWalletStats.rewards)} TRDG</span>
-                                                    </div>
-                                                    <div className="flex justify-between text-xs">
-                                                        <span className="text-gray-500">Rewards Value:</span>
-                                                        <span className="text-yellow-400 font-mono">{formatCurrency(bscWalletStats.rewardsValueUsd)}</span>
+                                                        <span className="text-gray-500">USD Value:</span>
+                                                        <span className="text-trdg-green font-bold font-mono">{formatCurrency(bscWalletStats.valueUsd)}</span>
                                                     </div>
                                                 </div>
                                             )}
@@ -398,16 +390,8 @@ export default function StatsPage() {
                                                         <span className="text-white font-mono">{formatCompact(ethWalletStats.balance)} TRDG</span>
                                                     </div>
                                                     <div className="flex justify-between text-xs">
-                                                        <span className="text-gray-500">Value:</span>
-                                                        <span className="text-trdg-green font-mono">{formatCurrency(ethWalletStats.valueUsd)}</span>
-                                                    </div>
-                                                    <div className="flex justify-between text-xs">
-                                                        <span className="text-gray-500">Est. Rewards:</span>
-                                                        <span className="text-blue-400 font-mono">{formatCompact(ethWalletStats.rewards)} TRDG</span>
-                                                    </div>
-                                                    <div className="flex justify-between text-xs">
-                                                        <span className="text-gray-500">Rewards Value:</span>
-                                                        <span className="text-blue-400 font-mono">{formatCurrency(ethWalletStats.rewardsValueUsd)}</span>
+                                                        <span className="text-gray-500">USD Value:</span>
+                                                        <span className="text-trdg-green font-bold font-mono">{formatCurrency(ethWalletStats.valueUsd)}</span>
                                                     </div>
                                                 </div>
                                             )}

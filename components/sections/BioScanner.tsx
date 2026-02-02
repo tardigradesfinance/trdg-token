@@ -261,16 +261,12 @@ export function BioScanner() {
                                     exit={{ opacity: 0, y: -10 }}
                                     className="p-4 rounded-xl bg-black/40 border border-trdg-green/20"
                                 >
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <div className="text-[9px] font-mono text-gray-500 mb-1 uppercase">Balance</div>
-                                            <div className="text-sm font-bold text-white">{formatCompact(walletStats.balance)} TRDG</div>
-                                            <div className="text-[10px] text-trdg-green">{formatCurrency(walletStats.valueUsd)}</div>
-                                        </div>
-                                        <div>
-                                            <div className="text-[9px] font-mono text-gray-500 mb-1 uppercase">Est. Rewards</div>
-                                            <div className="text-sm font-bold text-trdg-cyan">{formatCompact(walletStats.rewards)} TRDG</div>
-                                            <div className="text-[10px] text-trdg-cyan">{formatCurrency(walletStats.rewardsValueUsd)}</div>
+                                    <div className="text-center">
+                                        <div className="text-[9px] font-mono text-gray-500 mb-2 uppercase">Wallet Balance</div>
+                                        <div className="text-2xl font-bold text-white font-orbitron mb-1">{formatCompact(walletStats.balance)} TRDG</div>
+                                        <div className="text-sm text-trdg-green">{formatCurrency(walletStats.valueUsd)}</div>
+                                        <div className="text-[9px] font-mono text-gray-600 mt-3">
+                                            {walletStats.address.slice(0, 10)}...{walletStats.address.slice(-8)}
                                         </div>
                                     </div>
                                 </motion.div>

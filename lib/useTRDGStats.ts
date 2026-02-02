@@ -185,55 +185,28 @@ export function useWalletStats(chain: 'bsc' | 'eth', address: string | null) {
             const baseUrl = chain === 'bsc' ? 'https://api.bscscan.com' : 'https://api.etherscan.io'
             const trdgAddress = TRDG_BSC_ADDRESS // Same on both chains
 
-            // Get current balance
+            // Get current balance only (simplified to avoid rate limits)
             const balanceUrl = `${baseUrl}/api?module=account&action=tokenbalance&contractaddress=${trdgAddress}&address=${walletAddress}&tag=latest&apikey=${apiKey}`
             const balanceResponse = await fetch(balanceUrl)
             const balanceData = await balanceResponse.json()
-            const balanceRaw = balanceData.status === '1' ? parseInt(balanceData.result) || 0 : 0
-            const balance = balanceRaw / (10 ** 9)
 
-            await new Promise(r => setTimeout(r, 300))
-
-            // Get transfer history for rewards calculation
-            const transfersUrl = `${baseUrl}/api?module=account&action=tokentx&contractaddress=${trdgAddress}&address=${walletAddress}&page=1&offset=10000&startblock=0&endblock=999999999&sort=asc&apikey=${apiKey}`
-            const transfersResponse = await fetch(transfersUrl)
-            const transfersData = await transfersResponse.json()
-            const transfers = transfersData.result || []
-
-            // Calculate rewards
-            let trdgIn = 0
-            let trdgOut = 0
-            const addr = walletAddress.toLowerCase()
-            const tax = 5
-
-            for (const transfer of transfers) {
-                // Skip invalid transfers
-                if (!transfer || !transfer.to || !transfer.from || !transfer.value) continue
-
-                const value = parseInt(transfer.value) || 0
-                const transferTo = transfer.to.toLowerCase()
-                const transferFrom = transfer.from.toLowerCase()
-
-                if (transferTo === addr) {
-                    trdgIn += value
-                } else if (transferFrom === addr) {
-                    trdgOut += value
-                }
+            if (balanceData.status !== '1') {
+                throw new Error(balanceData.message || 'Failed to fetch balance')
             }
 
-            const expectedBalance = (trdgIn - trdgOut / (1 - tax / 100)) / (10 ** 9)
-            const rewards = balance - expectedBalance
+            const balanceRaw = parseInt(balanceData.result) || 0
+            const balance = balanceRaw / (10 ** 9)
 
             setWalletStats({
                 address: walletAddress,
                 balance,
-                rewards: Math.max(0, rewards),
+                rewards: 0, // Simplified: set to 0 to avoid rate limits on transaction history
                 valueUsd: balance * currentPrice,
-                rewardsValueUsd: Math.max(0, rewards) * currentPrice,
+                rewardsValueUsd: 0,
             })
         } catch (err) {
             console.error('Error fetching wallet stats:', err)
-            setError('Failed to fetch wallet stats')
+            setError('Failed to fetch wallet balance. Please try again.')
         } finally {
             setLoading(false)
         }
