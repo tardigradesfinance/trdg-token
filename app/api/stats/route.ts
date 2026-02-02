@@ -52,6 +52,9 @@ async function getTokenBalanceViaRpc(rpcUrls: string[], tokenAddress: string, wa
 
     for (const rpcUrl of rpcUrls) {
         try {
+            const controller = new AbortController()
+            const timeoutId = setTimeout(() => controller.abort(), 3000)
+
             const response = await fetch(rpcUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -61,8 +64,10 @@ async function getTokenBalanceViaRpc(rpcUrls: string[], tokenAddress: string, wa
                     params: [{ to: tokenAddress, data }, 'latest'],
                     id: 1
                 }),
-                signal: AbortSignal.timeout(3000) // 3s timeout per RPC
+                signal: controller.signal
             })
+
+            clearTimeout(timeoutId)
 
             if (!response.ok) continue
 
@@ -104,10 +109,15 @@ async function getHolderCount(chainId: number, contractAddress: string, apiKey: 
     try {
         const url = `https://api.etherscan.io/v2/api?chainid=${chainId}&module=token&action=tokenholdercount&contractaddress=${contractAddress}&apikey=${apiKey}`
 
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 5000)
+
         const response = await fetch(url, {
             headers: { 'Accept': 'application/json' },
-            signal: AbortSignal.timeout(5000) // 5s timeout
+            signal: controller.signal
         })
+
+        clearTimeout(timeoutId)
 
         if (!response.ok) {
             console.error(`Holder count API error (chain ${chainId}):`, response.status)
