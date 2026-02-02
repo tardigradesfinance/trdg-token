@@ -207,10 +207,16 @@ export function useWalletStats(chain: 'bsc' | 'eth', address: string | null) {
             const tax = 5
 
             for (const transfer of transfers) {
+                // Skip invalid transfers
+                if (!transfer || !transfer.to || !transfer.from || !transfer.value) continue
+
                 const value = parseInt(transfer.value) || 0
-                if (transfer.to.toLowerCase() === addr) {
+                const transferTo = transfer.to.toLowerCase()
+                const transferFrom = transfer.from.toLowerCase()
+
+                if (transferTo === addr) {
                     trdgIn += value
-                } else {
+                } else if (transferFrom === addr) {
                     trdgOut += value
                 }
             }

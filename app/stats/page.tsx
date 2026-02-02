@@ -428,7 +428,7 @@ export default function StatsPage() {
                         <div className="p-8 rounded-2xl bg-zinc-950/90 backdrop-blur-md border border-white/10 shadow-2xl">
                             <h3 className="text-center text-xl font-orbitron font-bold text-white mb-8 uppercase">Combined Statistics</h3>
 
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
                                 <div className="text-center">
                                     <div className="text-[10px] font-mono text-gray-500 uppercase mb-2">Total Burned</div>
                                     <div className="text-2xl font-bold text-orange-400 font-orbitron">{formatCompact(stats.totalBurned)}</div>
@@ -437,17 +437,32 @@ export default function StatsPage() {
                                 <div className="text-center">
                                     <div className="text-[10px] font-mono text-gray-500 uppercase mb-2">Combined Liquidity</div>
                                     <div className="text-2xl font-bold text-trdg-cyan font-orbitron">{formatCurrency(stats.bscLiquidity + stats.ethLiquidity, 0)}</div>
+                                    <div className="text-xs text-gray-600 mt-1">100% Locked</div>
                                 </div>
                                 <div className="text-center">
                                     <div className="text-[10px] font-mono text-gray-500 uppercase mb-2">Combined Market Cap</div>
                                     <div className="text-2xl font-bold text-trdg-green font-orbitron">{formatCurrency(stats.bscMarketCap + stats.ethMarketCap, 0)}</div>
+                                    <div className="text-xs text-gray-600 mt-1">BSC + ETH</div>
                                 </div>
                                 <div className="text-center">
                                     <div className="text-[10px] font-mono text-gray-500 uppercase mb-2 flex items-center justify-center gap-1">
                                         <Users size={10} className="text-trdg-cyan" /> Total Holders
                                     </div>
                                     <div className="text-2xl font-bold text-trdg-cyan font-orbitron">{formatNumber(stats.totalHolders || 0)}</div>
-                                    <div className="text-xs text-gray-600 mt-1">BSC + ETH Combined</div>
+                                    <div className="text-xs text-gray-600 mt-1">Dual Chain</div>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                <div className="text-center">
+                                    <div className="text-[10px] font-mono text-gray-500 uppercase mb-2">BSC Circulating</div>
+                                    <div className="text-2xl font-bold text-yellow-400 font-orbitron">{formatCompact(stats.bscCirculating)}</div>
+                                    <div className="text-xs text-gray-600 mt-1">Binance Chain</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-[10px] font-mono text-gray-500 uppercase mb-2">ETH Circulating</div>
+                                    <div className="text-2xl font-bold text-blue-400 font-orbitron">{formatCompact(stats.ethCirculating)}</div>
+                                    <div className="text-xs text-gray-600 mt-1">Ethereum</div>
                                 </div>
                                 <div className="text-center">
                                     <div className="text-[10px] font-mono text-gray-500 uppercase mb-2 flex items-center justify-center gap-1">
@@ -455,6 +470,11 @@ export default function StatsPage() {
                                     </div>
                                     <div className="text-2xl font-bold text-trdg-green font-orbitron">100%</div>
                                     <div className="text-xs text-gray-600 mt-1">LP Burned Forever</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-[10px] font-mono text-gray-500 uppercase mb-2">Contract Status</div>
+                                    <div className="text-2xl font-bold text-trdg-green font-orbitron">✓</div>
+                                    <div className="text-xs text-gray-600 mt-1">Renounced</div>
                                 </div>
                             </div>
                         </div>
