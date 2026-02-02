@@ -10,7 +10,7 @@ import { StarField } from '@/components/ui/StarField'
 import {
     Activity, RefreshCw, Flame, TrendingUp, BarChart3, Wallet,
     DollarSign, Droplets, Shield, Clock, AlertCircle, Copy, Check,
-    ChevronDown, ChevronUp
+    ChevronDown, ChevronUp, Users
 } from 'lucide-react'
 
 export default function StatsPage() {
@@ -191,6 +191,18 @@ export default function StatsPage() {
                                     </div>
                                 </div>
 
+                                {/* Holder Count */}
+                                <div className="p-4 rounded-xl bg-black/80 border border-white/5">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-mono text-gray-500 uppercase flex items-center gap-1">
+                                            <Users size={10} /> Holders
+                                        </span>
+                                        <span className="text-lg font-bold text-yellow-400 font-mono">
+                                            {formatNumber(stats.bscHolders || 0)}
+                                        </span>
+                                    </div>
+                                </div>
+
                                 {/* BNB Price */}
                                 <div className="text-center text-[10px] font-mono text-gray-600">
                                     BNB/USD: ${stats.bnbPrice.toFixed(2)}
@@ -327,6 +339,18 @@ export default function StatsPage() {
                                     </div>
                                 </div>
 
+                                {/* Holder Count */}
+                                <div className="p-4 rounded-xl bg-black/80 border border-white/5">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-mono text-gray-500 uppercase flex items-center gap-1">
+                                            <Users size={10} /> Holders
+                                        </span>
+                                        <span className="text-lg font-bold text-blue-400 font-mono">
+                                            {formatNumber(stats.ethHolders || 0)}
+                                        </span>
+                                    </div>
+                                </div>
+
                                 {/* ETH Price */}
                                 <div className="text-center text-[10px] font-mono text-gray-600">
                                     ETH/USD: ${stats.ethNativePrice.toFixed(2)}
@@ -417,6 +441,13 @@ export default function StatsPage() {
                                 <div className="text-center">
                                     <div className="text-[10px] font-mono text-gray-500 uppercase mb-2">Combined Market Cap</div>
                                     <div className="text-2xl font-bold text-trdg-green font-orbitron">{formatCurrency(stats.bscMarketCap + stats.ethMarketCap, 0)}</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-[10px] font-mono text-gray-500 uppercase mb-2 flex items-center justify-center gap-1">
+                                        <Users size={10} className="text-trdg-cyan" /> Total Holders
+                                    </div>
+                                    <div className="text-2xl font-bold text-trdg-cyan font-orbitron">{formatNumber(stats.totalHolders || 0)}</div>
+                                    <div className="text-xs text-gray-600 mt-1">BSC + ETH Combined</div>
                                 </div>
                                 <div className="text-center">
                                     <div className="text-[10px] font-mono text-gray-500 uppercase mb-2 flex items-center justify-center gap-1">

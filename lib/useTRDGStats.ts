@@ -32,6 +32,9 @@ export interface TRDGStats {
     ethPoolWeth: number
     bscCirculating: number
     ethCirculating: number
+    bscHolders: number
+    ethHolders: number
+    totalHolders: number
 }
 
 export interface WalletStats {
@@ -63,6 +66,9 @@ const defaultStats: TRDGStats = {
     ethPoolWeth: 0,
     bscCirculating: 0,
     ethCirculating: 0,
+    bscHolders: 0,
+    ethHolders: 0,
+    totalHolders: 0,
 }
 
 export function useTRDGStats(refreshInterval: number = 60000) {

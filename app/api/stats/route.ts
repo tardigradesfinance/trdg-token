@@ -12,8 +12,9 @@ const PCSV1_POOL_ADDRESS = '0xC5c0Be18218182bF33e2585a6D9A2e6d7324BC0E'
 const UNISWAP_POOL_ADDRESS = '0xc2367025716cf1109321e4cb96f47c0e3f9beb05'
 const BURN_WALLET_ADDRESS = '0x000000000000000000000000000000000000dead'
 
-// API Key for Etherscan V2 (only works for ETH mainnet on free tier)
+// API Keys for Etherscan V2 (works for both ETH and BSC with different chainid)
 const ETH_API_KEY = 'U4GW7GB7GYNZESDYSUH9GKPJ3VQZCGVSK2'
+// Note: BSC uses same Etherscan V2 API with chainid=56
 
 // BSC Public RPC endpoints - Round robin
 const BSC_RPC_URLS = [
@@ -98,6 +99,35 @@ async function getPrices(): Promise<{ bnbPrice: number; ethPrice: number }> {
     }
 }
 
+// Fetch holder count from Etherscan API V2
+async function getHolderCount(chainId: number, contractAddress: string, apiKey: string): Promise<number> {
+    try {
+        const url = `https://api.etherscan.io/v2/api?chainid=${chainId}&module=token&action=tokenholdercount&contractaddress=${contractAddress}&apikey=${apiKey}`
+
+        const response = await fetch(url, {
+            headers: { 'Accept': 'application/json' },
+            signal: AbortSignal.timeout(5000) // 5s timeout
+        })
+
+        if (!response.ok) {
+            console.error(`Holder count API error (chain ${chainId}):`, response.status)
+            return 0
+        }
+
+        const data = await response.json()
+
+        if (data.status === '1' && data.result) {
+            return parseInt(data.result, 10)
+        }
+
+        console.error(`Holder count API failed (chain ${chainId}):`, data.message || data.result)
+        return 0
+    } catch (error) {
+        console.error(`Holder count fetch error (chain ${chainId}):`, error)
+        return 0
+    }
+}
+
 function calculateTrdgPrice(nativeInPool: number, trdgInPool: number, nativePrice: number): number {
     if (trdgInPool === 0) return 0
     const nativeBalanceAdjusted = nativeInPool * (10 ** -18)
@@ -133,11 +163,13 @@ async function fetchEthData() {
 
 export async function GET() {
     try {
-        // Fetch prices and chain data in parallel
-        const [prices, bscData, ethData] = await Promise.all([
+        // Fetch prices, chain data, and holder counts in parallel
+        const [prices, bscData, ethData, bscHolders, ethHolders] = await Promise.all([
             getPrices(),
             fetchBscData(),
-            fetchEthData()
+            fetchEthData(),
+            getHolderCount(56, TRDG_BSC_ADDRESS, ETH_API_KEY), // BSC chainid = 56
+            getHolderCount(1, TRDG_ETH_ADDRESS, ETH_API_KEY),  // ETH chainid = 1
         ])
 
         const { bnbPrice, ethPrice: ethNativePrice } = prices
@@ -196,6 +228,9 @@ export async function GET() {
                 ethPoolWeth,
                 bscCirculating,
                 ethCirculating,
+                bscHolders,
+                ethHolders,
+                totalHolders: bscHolders + ethHolders,
             }
         })
 
