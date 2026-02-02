@@ -8,12 +8,6 @@ import { HelpCircle, ChevronDown, ChevronUp } from 'lucide-react'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export const metadata = {
-    title: "FAQ - Frequently Asked Questions",
-    description: "Common questions about TRDG token, tardigrades, buying process, tokenomics, security, and more. Get answers about the most resilient memecoin.",
-    keywords: ["TRDG FAQ", "tardigrade token questions", "how to buy TRDG", "is TRDG safe", "TRDG tokenomics", "tardigrade cryptocurrency questions", "memecoin FAQ"]
-}
-
 interface FAQItem {
     question: string
     answer: string
@@ -109,7 +103,7 @@ export default function FAQPage() {
                     {/* Header */}
                     <div className="text-center mb-12">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-trdg-cyan/10 border border-trdg-cyan/20 mb-6">
-                            <HelpCircle className test-trdg-cyan animate-pulse" size={16} />
+                            <HelpCircle className="text-trdg-cyan animate-pulse" size={16} />
                             <span className="text-[10px] font-mono text-trdg-cyan uppercase tracking-widest font-black">
                                 Frequently Asked Questions
                             </span>
