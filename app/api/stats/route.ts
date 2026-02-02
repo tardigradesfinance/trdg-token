@@ -14,6 +14,7 @@ const BURN_WALLET_ADDRESS = '0x000000000000000000000000000000000000dead'
 
 // API Keys for Etherscan V2 (works for both ETH and BSC with different chainid)
 const ETH_API_KEY = 'NYC5AEGYB163CF5M4WQCVCRGIWV98A6QXI'
+const BSC_API_KEY = 'HT5DPQEIA923Z57R3HQ8Z2HXPXF2JUX959'
 // Note: BSC uses same Etherscan V2 API with chainid=56
 
 // BSC Public RPC endpoints - Round robin
@@ -178,7 +179,7 @@ export async function GET() {
             getPrices(),
             fetchBscData(),
             fetchEthData(),
-            getHolderCount(56, TRDG_BSC_ADDRESS, ETH_API_KEY), // BSC chainid = 56
+            getHolderCount(56, TRDG_BSC_ADDRESS, BSC_API_KEY), // BSC chainid = 56
             getHolderCount(1, TRDG_ETH_ADDRESS, ETH_API_KEY),  // ETH chainid = 1
         ])
 

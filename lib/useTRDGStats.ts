@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 const TRDG_BSC_ADDRESS = '0x92a42db88ed0f02c71d439e55962ca7cab0168b5'
 
 // API Keys for wallet lookups
-const BSC_API_KEY = '2TSW88MVBF8FBT31JSDW7KD2IBE1BJ2CET'
+const BSC_API_KEY = 'HT5DPQEIA923Z57R3HQ8Z2HXPXF2JUX959'
 const ETH_API_KEY = 'NYC5AEGYB163CF5M4WQCVCRGIWV98A6QXI'
 
 const MAX_SUPPLY = 100000 * 10 ** 12
