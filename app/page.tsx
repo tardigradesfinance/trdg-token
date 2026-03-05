@@ -31,6 +31,7 @@ const AchievementBadges = dynamic(() => import("@/components/sections/Achievemen
 const HolderTestimonials = dynamic(() => import("@/components/sections/HolderTestimonials").then(mod => mod.HolderTestimonials), { ssr: false, loading: SectionLoader })
 const StickerMarquee = dynamic(() => import("@/components/sections/StickerMarquee").then(mod => mod.StickerMarquee), { ssr: false, loading: SectionLoader })
 const Community = dynamic(() => import("@/components/sections/Community").then(mod => mod.Community), { ssr: false, loading: SectionLoader })
+const MerchStore = dynamic(() => import("@/components/sections/MerchStore").then(mod => mod.MerchStore), { ssr: false, loading: SectionLoader })
 
 import { SEOBlock } from "@/components/ui/SEOBlock"
 
@@ -48,6 +49,7 @@ export default function Home() {
                 <SocialNexus />
                 <BioScanner />
                 <Mission />
+                <MerchStore />
                 <SpeciesComparison />
                 <Resilience />
                 <ArchiveLogs />
