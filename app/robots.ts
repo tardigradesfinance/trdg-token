@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
                 allow: '/',
             },
             {
-                userAgent: ['GPTBot', 'ChatGPT-User', 'Claude-Web', 'PerplexityBot', 'Google-Extended'],
+                userAgent: ['GPTBot', 'ChatGPT-User', 'Claude-Web', 'PerplexityBot', 'Google-Extended', 'Oai-SearchBot', 'Anthropic-ai', 'Cohere-ai'],
                 allow: '/',
             },
         ],

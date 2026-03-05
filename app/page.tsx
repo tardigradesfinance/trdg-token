@@ -32,6 +32,8 @@ const HolderTestimonials = dynamic(() => import("@/components/sections/HolderTes
 const StickerMarquee = dynamic(() => import("@/components/sections/StickerMarquee").then(mod => mod.StickerMarquee), { ssr: false, loading: SectionLoader })
 const Community = dynamic(() => import("@/components/sections/Community").then(mod => mod.Community), { ssr: false, loading: SectionLoader })
 
+import { SEOBlock } from "@/components/ui/SEOBlock"
+
 export default function Home() {
     return (
         <main className="min-h-screen text-white selection:bg-trdg-cyan selection:text-black relative">
@@ -64,7 +66,9 @@ export default function Home() {
             </div>
 
             <Footer />
+            <SEOBlock />
         </main>
     )
 }
+
 
