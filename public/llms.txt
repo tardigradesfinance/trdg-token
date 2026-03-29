@@ -1,0 +1,24 @@
+# TRDG Token
+> TRDG is a next-generation cryptocurrency token built for traders, DeFi participants, and the on-chain community. Live charts, tokenomics, and community all in one place.
+
+TRDG is a cryptocurrency token with a dedicated ecosystem including live price charts, tokenomics transparency, a community hub, and a detailed whitepaper. Built for traders who demand real utility, TRDG combines DeFi mechanics with an engaged holder community.
+
+## Key Pages
+
+- [Home](https://trdgtoken.com): Token overview, live stats, and community links
+- [About](https://trdgtoken.com/about): The mission and story behind TRDG
+- [Whitepaper](https://trdgtoken.com/whitepaper): Full technical and economic whitepaper — tokenomics, distribution, and roadmap
+- [Stats](https://trdgtoken.com/stats): Live on-chain data — holders, volume, liquidity, and market cap
+- [FAQ](https://trdgtoken.com/faq): Common questions about TRDG, how to buy, and token utility
+
+## Key Facts
+
+- Cryptocurrency token with active trading community
+- Full tokenomics transparency published in whitepaper
+- Live chart and stats dashboard
+- Community-driven roadmap
+- Available on decentralized exchanges
+
+## Contact
+
+- Website: https://trdgtoken.com

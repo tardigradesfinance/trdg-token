@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next'
 
+export const dynamic = 'force-static';
+
 export default function robots(): MetadataRoute.Robots {
     return {
         rules: [
@@ -7,10 +9,14 @@ export default function robots(): MetadataRoute.Robots {
                 userAgent: '*',
                 allow: '/',
             },
-            {
-                userAgent: ['GPTBot', 'ChatGPT-User', 'Claude-Web', 'PerplexityBot', 'Google-Extended', 'Oai-SearchBot', 'Anthropic-ai', 'Cohere-ai'],
-                allow: '/',
-            },
+            { userAgent: 'GPTBot', allow: '/' },
+            { userAgent: 'ChatGPT-User', allow: '/' },
+            { userAgent: 'OAI-SearchBot', allow: '/' },
+            { userAgent: 'PerplexityBot', allow: '/' },
+            { userAgent: 'ClaudeBot', allow: '/' },
+            { userAgent: 'anthropic-ai', allow: '/' },
+            { userAgent: 'Applebot', allow: '/' },
+            { userAgent: 'Google-Extended', allow: '/' },
         ],
         sitemap: 'https://trdgtoken.com/sitemap.xml',
     }
