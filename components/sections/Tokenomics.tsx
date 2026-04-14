@@ -4,27 +4,29 @@ import { motion } from 'framer-motion'
 import { PieChart, Zap, Flame } from 'lucide-react'
 import { GridBackground } from '@/components/ui/SectionBackgrounds'
 
-export function Tokenomics() {
+export function Tokenomics({ showTitle = true }: { showTitle?: boolean }) {
     return (
-        <section id="tokenomics" className="relative py-24 md:py-32 bg-black overflow-hidden">
+        <section id="tokenomics" className="relative py-24 md:py-32 bg-transparent overflow-hidden">
             <GridBackground />
 
             <div className="container mx-auto px-4">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-4 uppercase tracking-tighter">
-                        Tokenomics
-                    </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light">
-                        The biological engine of the <span className="text-trdg-cyan">$TRDG</span> ecosystem.
-                        Designed for longevity, scarcity, and instant rewards for the colony.
-                    </p>
-                </motion.div>
+                {showTitle && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-center mb-16"
+                    >
+                        <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-4 uppercase tracking-tighter">
+                            Tokenomics
+                        </h2>
+                        <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light">
+                            The biological engine of the <span className="text-trdg-cyan">$TRDG</span> ecosystem.
+                            Designed for longevity, scarcity, and instant rewards for the colony.
+                        </p>
+                    </motion.div>
+                )}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
@@ -37,7 +39,7 @@ export function Tokenomics() {
                         whileHover={{ y: -5 }}
                         className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-trdg-cyan/50 transition-all group relative overflow-hidden will-change-transform"
                     >
-                        <div className="absolute top-0 right-0 p-4 font-mono text-[8px] md:text-[10px] text-trdg-cyan/20">DATA_PACKET_01</div>
+                        <div className="absolute top-0 right-0 p-4 font-mono text-[8px] md:text-[10px] text-trdg-cyan/20">DATA PACKET 01</div>
                         <div className="w-10 h-10 md:w-12 md:h-12 bg-trdg-cyan/10 rounded-lg flex items-center justify-center mb-6 text-trdg-cyan">
                             <PieChart size={20} />
                         </div>
@@ -75,7 +77,7 @@ export function Tokenomics() {
                         whileHover={{ y: -5 }}
                         className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-orange-500/50 transition-all group relative overflow-hidden will-change-transform"
                     >
-                        <div className="absolute top-0 right-0 p-4 font-mono text-[8px] md:text-[10px] text-orange-500/20">DATA_PACKET_02</div>
+                        <div className="absolute top-0 right-0 p-4 font-mono text-[8px] md:text-[10px] text-orange-500/20">DATA PACKET 02</div>
                         <div className="w-10 h-10 md:w-12 md:h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-6 text-orange-500">
                             <Flame size={20} />
                         </div>
@@ -99,7 +101,7 @@ export function Tokenomics() {
                         whileHover={{ y: -5 }}
                         className="bg-zinc-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-purple-500/50 transition-all group relative overflow-hidden will-change-transform"
                     >
-                        <div className="absolute top-0 right-0 p-4 font-mono text-[8px] md:text-[10px] text-purple-500/20">DATA_PACKET_03</div>
+                        <div className="absolute top-0 right-0 p-4 font-mono text-[8px] md:text-[10px] text-purple-500/20">DATA PACKET 03</div>
                         <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-6 text-purple-500">
                             <Zap size={20} />
                         </div>
@@ -109,11 +111,11 @@ export function Tokenomics() {
                         </p>
                         <div className="grid grid-cols-2 gap-3 md:gap-4">
                             <div className="p-2 md:p-3 bg-black/40 rounded-lg border border-white/5">
-                                <div className="text-[8px] md:text-[10px] text-gray-500 uppercase">BSC_LIQ</div>
+                                <div className="text-[8px] md:text-[10px] text-gray-500 uppercase">BSC LIQ</div>
                                 <div className="text-[9px] md:text-xs font-bold text-yellow-400 uppercase">LIVE 2021</div>
                             </div>
                             <div className="p-2 md:p-3 bg-black/40 rounded-lg border border-white/5">
-                                <div className="text-[8px] md:text-[10px] text-gray-500 uppercase">ETH_LIQ</div>
+                                <div className="text-[8px] md:text-[10px] text-gray-500 uppercase">ETH LIQ</div>
                                 <div className="text-[9px] md:text-xs font-bold text-blue-400 uppercase">LIVE 2021</div>
                             </div>
                         </div>

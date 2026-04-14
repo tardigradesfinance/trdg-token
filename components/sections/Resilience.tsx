@@ -38,11 +38,11 @@ const features = [
 const funFacts = [
     "Tardigrades have been on Earth for over 500 million years, surviving all 5 mass extinctions.",
     "They can go without food or water for more than 30 years, only to rehydrate and forage.",
-    "In their 'Tun' state, their metabolism slows to 0.01% of normal levels—virtually dead, yet alive.",
+    "In their 'Tun' state, their metabolism slows to 0.01% of normal levels, virtually dead, yet alive.",
     "Tardigrades are the first known animal to survive after exposure to outer space."
 ]
 
-export function Resilience() {
+export function Resilience({ showTitle = true }: { showTitle?: boolean }) {
     const { scrollYProgress } = useScroll()
     const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false
     const scale = useTransform(scrollYProgress, [0.3, 0.6], [0.95, 1])
@@ -56,26 +56,28 @@ export function Resilience() {
             <div className="container mx-auto px-4 relative z-10">
 
                 {/* Header */}
-                <div className="max-w-4xl mx-auto text-center mb-20">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                    >
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
-                            <ShieldCheck size={16} className="text-trdg-green" />
-                            <span className="text-sm font-mono text-gray-400 uppercase tracking-widest">Survival Protocol Active</span>
-                        </div>
+                {showTitle && (
+                    <div className="max-w-4xl mx-auto text-center mb-20">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                        >
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+                                <ShieldCheck size={16} className="text-trdg-green" />
+                                <span className="text-sm font-mono text-gray-400 uppercase tracking-widest">Survival Protocol Active</span>
+                            </div>
 
-                        <h2 className="text-5xl md:text-7xl font-orbitron font-bold text-white mb-8">
-                            CRYPTOBIOSIS
-                        </h2>
-                        <p className="text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto">
-                            When the market bleeds, we do not die. Like the Tardigrade expelling water to enter the "Tun" state,
-                            <span className="text-white font-bold block mt-2">we simply wait.</span>
-                        </p>
-                    </motion.div>
-                </div>
+                            <h2 className="text-5xl md:text-7xl font-orbitron font-bold text-white mb-8">
+                                CRYPTOBIOSIS
+                            </h2>
+                            <p className="text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto">
+                                When the market bleeds, we do not die. Like the Tardigrade expelling water to enter the "Tun" state,
+                                <span className="text-white font-bold block mt-2">we simply wait.</span>
+                            </p>
+                        </motion.div>
+                    </div>
+                )}
 
                 {/* Feature Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">

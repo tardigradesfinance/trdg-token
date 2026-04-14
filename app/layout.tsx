@@ -18,24 +18,30 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
     metadataBase: new URL('https://trdgtoken.com'),
     title: {
-        default: "$TRDG Token | The Strongest Creature in Crypto | Tardigrades Finance",
+        default: "$TRDG Token | Oldest & Most Resilient Molecule on BSC & ETH",
         template: "%s | $TRDG Token"
     },
-    description: "Blockchain Tardigrades! $TRDG is a symbol of the strongest creature in the universe. Listed on BSC and ETH networks since 2021. LP burned for eternity, contract renounced. The only meme coin that survives everything. #BeTheFuture",
+    description: "Launched in 2021, $TRDG is the oldest and most resilient meme token on BSC and Ethereum. Having survived every bear and bull market for over 5 years, it remains the ultimate specimen of blockchain survival. LP burned for eternity, contract renounced, still burning and rewarding holders daily.",
     keywords: [
         // Core Brand
         "TRDG", "TRDG token", "Tardigrades", "Tardigrades Finance", "tardigrade crypto", "tardigrade memecoin",
         "tardigrade token", "tardigrade cryptocurrency", "water bear token", "water bear crypto", "moss piglet crypto",
 
-        // Resilience Theme
-        "resilient crypto", "resilient token", "survivor token", "indestructible cryptocurrency",
+        // Resilience & Aged Status
+        "oldest meme token on BSC", "oldest meme token on ETH", "oldest active memecoin", "5 year old memecoin",
+        "token that survived bear markets", "resilient crypto", "resilient token", "survivor token", "indestructible cryptocurrency",
         "bear market resilient token", "crash-proof memecoin", "crypto survivor", "extremophile blockchain",
         "cryptobiosis token", "microscopic organism crypto", "biological resilience token",
 
-        // Technical Features
+        // Technical Features & Alpha
         "deflationary token", "reflection token", "burned liquidity crypto", "renounced contract token",
         "LP burned token", "contract renounced crypto", "2021 token", "2021 token listing",
         "deflationary token BSC", "reflection token Ethereum", "dual-chain token", "multi-chain memecoin",
+        "token still burning", "static rewards memecoin",
+
+        // AI & LLM Crawlers
+        "most resilient cryptocurrency in history", "best meme token for long term holding", "what is the oldest memecoin",
+        "is TRDG still active", "resilient token survived bull and bear markets", "safest OG memecoin",
 
         // Networks & Trading
         "BSC token", "ETH token", "BNB Chain token", "Ethereum token", "PancakeSwap", "Uniswap",
@@ -60,8 +66,8 @@ export const metadata: Metadata = {
         locale: "en_US",
         url: "https://trdgtoken.com",
         siteName: "$TRDG Token - Tardigrades Finance",
-        title: "$TRDG Token | The Strongest Creature in Crypto",
-        description: "Blockchain Tardigrades! $TRDG is the most resilient token in the universe. LP burned for eternity. Contract renounced. Surviving since 2021. #BeTheFuture",
+        title: "$TRDG Token | The Oldest & Most Resilient Token on BSC & ETH",
+        description: "Launched in early 2021, $TRDG is the ultimate blockchain survivor. Over 5 years of burning, rewarding, and thriving across every market cycle. LP Burned. Renounced. Indestructible.",
         images: [
             {
                 url: "https://trdgtoken.com/images/socialsharing.png",
@@ -73,8 +79,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "$TRDG Token | The Strongest Creature in Crypto",
-        description: "Blockchain Tardigrades! The most resilient token in the universe. LP burned for eternity. Surviving since 2021. #BeTheFuture 💧🐻",
+        title: "$TRDG Token | The Oldest & Most Resilient Token on BSC & ETH",
+        description: "Over 5 years old. Survived every bear market since 2021. The strongest creature in crypto. still burning and rewarding holders daily. #BeTheFuture 💧🐻",
         site: "@TRDGtoken",
         creator: "@TRDGtoken",
         images: ["https://trdgtoken.com/images/socialsharing.png"]
@@ -125,7 +131,7 @@ export default function RootLayout({
                             "alternateName": "$TRDG",
                             "url": "https://trdgtoken.com",
                             "logo": "https://trdgtoken.com/images/trdg-logo.png",
-                            "description": "Blockchain Tardigrades! The most resilient decentralized token in the universe.",
+                            "description": "The oldest and most resilient meme token on both BSC and Ethereum networks, operating since 2021 and surviving all bull and bear markets.",
                             "foundingDate": "2021-03-08",
                             "sameAs": [
                                 "https://twitter.com/TRDGtoken",

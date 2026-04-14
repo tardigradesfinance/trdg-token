@@ -4,29 +4,37 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Activity, ExternalLink } from 'lucide-react'
 
-export function LiveCharts() {
+export function LiveCharts({ showTitle = true }: { showTitle?: boolean }) {
     const [activeChain, setActiveChain] = useState<'BSC' | 'ETH'>('BSC')
 
     return (
-        <section className="py-24 bg-black relative border-y border-white/5" id="charts">
+        <section className="py-24 bg-transparent relative" id="charts">
             {/* Background Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-trdg-cyan/5 rounded-full blur-[100px] -z-10" />
 
             <div className="container mx-auto px-4">
-                <div className="text-center mb-12">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-trdg-cyan/10 border border-trdg-cyan/20 mb-6"
-                    >
-                        <Activity size={16} className="text-trdg-cyan animate-pulse" />
-                        <span className="text-sm font-mono text-trdg-cyan uppercase tracking-widest">Live Market Data</span>
-                    </motion.div>
-                    <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-6">
-                        MARKET <span className="text-trdg-cyan">SURVEILLANCE</span>
-                    </h2>
+                {showTitle && (
+                    <div className="text-center mb-12">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-trdg-cyan/10 border border-trdg-cyan/20 mb-6"
+                        >
+                            <Activity size={16} className="text-trdg-cyan animate-pulse" />
+                            <span className="text-sm font-mono text-trdg-cyan uppercase tracking-widest">Live Market Data</span>
+                        </motion.div>
+                        <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-6">
+                            MARKET <span className="text-trdg-cyan">SURVEILLANCE</span>
+                        </h2>
 
+                        {/* Chain Toggles moved inside showTitle for logic or keep outside? 
+                            Actually chain toggles should stay. Only the TITLE should be hidden.
+                        */}
+                    </div>
+                )}
+
+                <div className="text-center mb-12">
                     {/* Chain Toggles */}
                     <div className="flex justify-center gap-4 mb-8">
                         <button

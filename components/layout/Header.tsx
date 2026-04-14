@@ -1,25 +1,64 @@
-'use client'
-
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ExternalLink } from 'lucide-react'
+import { Menu, X, ExternalLink, ChevronDown, Send, Twitter, Youtube, Instagram, Facebook } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const navItems = [
-    { name: 'Nexus', href: '/#nexus' },
-    { name: 'BioScanner', href: '/#bioscanner' },
-    { name: 'Mission', href: '/#mission' },
-    { name: 'Tokenomics', href: '/#tokenomics' },
-    { name: 'Acquire', href: '/#acquire' },
-    { name: 'Stats', href: '/stats' },
-    { name: 'About', href: '/about' },
-    { name: 'Whitepaper', href: '/whitepaper' },
+interface NavSubItem {
+    name: string
+    href: string
+    icon?: any
+}
+
+interface NavItem {
+    name: string
+    href?: string
+    items?: NavSubItem[]
+}
+
+const navItems: NavItem[] = [
+    {
+        name: 'Tracking',
+        items: [
+            { name: 'Charts', href: '/intelligence/charts' },
+            { name: 'Live Data', href: '/stats' },
+            { name: 'System Status', href: '/intelligence/diagnostics' },
+        ]
+    },
+    {
+        name: 'Token',
+        items: [
+            { name: 'Tokenomics', href: '/protocol/tokenomics' },
+            { name: 'About Specimen', href: '/protocol/specimen' },
+            { name: 'Audit & Security', href: '/protocol/security' },
+            { name: 'Whitepaper', href: '/whitepaper' },
+        ]
+    },
+    {
+        name: 'History',
+        items: [
+            { name: 'Archives', href: '/archives/logs' },
+            { name: 'Legacy Site', href: '/archives/legacy' },
+        ]
+    },
+    {
+        name: 'Resources',
+        items: [
+            { name: 'Registry', href: '#ecosystem' },
+            { name: 'Forbes Asset', href: 'https://www.forbes.com/digital-assets/assets/trdgtoken-trdg/' },
+            { name: 'MEXC Market', href: 'https://www.mexc.com/price/trdgtoken/info' },
+            { name: 'Token Metrics', href: 'https://app.tokenmetrics.com/en/tardigrades-finance' },
+            { name: 'DappRadar', href: 'https://dappradar.com/dapp/trdg-track' },
+            { name: 'Merch Shop', href: '/merch' },
+        ]
+    },
 ]
 
 export function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+    const [mobileDropdown, setMobileDropdown] = useState<string | null>(null)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -31,7 +70,7 @@ export function Header() {
 
     return (
         <motion.header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-space-black/95 backdrop-blur-xl shadow-lg border-b border-white/5' : 'bg-transparent'
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled ? 'bg-space-black/95 backdrop-blur-xl shadow-lg border-white/10' : 'bg-transparent border-transparent'
                 }`}
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -47,6 +86,7 @@ export function Header() {
                                 alt="TRDG"
                                 fill
                                 className="object-contain"
+                                priority
                             />
                         </div>
                         <span className="font-orbitron font-bold text-xl tracking-wider text-white group-hover:text-trdg-cyan transition-colors">
@@ -55,25 +95,82 @@ export function Header() {
                     </Link>
 
                     {/* Desktop Nav */}
-                    <nav className="hidden md:flex space-x-8">
+                    <nav className="hidden md:flex space-x-1 lg:space-x-4">
                         {navItems.map((item) => (
-                            <Link
+                            <div
                                 key={item.name}
-                                href={item.href}
-                                className="text-gray-300 hover:text-trdg-cyan font-mono text-sm uppercase tracking-widest transition-colors hover:glow-text"
+                                className="relative group"
+                                onMouseEnter={() => setActiveDropdown(item.name)}
+                                onMouseLeave={() => setActiveDropdown(null)}
                             >
-                                {item.name}
-                            </Link>
+                                {item.items ? (
+                                    <button
+                                        className={`flex items-center gap-1.5 px-3 py-2 text-gray-300 hover:text-trdg-cyan font-mono text-sm uppercase tracking-widest transition-colors ${activeDropdown === item.name ? 'text-trdg-cyan' : ''}`}
+                                    >
+                                        {item.name}
+                                        <ChevronDown size={14} className={`transition-transform duration-300 ${activeDropdown === item.name ? 'rotate-180' : ''}`} />
+                                    </button>
+                                ) : (
+                                    <Link
+                                        href={item.href || '#'}
+                                        className="px-3 py-2 text-gray-300 hover:text-trdg-cyan font-mono text-sm uppercase tracking-widest transition-colors"
+                                    >
+                                        {item.name}
+                                    </Link>
+                                )}
+
+                                <AnimatePresence>
+                                    {item.items && activeDropdown === item.name && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="absolute top-full left-0 w-64 bg-zinc-950 border border-white/10 rounded-xl mt-2 py-4 shadow-2xl backdrop-blur-xl"
+                                        >
+                                            {item.items.map((subItem) => (
+                                                <Link
+                                                    key={subItem.name}
+                                                    href={subItem.href}
+                                                    className="flex items-center justify-between px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all text-xs font-mono uppercase tracking-widest"
+                                                >
+                                                    {subItem.name}
+                                                    <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                </Link>
+                                            ))}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
                         ))}
                     </nav>
 
-                    {/* Action Button */}
-                    <div className="hidden lg:flex items-center gap-4">
+                    {/* Action & Socials */}
+                    <div className="hidden lg:flex items-center gap-6">
+                        {/* Social Icons */}
+                        <div className="flex items-center gap-4 pr-6 border-r border-white/10">
+                            <a href="https://t.me/TardigradesOfficial" target="_blank" className="text-gray-400 hover:text-trdg-cyan transition-colors" title="Telegram">
+                                <Send size={18} />
+                            </a>
+                            <a href="https://x.com/TRDGtoken" target="_blank" className="text-gray-400 hover:text-white transition-colors" title="X (Twitter)">
+                                <Twitter size={18} />
+                            </a>
+                            <a href="https://www.youtube.com/@TRDGLive" target="_blank" className="text-gray-400 hover:text-red-500 transition-colors" title="YouTube">
+                                <Youtube size={18} />
+                            </a>
+                            <a href="https://www.instagram.com/trdgtoken/" target="_blank" className="text-gray-400 hover:text-pink-500 transition-colors" title="Instagram">
+                                <Instagram size={18} />
+                            </a>
+                            <a href="https://www.facebook.com/TRDGtoken" target="_blank" className="text-gray-400 hover:text-blue-500 transition-colors" title="Facebook">
+                                <Facebook size={18} />
+                            </a>
+                        </div>
+
                         <a
                             href="https://pancakeswap.finance/swap?outputCurrency=0x92a42Db88Ed0F02c71D439e55962Ca7CAB0168b5"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-5 py-2 rounded-full border border-yellow-500/50 text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all duration-300 font-orbitron text-[10px] uppercase tracking-wide flex items-center gap-2"
+                            className="px-6 py-2.5 rounded-full border border-yellow-500/50 text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all duration-300 font-orbitron text-[10px] font-black uppercase tracking-widest flex items-center gap-2"
                         >
                             Buy BSC <ExternalLink size={12} />
                         </a>
@@ -81,14 +178,14 @@ export function Header() {
                             href="https://app.uniswap.org/#/swap?outputCurrency=0x92a42db88ed0f02c71d439e55962ca7cab0168b5"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-5 py-2 rounded-full border border-pink-500/50 text-pink-500 hover:bg-pink-500 hover:text-white transition-all duration-300 font-orbitron text-[10px] uppercase tracking-wide flex items-center gap-2"
+                            className="px-6 py-2.5 rounded-full border border-pink-500/50 text-pink-500 hover:bg-pink-500 hover:text-white transition-all duration-300 font-orbitron text-[10px] font-black uppercase tracking-widest flex items-center gap-2"
                         >
                             Buy ETH <ExternalLink size={12} />
                         </a>
                     </div>
 
                     {/* Mobile Menu Button */}
-                    <div className="md:hidden">
+                    <div className="md:hidden flex items-center gap-4">
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             className="text-white hover:text-trdg-cyan transition-colors"
@@ -103,39 +200,90 @@ export function Header() {
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-[#0A0D10] border-b border-white/10 overflow-hidden"
+                        initial={{ opacity: 0, x: '100%' }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: '100%' }}
+                        className="fixed inset-0 top-20 bg-space-black z-[100] md:hidden overflow-y-auto"
                     >
-                        <div className="px-4 pt-2 pb-6 space-y-2 max-h-[80vh] overflow-y-auto">
+                        <div className="px-6 py-10 space-y-8">
                             {navItems.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="block px-3 py-3 text-sm font-orbitron text-white hover:text-trdg-cyan border-b border-white/5 uppercase tracking-wider"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    {item.name}
-                                </Link>
+                                <div key={item.name} className="space-y-4">
+                                    <button
+                                        onClick={() => setMobileDropdown(mobileDropdown === item.name ? null : item.name)}
+                                        className="w-full flex items-center justify-between text-xl font-orbitron font-bold text-white uppercase tracking-tighter"
+                                    >
+                                        {item.name}
+                                        {item.items && <ChevronDown className={`transition-transform duration-300 ${mobileDropdown === item.name ? 'rotate-180' : ''}`} />}
+                                    </button>
+
+                                    <AnimatePresence>
+                                        {item.items && mobileDropdown === item.name && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: 'auto' }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                className="pl-4 space-y-4 pt-2"
+                                            >
+                                                {item.items.map((subItem) => (
+                                                    <Link
+                                                        key={subItem.name}
+                                                        href={subItem.href}
+                                                        className="block text-gray-400 hover:text-trdg-cyan text-sm font-mono uppercase tracking-widest"
+                                                        onClick={() => setMobileMenuOpen(false)}
+                                                    >
+                                                        {subItem.name}
+                                                    </Link>
+                                                ))}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+
+                                    {!item.items && (
+                                        <Link
+                                            href={item.href || '#'}
+                                            className="block text-xl font-orbitron font-bold text-white uppercase tracking-tighter"
+                                            onClick={() => setMobileMenuOpen(false)}
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    )}
+                                </div>
                             ))}
-                            <div className="pt-4 flex flex-col gap-2 pb-4">
+
+                            <div className="pt-10 flex flex-col gap-4">
                                 <a
                                     href="https://pancakeswap.finance/swap?outputCurrency=0x92a42Db88Ed0F02c71D439e55962Ca7CAB0168b5"
                                     target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-full py-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 text-center font-orbitron uppercase text-[10px] tracking-widest font-black"
+                                    className="w-full py-4 text-center bg-yellow-500 text-black font-orbitron font-bold uppercase rounded-xl"
                                 >
-                                    Buy on PancakeSwap
+                                    Buy on BSC
                                 </a>
                                 <a
                                     href="https://app.uniswap.org/#/swap?outputCurrency=0x92a42db88ed0f02c71d439e55962ca7cab0168b5"
                                     target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-full py-3 rounded-lg bg-pink-500/10 border border-pink-500/30 text-pink-500 text-center font-orbitron uppercase text-[10px] tracking-widest font-black"
+                                    className="w-full py-4 text-center bg-pink-500 text-white font-orbitron font-bold uppercase rounded-xl"
                                 >
-                                    Buy on Uniswap
+                                    Buy on ETH
                                 </a>
+
+                                {/* Mobile Socials */}
+                                <div className="flex items-center justify-center gap-8 pt-8 border-t border-white/5">
+                                    <a href="https://t.me/TardigradesOfficial" target="_blank" className="text-gray-400 hover:text-trdg-cyan transition-colors">
+                                        <Send size={24} />
+                                    </a>
+                                    <a href="https://x.com/TRDGtoken" target="_blank" className="text-gray-400 hover:text-white transition-colors">
+                                        <Twitter size={24} />
+                                    </a>
+                                    <a href="https://www.youtube.com/@TRDGLive" target="_blank" className="text-gray-400 hover:text-red-500 transition-colors">
+                                        <Youtube size={24} />
+                                    </a>
+                                    <a href="https://www.instagram.com/trdgtoken/" target="_blank" className="text-gray-400 hover:text-pink-500 transition-colors">
+                                        <Instagram size={24} />
+                                    </a>
+                                    <a href="https://www.facebook.com/TRDGtoken" target="_blank" className="text-gray-400 hover:text-blue-500 transition-colors">
+                                        <Facebook size={24} />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </motion.div>

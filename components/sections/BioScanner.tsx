@@ -232,8 +232,10 @@ export function BioScanner() {
 
                         <div className="flex gap-2 mb-4">
                             <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
+                                <label htmlFor="wallet-address-scanner" className="sr-only">Wallet Address to Scan</label>
                                 <input
+                                    id="wallet-address-scanner"
+                                    name="walletAddress"
                                     type="text"
                                     placeholder="Enter wallet address..."
                                     value={walletAddress}
@@ -285,8 +287,10 @@ export function BioScanner() {
 
                         <div className="space-y-4">
                             <div>
-                                <label className="text-[10px] font-mono text-gray-500 uppercase mb-2 block">Your Token Amount</label>
+                                <label htmlFor="calculator-token-amount" className="text-[10px] font-mono text-gray-500 uppercase mb-2 block">Your Token Amount</label>
                                 <input
+                                    id="calculator-token-amount"
+                                    name="tokenAmount"
                                     type="text"
                                     value={tokenAmount}
                                     onChange={(e) => setTokenAmount(e.target.value.replace(/[^0-9]/g, ''))}
@@ -297,8 +301,10 @@ export function BioScanner() {
                                 </div>
                             </div>
                             <div>
-                                <label className="text-[10px] font-mono text-gray-500 uppercase mb-2 block">Target Market Cap</label>
+                                <label htmlFor="calculator-target-marketcap" className="text-[10px] font-mono text-gray-500 uppercase mb-2 block">Target Market Cap</label>
                                 <select
+                                    id="calculator-target-marketcap"
+                                    name="targetMC"
                                     value={targetMC}
                                     onChange={(e) => setTargetMC(parseInt(e.target.value))}
                                     className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-purple-500/50"

@@ -173,8 +173,10 @@ export function Chronoscope() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 flex-1">
                                 <div className="space-y-8">
                                     <div>
-                                        <label className="block text-[10px] font-mono text-trdg-cyan uppercase mb-3 tracking-widest">Amount of $TRDG Tokens</label>
+                                        <label htmlFor="chronoscope-token-count" className="block text-[10px] font-mono text-trdg-cyan uppercase mb-3 tracking-widest">Amount of $TRDG Tokens</label>
                                         <input
+                                            id="chronoscope-token-count"
+                                            name="tokenCount"
                                             type="text"
                                             value={amount}
                                             onChange={(e) => setAmount(e.target.value)}
@@ -183,11 +185,12 @@ export function Chronoscope() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-mono text-gray-500 uppercase mb-3 tracking-widest">Target Market Cap ($)</label>
+                                        <label htmlFor="chronoscope-marketcap-slider" className="block text-[10px] font-mono text-gray-500 uppercase mb-3 tracking-widest">Target Market Cap ($)</label>
                                         <div className="grid grid-cols-2 gap-2 mb-4">
                                             {[1000000, 10000000, 100000000, 1000000000].map((cap) => (
                                                 <button
                                                     key={cap}
+                                                    type="button"
                                                     onClick={() => setTargetMC(cap)}
                                                     className={`py-2 rounded-lg border text-[10px] font-mono transition-all ${targetMC === cap ? 'bg-trdg-cyan border-trdg-cyan text-black font-bold' : 'border-white/10 text-gray-400 hover:border-white/30'}`}
                                                 >
@@ -196,6 +199,8 @@ export function Chronoscope() {
                                             ))}
                                         </div>
                                         <input
+                                            id="chronoscope-marketcap-slider"
+                                            name="targetMC"
                                             type="range"
                                             min="100000"
                                             max="1000000000"

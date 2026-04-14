@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 import { CustomCursor } from "@/components/ui/CustomCursor"
 import { Download, Terminal } from 'lucide-react'
+import { StandardHero } from '@/components/layout/StandardHero'
 
 // Available commands and their content
 const commandData: Record<string, string> = {
@@ -175,21 +176,14 @@ RUG PULL RISK:   ░░░░░░░░░░░░░░░░░░░░  0
 > ROADMAP
 ═══════════════════════════════════════════════════════════════
 
+ROADMAP DATA RETRIEVED:
+-----------------------
 PHASE 1: GENESIS ────────────────────────── [COMPLETE] ✓
-  Token deployment, BSC launch, ETH launch
-  LP burned, contract renounced, listings
-
 PHASE 2: SURVIVAL ───────────────────────── [COMPLETE] ✓
-  2021 bull market ✓ | 2022 crypto winter ✓
-  2023-2024 cycles ✓ | Community maintained ✓
-
 PHASE 3: REAWAKENING ────────────────────── [ACTIVE] ⚡
-  Website redesign ✓ | Community revival ⏳
-  New exchange listings ⏳ | Partnerships ⏳
-
 PHASE 4: EXPANSION ──────────────────────── [PENDING] ○
-  Merchant plugins ○ | Mobile wallet ○
-  NFT ecosystem ○ | Governance ○`,
+
+Type 'help' for navigation instructions.`,
 
     links: `
 > OFFICIAL LINKS
@@ -208,9 +202,7 @@ TRADING:
 SOCIAL:
   Telegram: t.me/TardigradesOfficial
   Twitter:  twitter.com/TRDGtoken
-  Reddit:   reddit.com/r/TRDGToken
-
-FOUNDER: t.me/jShiz`,
+  Reddit:   reddit.com/r/TRDGToken`,
 
     ascii: `
                           ████████
@@ -317,12 +309,18 @@ export default function WhitepaperPage() {
     }
 
     return (
-        <main className="min-h-screen bg-black text-white">
+        <main className="min-h-screen text-white relative">
             <CustomCursor />
             <Header />
 
-            <div className="pt-20 pb-8 min-h-screen flex flex-col">
-                <div className="container mx-auto px-4 flex-1 flex flex-col max-w-4xl">
+            <StandardHero 
+                title={<>V2.0 <span className="text-trdg-cyan">WHITEPAPER</span></>}
+                subtitle="High-fidelity technical documentation and strategic vision"
+            />
+
+            <div className="relative z-10 -mt-32">
+                <div className="bg-gradient-to-b from-transparent via-black/90 via-5% via-black/90 via-95% to-transparent pt-32 pb-24">
+                    <div className="container mx-auto px-4 flex-1 flex flex-col max-w-4xl">
 
                     {/* Terminal Header Bar */}
                     <div className="flex items-center justify-between mb-2">
@@ -348,7 +346,7 @@ export default function WhitepaperPage() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="flex-1 rounded-lg border border-white/10 bg-[#0d1117] overflow-hidden flex flex-col min-h-[70vh]"
+                        className="flex-1 rounded-lg border border-white/10 bg-[#0d1117]/80 backdrop-blur-sm overflow-hidden flex flex-col min-h-[60vh] md:min-h-[70vh] shadow-2xl"
                     >
                         {/* Terminal Content */}
                         <div
@@ -413,6 +411,7 @@ export default function WhitepaperPage() {
                     </div>
                 </div>
             </div>
+        </div>
 
             <Footer />
         </main>

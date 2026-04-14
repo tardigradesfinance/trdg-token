@@ -42,7 +42,7 @@ export function LegacyVision() {
                         <p>
                             Born in the microscopic realms, evolved for the cosmic void. The Tardigrade is nature's ultimate survivor.
                             Capable of weathering the vacuum of space, extreme radiation, and temperatures near absolute zero, it represents the
-                            biological pinnacle of <span className="text-white font-bold italic">Cryptobiosis</span> — the state of suspended animation that defies death itself.
+                            biological pinnacle of <span className="text-white font-bold italic">Cryptobiosis</span>, the state of suspended animation that defies death itself.
                         </p>
                         <p>
                             In 2021, we forged this resilience into a digital asset. Unlike the fleeting trends of the crypto-verse, $TRDG was designed to endure.

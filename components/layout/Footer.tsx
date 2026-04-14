@@ -63,18 +63,31 @@ export function Footer() {
                             <li><a href="https://bscscan.com/token/0x92a42db88ed0f02c71d439e55962ca7cab0168b5" target="_blank" className="hover:text-trdg-cyan transition-colors">BscScan (BSC)</a></li>
                             <li><a href="https://etherscan.io/token/0x92a42db88ed0f02c71d439e55962ca7cab0168b5" target="_blank" className="hover:text-trdg-cyan transition-colors">Etherscan (ETH)</a></li>
                             <li><a href="https://github.com/tardigradesfinance" target="_blank" className="hover:text-trdg-cyan transition-colors">GitHub Source</a></li>
+                            <li><Link href="/merch" className="hover:text-trdg-cyan transition-colors font-bold text-trdg-cyan">Official Merch</Link></li>
                         </ul>
                     </div>
 
-                    {/* Column 4: Resources */}
+                    {/* Column 4: Market Intelligence */}
                     <div>
-                        <h4 className="text-white font-bold font-orbitron mb-6 text-lg">Acquire & Track</h4>
-                        <ul className="space-y-4 text-sm text-gray-400">
-                            <li><a href="https://pancakeswap.finance/swap?outputCurrency=0x92a42db88ed0f02c71d439e55962ca7cab0168b5" target="_blank" className="hover:text-yellow-400 transition-colors">Buy on BSC (Pancake)</a></li>
-                            <li><a href="https://app.uniswap.org/#/swap?outputCurrency=0x92a42db88ed0f02c71d439e55962ca7cab0168b5" target="_blank" className="hover:text-pink-400 transition-colors">Buy on ETH (Uniswap)</a></li>
-                            <li><a href="https://www.coingecko.com/en/coins/trdgtoken" target="_blank" className="hover:text-green-400 transition-colors">CoinGecko</a></li>
-                            <li><a href="https://coinmarketcap.com/currencies/tardigrades-finance-bsc/" target="_blank" className="hover:text-blue-400 transition-colors">CoinMarketCap (BSC)</a></li>
-                            <li><a href="https://coinmarketcap.com/currencies/tardigrades-finance-eth/" target="_blank" className="hover:text-blue-400 transition-colors">CoinMarketCap (ETH)</a></li>
+                        <h4 className="text-white font-bold font-orbitron mb-6 text-lg">Intelligence</h4>
+                        <ul className="space-y-3 text-xs text-gray-500 font-mono">
+                            <li><a href="https://www.forbes.com/digital-assets/assets/trdgtoken-trdg/" target="_blank" className="hover:text-trdg-cyan transition-colors">Forbes Digital Assets</a></li>
+                            <li><a href="https://app.tokenmetrics.com/en/tardigrades-finance" target="_blank" className="hover:text-trdg-cyan transition-colors">Token Metrics</a></li>
+                            <li><a href="https://dappradar.com/dapp/trdg-track" target="_blank" className="hover:text-trdg-cyan transition-colors">DappRadar Hub</a></li>
+                            <li><a href="https://stocktwits.com/symbol/TRDG.X" target="_blank" className="hover:text-trdg-cyan transition-colors">Stocktwits</a></li>
+                            <li><a href="https://dexcheck.ai/app/bsc/chart/0x489e73fa82e30d27778c1b7b7e4e3503dcfd762a?t=1761635451773" target="_blank" className="hover:text-trdg-cyan transition-colors">DexCheck AI</a></li>
+                        </ul>
+                    </div>
+
+                    {/* Column 5: Global Connectivity */}
+                    <div>
+                        <h4 className="text-white font-bold font-orbitron mb-6 text-lg">Connectivity</h4>
+                        <ul className="space-y-3 text-xs text-gray-500 font-mono">
+                            <li><a href="https://www.mexc.com/price/trdgtoken/info" target="_blank" className="hover:text-yellow-500 transition-colors">MEXC price</a></li>
+                            <li><a href="https://www.xt.com/en/price/trdg" target="_blank" className="hover:text-trdg-cyan transition-colors">XT Global</a></li>
+                            <li><a href="https://coinranking.com/coin/j2X6TFQ-8+trdgtokeneth-trdg" target="_blank" className="hover:text-trdg-cyan transition-colors">Coinranking</a></li>
+                            <li><a href="https://dropstab.com/coins/tardigrades-finance" target="_blank" className="hover:text-trdg-cyan transition-colors">DropsTab</a></li>
+                            <li><a href="https://www.coinlore.com/coin/tardigrades-finance/exchanges" target="_blank" className="hover:text-trdg-cyan transition-colors">Coinlore List</a></li>
                         </ul>
                     </div>
 

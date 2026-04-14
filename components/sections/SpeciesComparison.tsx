@@ -42,27 +42,29 @@ const comparisons = [
     }
 ]
 
-export function SpeciesComparison() {
+export function SpeciesComparison({ showTitle = true }: { showTitle?: boolean }) {
     return (
         <section className="relative py-24 md:py-32 bg-black overflow-hidden">
             <div className="container mx-auto px-4 relative z-10">
-                <div className="text-center mb-16">
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 mb-6"
-                    >
-                        <Skull className="text-red-400" size={16} />
-                        <span className="text-[10px] font-mono text-red-400 uppercase tracking-widest font-black">Species Analysis</span>
-                    </motion.div>
-                    <h2 className="text-4xl md:text-7xl font-orbitron font-black text-white mb-4 uppercase tracking-tighter">
-                        $TRDG VS <span className="text-red-500">THE OTHERS</span>
-                    </h2>
-                    <p className="text-gray-500 font-mono text-xs uppercase tracking-[0.3em]">
-                        Why Tardigrades Outlast 98% of Tokens
-                    </p>
-                </div>
+                {showTitle && (
+                    <div className="text-center mb-16">
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 mb-6"
+                        >
+                            <Skull className="text-red-400" size={16} />
+                            <span className="text-[10px] font-mono text-red-400 uppercase tracking-widest font-black">Species Analysis</span>
+                        </motion.div>
+                        <h2 className="text-4xl md:text-7xl font-orbitron font-black text-white mb-4 uppercase tracking-tighter">
+                            $TRDG VS <span className="text-red-500">THE OTHERS</span>
+                        </h2>
+                        <p className="text-gray-500 font-mono text-xs uppercase tracking-[0.3em]">
+                            Why Tardigrades Outlast 98% of Tokens
+                        </p>
+                    </div>
+                )}
 
                 {/* Comparison Table */}
                 <div className="max-w-4xl mx-auto">

@@ -54,7 +54,7 @@ const protocols = [
     }
 ]
 
-export function EmergencyProtocols() {
+export function EmergencyProtocols({ showTitle = true }: { showTitle?: boolean }) {
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'ACTIVE': return 'text-trdg-green bg-trdg-green/10 border-trdg-green/30'
@@ -77,7 +77,7 @@ export function EmergencyProtocols() {
     }
 
     return (
-        <section className="relative py-24 md:py-32 bg-black overflow-hidden border-y border-red-500/10">
+        <section className="relative py-24 md:py-32 bg-transparent overflow-hidden">
             {/* Warning Stripes Background */}
             <div className="absolute inset-0 opacity-[0.02]">
                 <div className="absolute inset-0" style={{
@@ -86,36 +86,38 @@ export function EmergencyProtocols() {
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="text-center mb-10 md:mb-16">
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 mb-4 md:mb-6"
-                    >
-                        <AlertTriangle className="text-red-400 animate-pulse" size={14} />
-                        <span className="text-[9px] md:text-[10px] font-mono text-red-400 uppercase tracking-widest font-black">System Protocols</span>
-                    </motion.div>
-                    <motion.h2
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                        className="text-3xl md:text-7xl font-orbitron font-black text-white mb-2 md:mb-4 uppercase tracking-tighter"
-                    >
-                        EMERGENCY <span className="text-red-500">PROTOCOLS</span>
-                    </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.2, delay: 0.3 }}
-                        className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em]"
-                    >
-                        Cryptobiosis Defense Mechanisms
-                    </motion.p>
-                </div>
+                {showTitle && (
+                    <div className="text-center mb-10 md:mb-16">
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 mb-4 md:mb-6"
+                        >
+                            <AlertTriangle className="text-red-400 animate-pulse" size={14} />
+                            <span className="text-[9px] md:text-[10px] font-mono text-red-400 uppercase tracking-widest font-black">System Protocols</span>
+                        </motion.div>
+                        <motion.h2
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                            className="text-3xl md:text-7xl font-orbitron font-black text-white mb-2 md:mb-4 uppercase tracking-tighter"
+                        >
+                            EMERGENCY <span className="text-red-500">PROTOCOLS</span>
+                        </motion.h2>
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, delay: 0.3 }}
+                            className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em]"
+                        >
+                            Cryptobiosis Defense Mechanisms
+                        </motion.p>
+                    </div>
+                )}
 
                 {/* Protocol Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">

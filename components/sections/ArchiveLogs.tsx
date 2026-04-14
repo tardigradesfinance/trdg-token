@@ -23,27 +23,29 @@ const logs = [
     {
         tag: "LOG_04",
         title: "The Magic of Scarcity",
-        content: "The magic of $TRDG unfolded with each transaction, which carried a 5% tax. Half of this tax rewarded the loyal holders, returning 2.5% of every transaction directly to their wallets. The other half embarked on a mysterious journey into a burn wallet—a seemingly impenetrable vault, forever inaccessible. Within the $TRDG community, speculation ran rife about the secrets concealed within."
+        content: "The magic of $TRDG unfolded with each transaction, which carried a 5% tax. Half of this tax rewarded the loyal holders, returning 2.5% of every transaction directly to their wallets. The other half embarked on a mysterious journey into a burn wallet, a seemingly impenetrable vault, forever inaccessible. Within the $TRDG community, speculation ran rife about the secrets concealed within."
     }
 ]
 
-export function ArchiveLogs() {
+export function ArchiveLogs({ showTitle = true }: { showTitle?: boolean }) {
     return (
-        <section id="archives" className="relative py-24 md:py-32 bg-black border-y border-white/5 overflow-hidden">
+        <section id="archives" className="relative py-24 md:py-32 bg-transparent overflow-hidden">
             <OrganicBackground />
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="flex items-center gap-4 mb-12">
-                    <div className="w-12 h-12 rounded-lg bg-trdg-green/10 flex items-center justify-center text-trdg-green">
-                        <Terminal size={24} />
+                {showTitle && (
+                    <div className="flex items-center gap-4 mb-12">
+                        <div className="w-12 h-12 rounded-lg bg-trdg-green/10 flex items-center justify-center text-trdg-green">
+                            <Terminal size={24} />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl md:text-5xl font-orbitron font-black text-white uppercase tracking-tighter">
+                                ARCHIVE <span className="text-trdg-green">LOGS</span>
+                            </h2>
+                            <p className="text-xs font-mono text-gray-500 uppercase tracking-widest">Database: Chronicles of the Extremophiles</p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 className="text-3xl md:text-5xl font-orbitron font-black text-white uppercase tracking-tighter">
-                            ARCHIVE <span className="text-trdg-green">LOGS</span>
-                        </h2>
-                        <p className="text-xs font-mono text-gray-500 uppercase tracking-widest">Database: Chronicles of the Extremophiles</p>
-                    </div>
-                </div>
+                )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {logs.map((log, index) => (
@@ -94,10 +96,10 @@ export function ArchiveLogs() {
                             THE FINAL <span className="text-trdg-green">REVELATION</span>
                         </h3>
                         <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                            Finally, the moment arrived to reveal the true might of tardigrades—the undisputed champions of resilience in the universe. These microscopic marvels embodied the indomitable spirit of $TRDG, symbolizing the untapped potential residing within every token holder. Their remarkable ability to withstand the harshest conditions served as a powerful metaphor, inspiring the $TRDG community to confront and conquer any challenge they encountered.
+                            Finally, the moment arrived to reveal the true might of tardigrades, the undisputed champions of resilience in the universe. These microscopic marvels embodied the indomitable spirit of $TRDG, symbolizing the untapped potential residing within every token holder. Their remarkable ability to withstand the harshest conditions served as a powerful metaphor, inspiring the $TRDG community to confront and conquer any challenge they encountered.
                         </p>
                         <p className="text-trdg-green font-mono text-sm border-l-2 border-trdg-green pl-4 italic">
-                            "Together, let us delve into uncharted territories, forging a path illuminated by the spirit of the tardigrades—the invincible creatures who remind us of our own extraordinary strength."
+                            "Together, let us delve into uncharted territories, forging a path illuminated by the spirit of the tardigrades, the invincible creatures who remind us of our own extraordinary strength."
                         </p>
                     </div>
                 </motion.div>
