@@ -1,6 +1,7 @@
 import { Send, Twitter, Github, BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { W7StationTag } from './W7StationTag'
 
 export function Footer() {
     return (
@@ -111,6 +112,7 @@ export function Footer() {
                     Always verify smart contract addresses (0x92a42...68b5) before execution.
                     Perform thorough orbital reconnaissance (DYOR) before committing fuel.
                 </div>
+                <W7StationTag />
             </div>
         </footer>
     )
